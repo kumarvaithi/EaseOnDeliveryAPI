@@ -1,0 +1,10 @@
+package com.ease.bean;
+
+public class BookingRequestBean {
+
+	private String pickupLocation;
+	private String dropLocation;
+	private String deliverWhen;
+	private String itemType;
+	private String itemTentativeWeight;
+}

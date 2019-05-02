@@ -1,0 +1,7 @@
+package com.ease.bean;
+
+public class CommonResponseBean {
+
+	private String responseCode;
+	private String responseMessage;
+}

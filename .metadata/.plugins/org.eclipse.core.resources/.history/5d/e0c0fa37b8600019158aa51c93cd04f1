@@ -1,0 +1,7 @@
+package com.ease.provider.bean;
+
+public class CheckInRequestBean {
+
+	private String currentLocation;
+	private String checkinDateTime
+}

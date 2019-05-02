@@ -1,0 +1,6 @@
+package com.ease.bean;
+
+public class DeliveryChargesRequestBean {
+
+	private int tentativeWeight;
+}

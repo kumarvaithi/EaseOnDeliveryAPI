@@ -1,0 +1,37 @@
+package com.ease.provider.bean;
+
+public class CheckInResponseBean {
+
+	private String currentLocation;
+	private String checkinDateTime;
+	private String reponseMessage;
+	private int responseCode;
+	
+	public String getCurrentLocation() {
+		return currentLocation;
+	}
+	public CheckInResponseBean setCurrentLocation(String currentLocation) {
+		this.currentLocation = currentLocation;
+		return this;
+	}
+	public String getCheckinDateTime() {
+		return checkinDateTime;
+	}
+	public CheckInResponseBean setCheckinDateTime(String checkinDateTime) {
+		this.checkinDateTime = checkinDateTime;
+		return this;
+	}
+	public String getReponseMessage() {
+		return reponseMessage;
+	}
+	public void setReponseMessage(String reponseMessage) {
+		this.reponseMessage = reponseMessage;
+	}
+	public int getResponseCode() {
+		return responseCode;
+	}
+	public void setResponseCode(int responseCode) {
+		this.responseCode = responseCode;
+	}
+	
+}

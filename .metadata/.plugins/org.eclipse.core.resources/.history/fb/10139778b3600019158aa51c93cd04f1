@@ -1,0 +1,5 @@
+package com.ease.bean;
+
+public class DeliveryChargesResponseBean {
+
+}

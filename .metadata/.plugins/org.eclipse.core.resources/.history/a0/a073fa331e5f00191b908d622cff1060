@@ -1,0 +1,29 @@
+package com.ease.controller;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController(value="/api/customer")
+public class CustomerController {
+
+	@GetMapping(value="/getLocation")
+	private String getLocation() {
+		return "Your are in Egmore";
+	}
+	
+	@GetMapping(value="/getCurrentLocation")
+	private String getCurrentLocation() {
+		return "You are in Marina";
+	}
+	
+	@GetMapping(value="/getDeliveryCharges")
+	private String getDeliveryCharges() {
+		return "Your Delivery Charges is 120 INR aprox.";
+	}
+	
+	@PostMapping(value="/book")
+	private String bookDelivery() {
+		return "Your Booking is confirmed";
+	}
+}

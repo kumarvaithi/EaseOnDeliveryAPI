@@ -1,0 +1,15 @@
+package com.ease.bean;
+
+public class BookingHistoryResponseBean {
+
+	private String LoginID;
+
+	public String getLoginID() {
+		return LoginID;
+	}
+
+	public BookingHistoryResponseBean setLoginID(String loginID) {
+		LoginID = loginID;
+		return this;
+	}
+}

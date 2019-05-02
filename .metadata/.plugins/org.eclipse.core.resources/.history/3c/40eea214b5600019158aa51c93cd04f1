@@ -1,0 +1,103 @@
+package com.ease.bean;
+
+public class BookingRequestBean {
+	private String pickupLocation;
+	private String dropLocation;
+	private String deliverWhen;
+	private String itemType;
+	private String itemTentativeWeight;
+	private String deliveryDate;
+	private String deliveryTime;
+	private String storePersonName;
+	private String storePersonContactNo;
+	private double billAmount;
+	private double tax;
+	private double commsion;
+	private double totalBillAmount;
+	private String bookingDate;
+	
+	public String getPickupLocation() {
+		return pickupLocation;
+	}
+	public void setPickupLocation(String pickupLocation) {
+		this.pickupLocation = pickupLocation;
+	}
+	public String getDropLocation() {
+		return dropLocation;
+	}
+	public void setDropLocation(String dropLocation) {
+		this.dropLocation = dropLocation;
+	}
+	public String getDeliverWhen() {
+		return deliverWhen;
+	}
+	public void setDeliverWhen(String deliverWhen) {
+		this.deliverWhen = deliverWhen;
+	}
+	public String getItemType() {
+		return itemType;
+	}
+	public void setItemType(String itemType) {
+		this.itemType = itemType;
+	}
+	public String getItemTentativeWeight() {
+		return itemTentativeWeight;
+	}
+	public void setItemTentativeWeight(String itemTentativeWeight) {
+		this.itemTentativeWeight = itemTentativeWeight;
+	}
+	public String getDeliveryDate() {
+		return deliveryDate;
+	}
+	public void setDeliveryDate(String deliveryDate) {
+		this.deliveryDate = deliveryDate;
+	}
+	public String getDeliveryTime() {
+		return deliveryTime;
+	}
+	public void setDeliveryTime(String deliveryTime) {
+		this.deliveryTime = deliveryTime;
+	}
+	public String getStorePersonName() {
+		return storePersonName;
+	}
+	public void setStorePersonName(String storePersonName) {
+		this.storePersonName = storePersonName;
+	}
+	public String getStorePersonContactNo() {
+		return storePersonContactNo;
+	}
+	public void setStorePersonContactNo(String storePersonContactNo) {
+		this.storePersonContactNo = storePersonContactNo;
+	}
+	public double getBillAmount() {
+		return billAmount;
+	}
+	public void setBillAmount(double billAmount) {
+		this.billAmount = billAmount;
+	}
+	public double getTax() {
+		return tax;
+	}
+	public void setTax(double tax) {
+		this.tax = tax;
+	}
+	public double getCommsion() {
+		return commsion;
+	}
+	public void setCommsion(double commsion) {
+		this.commsion = commsion;
+	}
+	public double getTotalBillAmount() {
+		return totalBillAmount;
+	}
+	public void setTotalBillAmount(double totalBillAmount) {
+		this.totalBillAmount = totalBillAmount;
+	}
+	public String getBookingDate() {
+		return bookingDate;
+	}
+	public void setBookingDate(String bookingDate) {
+		this.bookingDate = bookingDate;
+	}
+}

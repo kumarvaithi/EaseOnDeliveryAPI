@@ -1,0 +1,7 @@
+package com.ease.bean;
+
+public class DeliveryChargesResponseBean {
+
+	private double estimatedAount;
+	private double estimatedCommision;
+}

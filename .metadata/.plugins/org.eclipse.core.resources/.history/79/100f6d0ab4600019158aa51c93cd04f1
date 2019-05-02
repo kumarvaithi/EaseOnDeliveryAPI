@@ -1,0 +1,36 @@
+package com.ease.bean;
+
+public class DeliveryChargesResponseBean {
+
+	private double estimatedAount;
+	private double estimatedTax;
+	private double estimatedCommission;
+	private double estimatedTotalAmount;
+	
+	public double getEstimatedAount() {
+		return estimatedAount;
+	}
+	public DeliveryChargesResponseBean setEstimatedAount(double estimatedAount) {
+		this.estimatedAount = estimatedAount;
+		return this;
+	}
+	public double getEstimatedTax() {
+		return estimatedTax;
+	}
+	public DeliveryChargesResponseBean setEstimatedTax(double estimatedTax) {
+		this.estimatedTax = estimatedTax;
+		return this;
+	}
+	public double getEstimatedCommission() {
+		return estimatedCommission;
+	}
+	public DeliveryChargesResponseBean setEstimatedCommission(double estimatedCommission) {
+		this.estimatedCommission = estimatedCommission;
+	}
+	public double getEstimatedTotalAmount() {
+		return estimatedTotalAmount;
+	}
+	public DeliveryChargesResponseBean setEstimatedTotalAmount(double estimatedTotalAmount) {
+		this.estimatedTotalAmount = estimatedTotalAmount;
+	}
+}

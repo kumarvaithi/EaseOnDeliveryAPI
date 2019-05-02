@@ -1,0 +1,7 @@
+package com.ease.bean;
+
+public class BookingRequestBean {
+
+	private String pickupLocation;
+	
+}

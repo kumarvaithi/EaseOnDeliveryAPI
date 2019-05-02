@@ -1,0 +1,25 @@
+package com.ease.controller;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController(value = "/api")
+public class MainController {
+
+	@PostMapping(value="/login")
+	private String login() {
+		return "Login Successfull";
+	}
+	
+	@PostMapping(value="/signup")
+	private String signUp() {
+		return "Sign up successfull";
+	}
+	
+	@PostMapping(value="/account")
+	private String account() {
+		return "Account Info Edited Successfully";
+	}
+	
+}

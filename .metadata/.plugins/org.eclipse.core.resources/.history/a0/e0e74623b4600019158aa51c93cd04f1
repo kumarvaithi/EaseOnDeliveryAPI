@@ -1,0 +1,32 @@
+package com.ease.controller;
+
+import javax.validation.Valid;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.ease.bean.DeliveryChargesRequestBean;
+
+@RestController()
+@RequestMapping("/api/customer")
+public class CustomerController {
+
+	@GetMapping(value="/deliveryCharges")
+	private String getDeliveryCharges(@Valid @RequestBody DeliveryChargesRequestBean request) {
+		return "Your Delivery Charges is 120 INR aprox.";
+	}
+	
+	@PostMapping(value="/book")
+	private String bookDelivery() {
+		return "Your Booking is confirmed";
+	}
+	
+	@GetMapping(value="/history")
+	private String bookingHistory() {
+		return "Below is the list of Booking";
+	}
+	
+}

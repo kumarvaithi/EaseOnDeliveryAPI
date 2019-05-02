@@ -1,0 +1,8 @@
+package com.ease.bean;
+
+public class BookingHistoryResponseBean {
+
+	private String LoginID;
+
+
+}

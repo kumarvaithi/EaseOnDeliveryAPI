@@ -40,8 +40,8 @@ public class BookingTxn {
 	@Column(name = "deliverWhen")
 	private String deliverWhen;
 	
-	@Column(name = "itemTyep")
-	private String itemTyep;
+	@Column(name = "itemType")
+	private String itemType;
 	
 	@Column(name = "itemTentativeWeight")
 	private Double itemTentativeWeight;
@@ -142,12 +142,13 @@ public class BookingTxn {
 		return this;
 	}
 
-	public String getItemTyep() {
-		return itemTyep;
+
+	public String getItemType() {
+		return itemType;
 	}
 
-	public BookingTxn setItemTyep(String itemTyep) {
-		this.itemTyep = itemTyep;
+	public BookingTxn setItemType(String itemType) {
+		this.itemType = itemType;
 		return this;
 	}
 

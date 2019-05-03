@@ -1,5 +1,0 @@
-package com.ease.provider.bean;
-
-public class CheckInRequestBean {
-
-}

@@ -1,0 +1,265 @@
+package com.unimoni.eod.booking.model;
+
+import java.time.LocalDate;
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@Entity
+@Table(name= "BookingTxn")
+@JsonIgnoreProperties("createdAt")
+public class BookingTxn {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "bookingID")
+	private Long bookingID;
+	
+	@Column(name = "customerID")
+	private Long customerID;
+	
+	@Column(name = "providerID")
+	private Long providerID;
+	
+	@Column(name = "vehicleID")
+	private Long vehicleID;
+	
+	@Column(name = "pickUpLocation")
+	private String pickUpLocation;
+	
+	@Column(name = "dropLocation")
+	private String dropLocation;
+	
+	@Column(name = "deliverWhen")
+	private String deliverWhen;
+	
+	@Column(name = "itemType")
+	private String itemType;
+	
+	@Column(name = "itemTentativeWeight")
+	private Double itemTentativeWeight;
+	
+	@Column(name = "deliveryDate")
+	private Date deliveryDate;
+	
+	@Column(name = "deliveryTime")
+	private Date deliveryTime;
+	
+	@Column(name = "storePersonName")
+	private String storePersonName;
+	
+	@Column(name = "storePersonContactNo")
+	private String storePersonContactNo;
+	
+	@Column(name = "billAmount")
+	private Number billAmount;
+	
+	@Column(name = "commission")
+	private Number commission;
+	
+	@Column(name = "vat")
+	private Number vat;
+	
+	@Column(name = "totalBillAmount")
+	private Number totalBillAmount;
+	
+	@Column(name = "bookingDate")
+	private Date bookingDate;
+	
+	@Column(name = "deliveryStatus")
+	private String deliveryStatus;
+	
+	@Column(name = "createdAt")
+	private LocalDate createdAt;
+
+	public Long getBookingID() {
+		return bookingID;
+	}
+
+	public BookingTxn setBookingID(Long bookingID) {
+		this.bookingID = bookingID;
+		return this;
+	}
+
+	public Long getCustomerID() {
+		return customerID;
+	}
+
+	public BookingTxn setCustomerID(Long customerID) {
+		this.customerID = customerID;
+		return this;
+	}
+
+	public Long getProviderID() {
+		return providerID;
+	}
+
+	public BookingTxn setProviderID(Long providerID) {
+		this.providerID = providerID;
+		return this;
+	}
+
+	public Long getVehicleID() {
+		return vehicleID;
+	}
+
+	public BookingTxn setVehicleID(Long vehicleID) {
+		this.vehicleID = vehicleID;
+		return this;
+	}
+
+	public String getPickUpLocation() {
+		return pickUpLocation;
+	}
+
+	public BookingTxn setPickUpLocation(String pickUpLocation) {
+		this.pickUpLocation = pickUpLocation;
+		return this;
+	}
+
+	public String getDropLocation() {
+		return dropLocation;
+	}
+
+	public BookingTxn setDropLocation(String dropLocation) {
+		this.dropLocation = dropLocation;
+		return this;
+	}
+
+	public String getDeliverWhen() {
+		return deliverWhen;
+	}
+
+	public BookingTxn setDeliverWhen(String deliverWhen) {
+		this.deliverWhen = deliverWhen;
+		return this;
+	}
+
+
+	public String getItemType() {
+		return itemType;
+	}
+
+	public BookingTxn setItemType(String itemType) {
+		this.itemType = itemType;
+		return this;
+	}
+
+	public Double getItemTentativeWeight() {
+		return itemTentativeWeight;
+	}
+
+	public BookingTxn setItemTentativeWeight(Double itemTentativeWeight) {
+		this.itemTentativeWeight = itemTentativeWeight;
+		return this;
+	}
+
+	public Date getDeliveryDate() {
+		return deliveryDate;
+	}
+
+	public BookingTxn setDeliveryDate(Date deliveryDate) {
+		this.deliveryDate = deliveryDate;
+		return this;
+	}
+
+	public Date getDeliveryTime() {
+		return deliveryTime;
+	}
+
+	public BookingTxn setDeliveryTime(Date deliveryTime) {
+		this.deliveryTime = deliveryTime;
+		return this;
+	}
+
+	public String getStorePersonName() {
+		return storePersonName;
+	}
+
+	public BookingTxn setStorePersonName(String storePersonName) {
+		this.storePersonName = storePersonName;
+		return this;
+	}
+
+	public String getStorePersonContactNo() {
+		return storePersonContactNo;
+	}
+
+	public BookingTxn setStorePersonContactNo(String storePersonContactNo) {
+		this.storePersonContactNo = storePersonContactNo;
+		return this;
+	}
+
+	public Number getBillAmount() {
+		return billAmount;
+	}
+
+	public BookingTxn setBillAmount(Number billAmount) {
+		this.billAmount = billAmount;
+		return this;
+	}
+
+	public Number getCommission() {
+		return commission;
+	}
+
+	public BookingTxn setCommission(Number commission) {
+		this.commission = commission;
+		return this;
+	}
+
+	public Number getVat() {
+		return vat;
+	}
+
+	public BookingTxn setVat(Number vat) {
+		this.vat = vat;
+		return this;
+	}
+
+	public Number getTotalBillAmount() {
+		return totalBillAmount;
+	}
+
+	public BookingTxn setTotalBillAmount(Number totalBillAmount) {
+		this.totalBillAmount = totalBillAmount;
+		return this;
+	}
+
+	public Date getBookingDate() {
+		return bookingDate;
+	}
+
+	public BookingTxn setBookingDate(Date bookingDate) {
+		this.bookingDate = bookingDate;
+		return this;
+	}
+
+	public String getDeliveryStatus() {
+		return deliveryStatus;
+	}
+
+	public BookingTxn setDeliveryStatus(String deliveryStatus) {
+		this.deliveryStatus = deliveryStatus;
+		return this;
+	}
+
+	public LocalDate getCreatedAt() {
+		return createdAt;
+	}
+
+	public BookingTxn setCreatedAt(LocalDate createdAt) {
+		this.createdAt = createdAt;
+		return this;
+	}
+	
+	
+	
+}

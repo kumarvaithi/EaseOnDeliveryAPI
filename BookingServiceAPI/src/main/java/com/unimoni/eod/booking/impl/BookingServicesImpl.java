@@ -3,9 +3,12 @@ package com.unimoni.eod.booking.impl;
 import java.time.LocalDate;
 import java.util.Date;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.unimoni.eod.booking.bean.BookingHistoryResponseBean;
 import com.unimoni.eod.booking.bean.BookingRequestBean;
 import com.unimoni.eod.booking.bean.BookingResponseBean;
 import com.unimoni.eod.booking.model.BookingTxn;
@@ -23,9 +26,12 @@ public class BookingServicesImpl implements BookingService {
 	@Autowired
 	DeliveryChargesRepository deliveryChrgRepository;
 	
+	private static final Logger logger = LoggerFactory.getLogger(BookingServicesImpl.class);
+	
 	@Override
 	public DeliveryCharges findDeliveryCharges(int distance,  String vehicleType) {
-		System.out.println("Coming from bookinservices....!!!");		
+		System.out.println("Coming from bookinservices....!!!");	
+		logger.debug("findDeliveryCharges : " + distance);
 		return new DeliveryCharges().setFromDistance(distance)
 				.setVehicleType(vehicleType);
 		
@@ -58,6 +64,13 @@ public class BookingServicesImpl implements BookingService {
 				.setDeliveryStatus("Initiated")
 				.setCreatedAt(LocalDate.now());
 		
+		return null;
+	}
+	
+	
+	@Override
+	public BookingHistoryResponseBean bookingHistory(String customerID) {
+		System.out.println("I am inside bookingHistoryRepositary implementation" + customerID);
 		return null;
 	}
 

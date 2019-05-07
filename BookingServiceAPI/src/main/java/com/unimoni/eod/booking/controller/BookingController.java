@@ -4,18 +4,23 @@ import javax.annotation.PostConstruct;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.unimoni.eod.booking.bean.BookingHistoryResponseBean;
 import com.unimoni.eod.booking.bean.BookingRequestBean;
 import com.unimoni.eod.booking.bean.BookingResponseBean;
 import com.unimoni.eod.booking.exception.ResourceNotFoundException;
 import com.unimoni.eod.booking.model.DeliveryCharges;
+import com.unimoni.eod.booking.model.User;
 import com.unimoni.eod.booking.service.BookingServiceException;
+
 import com.unimoni.eod.booking.service.BookingService;
 
 
@@ -32,8 +37,14 @@ public class BookingController {
 	//@Autowired
    // private RestTemplate restTemplate;
 	
+	
 	@Autowired
 	BookingService bookingService;
+	
+	@Autowired
+    private KafkaTemplate<String, User> kafkaTemplate;
+
+    private static final String TOPIC = "Kafka_Example_json";
 	
 	
 	@GetMapping(value = "/charges")
@@ -60,6 +71,25 @@ public class BookingController {
 		return new BookingResponseBean();
 	}
 	
+	@GetMapping(value="/history")
+	private BookingHistoryResponseBean bookingHistory(@RequestParam(name="customerID",required = true) String customerID) {
+		try {
+//			System.out.println("inside booking history" + customerID);
+			bookingService.bookingHistory(customerID);
+		}catch (Exception e) {
+			// TODO: handle exception
+		}
+		return new BookingHistoryResponseBean();
+	}
+	
+	
+	@GetMapping("/publish/{name}")
+    public String post(@PathVariable("name") final String name) {
+
+        kafkaTemplate.send(TOPIC, new User(name, "Technology", 12000L));
+
+        return "Published successfully";
+    }
 	
 	@RequestMapping("/home") 
 	public String welcome() {

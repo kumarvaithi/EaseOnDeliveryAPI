@@ -1,5 +1,8 @@
 package com.unimoni.eod.booking.controller;
 
+import java.util.List;
+import java.util.Optional;
+
 import javax.annotation.PostConstruct;
 import javax.validation.Valid;
 
@@ -13,7 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.unimoni.eod.booking.bean.BookingHistoryResponseBean;
+import com.unimoni.eod.booking.bean.BookingHistoryBean;
+import com.unimoni.eod.booking.bean.BookingHistoryReponseBean;
 import com.unimoni.eod.booking.bean.BookingRequestBean;
 import com.unimoni.eod.booking.bean.BookingResponseBean;
 import com.unimoni.eod.booking.exception.ResourceNotFoundException;
@@ -71,15 +75,13 @@ public class BookingController {
 		return new BookingResponseBean();
 	}
 	
-	@GetMapping(value="/history")
-	private BookingHistoryResponseBean bookingHistory(@RequestParam(name="customerID",required = true) String customerID) {
-		try {
-//			System.out.println("inside booking history" + customerID);
-			bookingService.bookingHistory(customerID);
-		}catch (Exception e) {
-			// TODO: handle exception
-		}
-		return new BookingHistoryResponseBean();
+	@GetMapping("/history")
+	private BookingHistoryReponseBean bookingHistory(@RequestParam(name="customerID",required = true) Long customerID) {
+			BookingHistoryReponseBean history = new BookingHistoryReponseBean();
+			
+			List<BookingHistoryBean> historyList = bookingService.bookingHistory(customerID);
+			history.setHistoryList(historyList);
+		return history;
 	}
 	
 	

@@ -1,8 +1,11 @@
 package com.unimoni.eod.booking.service;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 
-import com.unimoni.eod.booking.bean.BookingHistoryResponseBean;
+import com.unimoni.eod.booking.bean.BookingHistoryBean;
 import com.unimoni.eod.booking.bean.BookingRequestBean;
 import com.unimoni.eod.booking.bean.BookingResponseBean;
 import com.unimoni.eod.booking.model.DeliveryCharges;
@@ -14,6 +17,6 @@ public interface BookingService {
 	
 	public BookingResponseBean confirmBooking(BookingRequestBean request); 
 	
-	public BookingHistoryResponseBean bookingHistory(String customerID);
+	public List<BookingHistoryBean> bookingHistory(Long customerID);
 	
 }

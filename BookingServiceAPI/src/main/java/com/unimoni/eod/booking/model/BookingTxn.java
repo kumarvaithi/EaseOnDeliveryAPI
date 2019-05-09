@@ -59,16 +59,16 @@ public class BookingTxn {
 	private String storePersonContactNo;
 	
 	@Column(name = "billAmount")
-	private Number billAmount;
+	private Double billAmount;
 	
 	@Column(name = "commission")
-	private Number commission;
+	private Double commission;
 	
 	@Column(name = "vat")
-	private Number vat;
+	private Double vat;
 	
 	@Column(name = "totalBillAmount")
-	private Number totalBillAmount;
+	private Double totalBillAmount;
 	
 	@Column(name = "bookingDate")
 	private Date bookingDate;
@@ -197,38 +197,39 @@ public class BookingTxn {
 		return this;
 	}
 
-	public Number getBillAmount() {
+	public Double getBillAmount() {
 		return billAmount;
 	}
 
-	public BookingTxn setBillAmount(Number billAmount) {
+	public BookingTxn setBillAmount(Double billAmount) {
 		this.billAmount = billAmount;
+		System.out.println("this :::::"+this.billAmount);
 		return this;
 	}
 
-	public Number getCommission() {
+	public Double getCommission() {
 		return commission;
 	}
 
-	public BookingTxn setCommission(Number commission) {
+	public BookingTxn setCommission(Double commission) {
 		this.commission = commission;
 		return this;
 	}
 
-	public Number getVat() {
+	public Double getVat() {
 		return vat;
 	}
 
-	public BookingTxn setVat(Number vat) {
+	public BookingTxn setVat(Double vat) {
 		this.vat = vat;
 		return this;
 	}
 
-	public Number getTotalBillAmount() {
+	public Double getTotalBillAmount() {
 		return totalBillAmount;
 	}
 
-	public BookingTxn setTotalBillAmount(Number totalBillAmount) {
+	public BookingTxn setTotalBillAmount(Double totalBillAmount) {
 		this.totalBillAmount = totalBillAmount;
 		return this;
 	}
@@ -258,6 +259,18 @@ public class BookingTxn {
 	public BookingTxn setCreatedAt(LocalDate createdAt) {
 		this.createdAt = createdAt;
 		return this;
+	}
+
+	@Override
+	public String toString() {
+		return "BookingTxn [bookingID=" + bookingID + ", customerID=" + customerID + ", providerID=" + providerID
+				+ ", vehicleID=" + vehicleID + ", pickUpLocation=" + pickUpLocation + ", dropLocation=" + dropLocation
+				+ ", deliverWhen=" + deliverWhen + ", itemType=" + itemType + ", itemTentativeWeight="
+				+ itemTentativeWeight + ", deliveryDate=" + deliveryDate + ", deliveryTime=" + deliveryTime
+				+ ", storePersonName=" + storePersonName + ", storePersonContactNo=" + storePersonContactNo
+				+ ", billAmount=" + billAmount + ", commission=" + commission + ", vat=" + vat + ", totalBillAmount="
+				+ totalBillAmount + ", bookingDate=" + bookingDate + ", deliveryStatus=" + deliveryStatus
+				+ ", createdAt=" + createdAt + "]";
 	}
 	
 	

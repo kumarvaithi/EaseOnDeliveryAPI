@@ -83,6 +83,15 @@ public class BookingTxn {
 	
 	@Column(name = "createdAt")
 	private LocalDate createdAt;
+	
+	public BookingTxn( ) {
+		
+	}
+	
+	public BookingTxn(Long i, String pickUpLocation) {
+		this.bookingID = i;
+		this.pickUpLocation = pickUpLocation;
+	}
 
 	public Long getBookingID() {
 		return bookingID;

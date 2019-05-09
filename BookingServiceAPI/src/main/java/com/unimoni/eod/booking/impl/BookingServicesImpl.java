@@ -11,6 +11,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.unimoni.eod.booking.bean.BookingHistoryBean;
 import com.unimoni.eod.booking.bean.BookingRequestBean;
@@ -18,7 +20,6 @@ import com.unimoni.eod.booking.bean.BookingResponseBean;
 import com.unimoni.eod.booking.model.BookingTxn;
 import com.unimoni.eod.booking.model.DeliveryCharges;
 import com.unimoni.eod.booking.repo.BookingHistoryRepositary;
-import com.unimoni.eod.booking.model.User;
 import com.unimoni.eod.booking.repo.BookingTxnRepository;
 import com.unimoni.eod.booking.repo.DeliveryChargesRepository;
 import com.unimoni.eod.booking.service.BookingService;
@@ -27,6 +28,8 @@ import com.unimoni.eod.booking.service.BookingService;
 @Service
 public class BookingServicesImpl implements BookingService {
 
+	private static final Logger logger = LoggerFactory.getLogger(BookingServicesImpl.class);
+	
 	@Autowired
 	BookingTxnRepository bookingTxnRepository;
 	
@@ -36,12 +39,11 @@ public class BookingServicesImpl implements BookingService {
 	@Autowired
 	DeliveryChargesRepository deliveryChrgRepository;
 	
-
 	@Autowired
-    private KafkaTemplate<String, User> kafkaTemplate;
-
+    private KafkaTemplate<String, BookingResponseBean> kafkaTemplate;
 	
-	private static final Logger logger = LoggerFactory.getLogger(BookingServicesImpl.class);
+	private static final String TOPIC = "Kafka_Example_json";
+	
 	
 	@Override
 	public DeliveryCharges findDeliveryCharges(int distance,  String vehicleType) {
@@ -59,7 +61,6 @@ public class BookingServicesImpl implements BookingService {
 		System.out.println("I am inside confirmBooking implementation");
 		System.out.println("BillAmt==> "+request.getBillAmount());
 		BookingTxn account = bookingTxnRepository.save(new BookingTxn()
-				
 				.setStorePersonName(request.getStorePersonName())
 				.setStorePersonContactNo(request.getStorePersonContactNo())
 				.setBillAmount(10001.0)
@@ -69,9 +70,7 @@ public class BookingServicesImpl implements BookingService {
 				.setTotalBillAmount(request.getTotalBillAmount())
 				.setDeliveryStatus("Initiated")
 				.setBookingDate(new Date())
-				
 				.setCreatedAt(LocalDate.now())
-			
 				.setProviderID(request.getProviderID())
 				.setVehicleID(1234567890l)
 				.setPickUpLocation(request.getPickupLocation())
@@ -115,5 +114,23 @@ public class BookingServicesImpl implements BookingService {
 		
 		return response;
 	}
+	
+	@Override
+	public String publishBookingDetail(Long bookingID) {
+		//Optional<BookingTxn> bookingDet = bookingTxnRepository.findByBookingID(bookingID);
+		BookingResponseBean book = new BookingResponseBean();
+		kafkaTemplate.send(TOPIC, book);
+		return "Hello booking published";
+	}
+	
+	//-------------- Publish the booking information ---------------
+	
+	/*@GetMapping("/publish/{booking}")
+    public String post(@PathVariable("booking") final String name) {
 
+        kafkaTemplate.send(TOPIC, new User(name, "Technology", 12000L));
+
+        return "Published successfully";
+    }
+*/
 }

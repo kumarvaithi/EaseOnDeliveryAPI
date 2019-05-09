@@ -3,7 +3,7 @@ package com.unimoni.eod.booking.bean;
 import java.util.Date;
 import java.util.List;
 
-public class BookingHistoryReponseBean {
+public class BookingHistoryResponseBean {
 	
 	private List<BookingHistoryBean> historyList;
 
@@ -11,7 +11,7 @@ public class BookingHistoryReponseBean {
 		return historyList;
 	}
 
-	public BookingHistoryReponseBean setHistoryList(List<BookingHistoryBean> historyList) {
+	public BookingHistoryResponseBean setHistoryList(List<BookingHistoryBean> historyList) {
 		this.historyList = historyList;
 		return this;
 	} 

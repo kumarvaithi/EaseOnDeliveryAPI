@@ -2,9 +2,14 @@ package com.unimoni.eod.booking.bean;
 
 import java.util.Date;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+
 public class BookingRequestBean {
 	
+	@NotEmpty @Size(min=10, max=140, message="${booking.pickUpLocation.length}")
 	private String pickupLocation;
+	@NotEmpty @Size(min=10, max=140, message="DropLocation error") 
 	private String dropLocation;
 	private String deliverWhen;
 	private String itemType;

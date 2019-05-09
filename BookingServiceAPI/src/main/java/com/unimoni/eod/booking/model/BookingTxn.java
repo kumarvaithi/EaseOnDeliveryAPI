@@ -9,6 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -23,6 +25,7 @@ public class BookingTxn {
 	private Long bookingID;
 	
 	@Column(name = "customerID")
+	@NotEmpty
 	private Long customerID;
 	
 	@Column(name = "providerID")
@@ -32,9 +35,11 @@ public class BookingTxn {
 	private Long vehicleID;
 	
 	@Column(name = "pickUpLocation")
+	@NotEmpty @Size(min=10, max=140, message="{booking.pickUpLocation.length}") 
 	private String pickUpLocation;
 	
 	@Column(name = "dropLocation")
+	@NotEmpty @Size(min=10, max=140, message="{booking.dropLocation.length}") 
 	private String dropLocation;
 	
 	@Column(name = "deliverWhen")

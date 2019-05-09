@@ -9,6 +9,7 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import com.unimoni.eod.booking.bean.BookingHistoryBean;
@@ -17,6 +18,7 @@ import com.unimoni.eod.booking.bean.BookingResponseBean;
 import com.unimoni.eod.booking.model.BookingTxn;
 import com.unimoni.eod.booking.model.DeliveryCharges;
 import com.unimoni.eod.booking.repo.BookingHistoryRepositary;
+import com.unimoni.eod.booking.model.User;
 import com.unimoni.eod.booking.repo.BookingTxnRepository;
 import com.unimoni.eod.booking.repo.DeliveryChargesRepository;
 import com.unimoni.eod.booking.service.BookingService;
@@ -34,6 +36,10 @@ public class BookingServicesImpl implements BookingService {
 	@Autowired
 	DeliveryChargesRepository deliveryChrgRepository;
 	
+
+	@Autowired
+    private KafkaTemplate<String, User> kafkaTemplate;
+
 	
 	private static final Logger logger = LoggerFactory.getLogger(BookingServicesImpl.class);
 	

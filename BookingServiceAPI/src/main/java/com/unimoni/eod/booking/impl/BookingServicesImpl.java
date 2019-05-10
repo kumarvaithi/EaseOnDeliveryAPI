@@ -23,6 +23,8 @@ import com.unimoni.eod.booking.repo.BookingHistoryRepositary;
 import com.unimoni.eod.booking.repo.BookingTxnRepository;
 import com.unimoni.eod.booking.repo.DeliveryChargesRepository;
 import com.unimoni.eod.booking.service.BookingService;
+import com.unimoni.eod.booking.utils.CommonMethodUtils;
+import com.unimoni.eod.booking.utils.DistanceCalculator;
 
 
 @Service
@@ -44,13 +46,19 @@ public class BookingServicesImpl implements BookingService {
 	
 	private static final String TOPIC = "Kafka_Example_json";
 	
+	@Autowired
+	DistanceCalculator distanceCalculator;
 	
+
 	@Override
-	public DeliveryCharges findDeliveryCharges(int distance,  String vehicleType) {
+	public DeliveryCharges findDeliveryCharges(DeliveryCharges deliveryChrg) {
 		System.out.println("Coming from bookinservices....!!!");	
-		logger.debug("findDeliveryCharges : " + distance);
-		return new DeliveryCharges().setFromDistance(distance)
-				.setVehicleType(vehicleType);
+		logger.debug("findDeliveryCharges : " + deliveryChrg.getVehicleType());
+		double totalDistance = distanceCalculator.distance(32.9697, -96.80322, 29.46786, -98.53506, "M");
+		deliveryChrg.setToDistance((int) Math.round(totalDistance));
+		DeliveryCharges dtChrg = deliveryChrgRepository.findDeliveryCharges(deliveryChrg);
+		//bookingTxnRepository.save(entity)
+		return dtChrg;
 		
 	}
 	

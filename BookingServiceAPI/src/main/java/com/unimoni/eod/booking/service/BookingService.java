@@ -14,7 +14,7 @@ import com.unimoni.eod.booking.model.DeliveryCharges;
 @Service
 public interface BookingService {
 	
-	public DeliveryCharges findDeliveryCharges(int distance,  String vehicleType);
+	public DeliveryCharges findDeliveryCharges(DeliveryCharges deliveryChrgs);
 	
 	public BookingResponseBean confirmBooking(BookingRequestBean request); 
 	

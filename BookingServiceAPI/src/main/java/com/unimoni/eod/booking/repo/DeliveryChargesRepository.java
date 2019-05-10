@@ -6,4 +6,6 @@ import com.unimoni.eod.booking.model.DeliveryCharges;
 
 public interface DeliveryChargesRepository extends CrudRepository<DeliveryCharges, Long> {
 
+	public DeliveryCharges findDeliveryCharges(DeliveryCharges deliveryChrg);
+	
 }

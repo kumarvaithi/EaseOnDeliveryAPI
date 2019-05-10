@@ -57,7 +57,7 @@ public class BookingServicesImpl implements BookingService {
 		double totalDistance = distanceCalculator.distance(32.9697, -96.80322, 29.46786, -98.53506, "M");
 		deliveryChrg.setToDistance((int) Math.round(totalDistance));
 		DeliveryCharges dtChrg = deliveryChrgRepository.findDeliveryCharges(deliveryChrg);
-		//bookingTxnRepository.save(entity)
+		//deliveryChrgRepository.save(entity)
 		return dtChrg;
 		
 	}

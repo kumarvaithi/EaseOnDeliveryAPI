@@ -4,6 +4,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -15,8 +16,9 @@ import com.unimoni.eod.provider.bean.CheckInRequestBean;
 import com.unimoni.eod.provider.bean.CheckInResponseBean;
 import com.unimoni.eod.provider.impl.CheckInImpl;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping("/api/provider")
+@RequestMapping("provider")
 public class ProviderContoller {
 
 	@Autowired

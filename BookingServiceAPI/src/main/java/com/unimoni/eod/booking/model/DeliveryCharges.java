@@ -25,9 +25,6 @@ public class DeliveryCharges {
 	@Column(name = "vehicleType")
 	private String vehicleType;
 	
-	@Column(name = "vehicleModel")
-	private String vehicleModel;
-	
 	@Column(name = "minWeight")
 	private Double minWeight;
 	
@@ -78,14 +75,7 @@ public class DeliveryCharges {
 		return this;
 	}
 
-	public String getVehicleModel() {
-		return vehicleModel;
-	}
-
-	public DeliveryCharges setVehicleModel(String vehicleModel) {
-		this.vehicleModel = vehicleModel;
-		return this;
-	}
+	
 
 	public Double getMinWeight() {
 		return minWeight;

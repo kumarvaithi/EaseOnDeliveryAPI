@@ -58,31 +58,37 @@ public class BookingServicesImpl implements BookingService {
 	@Override
 	public BookingResponseBean confirmBooking(BookingRequestBean request) {
 		
-		System.out.println("I am inside confirmBooking implementation");
-		System.out.println("BillAmt==> "+request.getBillAmount());
-		BookingTxn account = bookingTxnRepository.save(new BookingTxn()
-				.setStorePersonName(request.getStorePersonName())
-				.setStorePersonContactNo(request.getStorePersonContactNo())
-				.setBillAmount(10001.0)
-				.setCommission(request.getCommsion())
-				.setVat(request.getVat())
-				.setCustomerID(request.getCustomerID())
-				.setTotalBillAmount(request.getTotalBillAmount())
-				.setDeliveryStatus("Initiated")
-				.setBookingDate(new Date())
-				.setCreatedAt(LocalDate.now())
-				.setProviderID(request.getProviderID())
-				.setVehicleID(1234567890l)
-				.setPickUpLocation(request.getPickupLocation())
-				.setDropLocation(request.getDropLocation())
-				.setDeliverWhen(request.getDeliverWhen())
-				.setItemType(request.getItemType())
-				.setItemTentativeWeight(request.getItemTentativeWeight())
-				.setDeliveryTime(request.getDeliveryTime())
-				.setDeliveryDate(request.getDeliveryDate()));
-		
-		System.out.println("I am inside confirmBooking implementation  END" + account);
-		
+		try {
+			System.out.println("Request is " + request.toString());
+			System.out.println("BillAmt==> "+request.getBillAmount());
+			System.out.println("Request is " + request.toString());
+			BookingTxn account = bookingTxnRepository.save(new BookingTxn()
+					.setStorePersonName(request.getStorePersonName())
+					.setStorePersonContactNo(request.getStorePersonContactNo())
+					.setBillAmount(100.0)
+					.setCommission(10.00)
+					.setVat(2.25)
+					.setCustomerID(request.getCustomerID())
+					.setTotalBillAmount(112.25)
+					.setDeliveryStatus("Initiated")
+					.setBookingDate(new Date())
+					.setCreatedAt(LocalDate.now())
+					.setProviderID(request.getProviderID())
+					.setVehicleID(1234567890l)
+					.setPickUpLocation(request.getPickupLocation())
+					.setDropLocation(request.getDropLocation())
+					.setDeliverWhen(request.getDeliverWhen())
+					.setItemType(request.getItemType())
+					.setItemTentativeWeight(request.getItemTentativeWeight())
+					.setDeliveryTime(request.getDeliveryTime())
+					.setDeliveryDate(request.getDeliveryDate()));
+			
+			System.out.println("I am inside confirmBooking implementation  END" + account);
+
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+				
 		return null;
 	}
 	

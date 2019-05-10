@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,7 +27,7 @@ import com.unimoni.eod.booking.model.DeliveryCharges;
 import com.unimoni.eod.booking.service.BookingService;
 import com.unimoni.eod.booking.service.BookingServiceException;
 
-
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/bookings")
 public class BookingController {
@@ -60,10 +61,11 @@ public class BookingController {
 		return chrgs;
 	}
 	
-	@PostMapping(value="/confirm", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value="/confirm")
 	private BookingResponseBean bookDelivery(@Valid @RequestBody BookingRequestBean request) {
 		try {
 			//BookingServicesImpl impl = new BookingServicesImpl();
+			System.out.println("inside book delivery");
 			bookingService.confirmBooking(request);
 		}catch (Exception e) {
 			e.getMessage();

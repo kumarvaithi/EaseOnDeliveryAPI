@@ -2,26 +2,21 @@ package com.unimoni.eod.booking.bean;
 
 import java.util.Date;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
-
 public class BookingRequestBean {
 	
-	@NotEmpty @Size(min=10, max=140, message="${booking.pickUpLocation.length}")
 	private String pickupLocation;
-	@NotEmpty @Size(min=10, max=140, message="DropLocation error") 
 	private String dropLocation;
 	private String deliverWhen;
 	private String itemType;
-	private Double itemTentativeWeight;
+	private double itemTentativeWeight;
 	private Date deliveryDate;
 	private Date deliveryTime;
 	private String storePersonName;
 	private String storePersonContactNo;
-	private Double billAmount;
-	private Double vat;
-	private Double commsion;
-	private Double totalBillAmount;
+	private double billAmount;
+	private double vat;
+	private double commsion;
+	private double totalBillAmount;
 	private String bookingDate;
 	private String paymentMode;
 	private Long customerID;
@@ -56,10 +51,10 @@ public class BookingRequestBean {
 		return this;
 	}
 
-	public Double getItemTentativeWeight() {
+	public double getItemTentativeWeight() {
 		return itemTentativeWeight;
 	}
-	public BookingRequestBean setItemTentativeWeight(Double itemTentativeWeight) {
+	public BookingRequestBean setItemTentativeWeight(double itemTentativeWeight) {
 		this.itemTentativeWeight = itemTentativeWeight;
 		return this;
 	}
@@ -93,31 +88,31 @@ public class BookingRequestBean {
 		this.storePersonContactNo = storePersonContactNo;
 		return this;
 	}
-	public Double getBillAmount() {
+	public double getBillAmount() {
 		return billAmount;
 	}
-	public BookingRequestBean setBillAmount(Double billAmount) {
+	public BookingRequestBean setBillAmount(double billAmount) {
 		this.billAmount = billAmount;
 		return this;
 	}
-	public Double getVat() {
+	public double getVat() {
 		return vat;
 	}
-	public BookingRequestBean setVat(Double vat) {
+	public BookingRequestBean setVat(double vat) {
 		this.vat = vat;
 		return this;
 	}
-	public Double getCommsion() {
+	public double getCommsion() {
 		return commsion;
 	}
-	public BookingRequestBean setCommsion(Double commsion) {
+	public BookingRequestBean setCommsion(double commsion) {
 		this.commsion = commsion;
 		return this;
 	}
-	public Double getTotalBillAmount() {
+	public double getTotalBillAmount() {
 		return totalBillAmount;
 	}
-	public BookingRequestBean setTotalBillAmount(Double totalBillAmount) {
+	public BookingRequestBean setTotalBillAmount(double totalBillAmount) {
 		this.totalBillAmount = totalBillAmount;
 		return this;
 	}
@@ -139,15 +134,13 @@ public class BookingRequestBean {
 	public Long getCustomerID() {
 		return customerID;
 	}
-	public BookingRequestBean setCustomerID(Long customerID) {
+	public void setCustomerID(Long customerID) {
 		this.customerID = customerID;
-		return this;
 	}
 	public Long getProviderID() {
 		return providerID;
 	}
-	public BookingRequestBean setProviderID(Long providerID) {
+	public void setProviderID(Long providerID) {
 		this.providerID = providerID;
-		return this;
 	}
 }

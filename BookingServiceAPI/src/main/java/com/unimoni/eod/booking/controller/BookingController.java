@@ -51,8 +51,9 @@ public class BookingController {
 	public DeliveryCharges CalculateDeliveryCharges(@Valid @RequestParam int distance, String vehicleType) throws ResourceNotFoundException, BookingServiceException {
 		
 		//GprsLocation distance = restTemplate.getForObject("http://ratings-data-service/ratingsdata/user/" + userId, GprsLocation.class);
-
-		DeliveryCharges chrgs = bookingService.findDeliveryCharges(distance, vehicleType);
+		DeliveryCharges dchrgs = new DeliveryCharges();
+		dchrgs.setMaxWeight(23.05);
+		DeliveryCharges chrgs = bookingService.findDeliveryCharges(dchrgs);
 		
 		if(chrgs == null) {
 			throw new BookingServiceException("Delivery Charges not found");
@@ -74,7 +75,7 @@ public class BookingController {
 	}
 	
 
-	@GetMapping(value="/history/{customerID}", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value="/history/{customerID}")
 	private BookingHistoryResponseBean bookingHistory(@PathVariable(name="customerID", required=true) Long customerID) {
 			BookingHistoryResponseBean history = new BookingHistoryResponseBean();
 			

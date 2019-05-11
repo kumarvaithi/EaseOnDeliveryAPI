@@ -6,6 +6,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import javax.annotation.PostConstruct;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,16 +51,23 @@ public class BookingServicesImpl implements BookingService {
 	@Autowired
 	DistanceCalculator distanceCalculator;
 	
+	@PostConstruct
+	public void init() {
+		System.out.println("Booking Service IMPL... Calling...");
+	}
 
 	@Override
 	public DeliveryCharges findDeliveryCharges(DeliveryCharges deliveryChrg) {
 		System.out.println("Coming from bookinservices....!!!");	
 		logger.debug("findDeliveryCharges : " + deliveryChrg.getVehicleType());
 		double totalDistance = distanceCalculator.distance(32.9697, -96.80322, 29.46786, -98.53506, "M");
-		deliveryChrg.setToDistance((int) Math.round(totalDistance));
-		DeliveryCharges dtChrg = deliveryChrgRepository.findDeliveryCharges(deliveryChrg);
+		System.out.println("Distance....!!!"+totalDistance);
+		//deliveryChrg.setToDistance((int) Math.round(totalDistance));
+		deliveryChrg.setToDistance(35);
+		Optional<DeliveryCharges> dtChrg = deliveryChrgRepository.findByToDistance((int)Math.round(totalDistance));
 		//deliveryChrgRepository.save(entity)
-		return dtChrg;
+		
+		return deliveryChrg;
 		
 	}
 	

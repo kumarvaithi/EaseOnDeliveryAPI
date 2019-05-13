@@ -7,6 +7,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import javax.annotation.PostConstruct;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +35,7 @@ import com.unimoni.eod.booking.repo.CustomerRepositary;
 import com.unimoni.eod.booking.repo.DeliveryChargesRepository;
 import com.unimoni.eod.booking.service.BookingService;
 import com.unimoni.eod.booking.utils.CommonMethodUtils;
+import com.unimoni.eod.booking.utils.DistanceCalculator;
 
 
 @Service
@@ -64,13 +67,26 @@ public class BookingServicesImpl implements BookingService {
 	
 	private static final String TOPIC = "Kafka_Example_json";
 	
+	@Autowired
+	DistanceCalculator distanceCalculator;
 	
+	@PostConstruct
+	public void init() {
+		System.out.println("Booking Service IMPL... Calling...");
+	}
+
 	@Override
-	public DeliveryCharges findDeliveryCharges(int distance,  String vehicleType) {
+	public DeliveryCharges findDeliveryCharges(DeliveryCharges deliveryChrg) {
 		System.out.println("Coming from bookinservices....!!!");	
-		logger.debug("findDeliveryCharges : " + distance);
-		return new DeliveryCharges().setFromDistance(distance)
-				.setVehicleType(vehicleType);
+		logger.debug("findDeliveryCharges : " + deliveryChrg.getVehicleType());
+		double totalDistance = distanceCalculator.distance(32.9697, -96.80322, 29.46786, -98.53506, "M");
+		System.out.println("Distance....!!!"+totalDistance);
+		//deliveryChrg.setToDistance((int) Math.round(totalDistance));
+		deliveryChrg.setToDistance(35);
+		Optional<DeliveryCharges> dtChrg = deliveryChrgRepository.findByToDistance((int)Math.round(totalDistance));
+		//deliveryChrgRepository.save(entity)
+		
+		return deliveryChrg;
 		
 	}
 	

@@ -1,4 +1,4 @@
-package com.unimoni.eod.provider.config;
+package com.unimoni.eod.kafka.config;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -10,7 +10,7 @@ import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 
-import com.unimoni.eod.provider.model.User;
+import com.unimoni.eod.kafka.model.BookingNotifications;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -41,7 +41,7 @@ public class KafkaConfiguration {
 
 
     @Bean
-    public ConsumerFactory<String, User> userConsumerFactory() {
+    public ConsumerFactory<String, BookingNotifications> userConsumerFactory() {
         Map<String, Object> config = new HashMap<>();
 
         config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "127.0.0.1:9092");
@@ -52,12 +52,12 @@ public class KafkaConfiguration {
         //config.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, "5");
 
         return new DefaultKafkaConsumerFactory<>(config, new StringDeserializer(),
-                new JsonDeserializer<>(User.class));
+                new JsonDeserializer<>(BookingNotifications.class));
     }
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, User> userKafkaListenerFactory() {
-        ConcurrentKafkaListenerContainerFactory<String, User> factory = new ConcurrentKafkaListenerContainerFactory<>();
+    public ConcurrentKafkaListenerContainerFactory<String, BookingNotifications> userKafkaListenerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, BookingNotifications> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(userConsumerFactory());
         return factory;
     }

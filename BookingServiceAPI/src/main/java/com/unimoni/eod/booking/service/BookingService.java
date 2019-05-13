@@ -17,6 +17,8 @@ public interface BookingService {
 	public DeliveryCharges findDeliveryCharges(int distance,  String vehicleType);
 	
 	public BookingResponseBean confirmBooking(BookingRequestBean request); 
+
+	public BookingResponseBean retrieveBookingsDetails(int bookingID);
 	
 	public List<BookingHistoryBean> bookingHistory(Long customerID);
 	

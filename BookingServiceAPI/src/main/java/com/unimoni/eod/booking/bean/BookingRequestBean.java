@@ -1,26 +1,23 @@
 package com.unimoni.eod.booking.bean;
 
-import java.util.Date;
-
 public class BookingRequestBean {
 	
 	private String pickupLocation;
 	private String dropLocation;
 	private String deliverWhen;
 	private String itemType;
-	private double itemTentativeWeight;
-	private Date deliveryDate;
-	private Date deliveryTime;
+	private String itemTentativeWeight;
+	private String deliveryDate;
+	private String deliveryTime;
 	private String storePersonName;
 	private String storePersonContactNo;
-	private double billAmount;
-	private double vat;
-	private double commsion;
-	private double totalBillAmount;
-	private String bookingDate;
+	private String billAmount;
+	private String vat;
+	private String commsion;
+	private String totalBillAmount;
 	private String paymentMode;
-	private Long customerID;
-	private Long providerID;
+	private int customerID;
+	private int providerID;
 
 	public String getPickupLocation() {
 		return pickupLocation;
@@ -50,27 +47,24 @@ public class BookingRequestBean {
 		this.itemType = itemType;
 		return this;
 	}
-
-	public double getItemTentativeWeight() {
+	public String getItemTentativeWeight() {
 		return itemTentativeWeight;
 	}
-	public BookingRequestBean setItemTentativeWeight(double itemTentativeWeight) {
+	public BookingRequestBean setItemTentativeWeight(String itemTentativeWeight) {
 		this.itemTentativeWeight = itemTentativeWeight;
 		return this;
 	}
-	
-	public Date getDeliveryDate() {
+	public String getDeliveryDate() {
 		return deliveryDate;
 	}
-	public BookingRequestBean setDeliveryDate(Date deliveryDate) {
+	public BookingRequestBean setDeliveryDate(String deliveryDate) {
 		this.deliveryDate = deliveryDate;
 		return this;
 	}
-	
-	public Date getDeliveryTime() {
+	public String getDeliveryTime() {
 		return deliveryTime;
 	}
-	public BookingRequestBean setDeliveryTime(Date deliveryTime) {
+	public BookingRequestBean setDeliveryTime(String deliveryTime) {
 		this.deliveryTime = deliveryTime;
 		return this;
 	}
@@ -88,39 +82,32 @@ public class BookingRequestBean {
 		this.storePersonContactNo = storePersonContactNo;
 		return this;
 	}
-	public double getBillAmount() {
+	public String getBillAmount() {
 		return billAmount;
 	}
-	public BookingRequestBean setBillAmount(double billAmount) {
+	public BookingRequestBean setBillAmount(String billAmount) {
 		this.billAmount = billAmount;
 		return this;
 	}
-	public double getVat() {
+	public String getVat() {
 		return vat;
 	}
-	public BookingRequestBean setVat(double vat) {
+	public BookingRequestBean setVat(String vat) {
 		this.vat = vat;
 		return this;
 	}
-	public double getCommsion() {
+	public String getCommsion() {
 		return commsion;
 	}
-	public BookingRequestBean setCommsion(double commsion) {
+	public BookingRequestBean setCommsion(String commsion) {
 		this.commsion = commsion;
 		return this;
 	}
-	public double getTotalBillAmount() {
+	public String getTotalBillAmount() {
 		return totalBillAmount;
 	}
-	public BookingRequestBean setTotalBillAmount(double totalBillAmount) {
+	public BookingRequestBean setTotalBillAmount(String totalBillAmount) {
 		this.totalBillAmount = totalBillAmount;
-		return this;
-	}
-	public String getBookingDate() {
-		return bookingDate;
-	}
-	public BookingRequestBean setBookingDate(String bookingDate) {
-		this.bookingDate = bookingDate;
 		return this;
 	}
 	public String getPaymentMode() {
@@ -130,17 +117,18 @@ public class BookingRequestBean {
 		this.paymentMode = paymentMode;
 		return this;
 	}
-	
-	public Long getCustomerID() {
+	public int getCustomerID() {
 		return customerID;
 	}
-	public void setCustomerID(Long customerID) {
+	public BookingRequestBean setCustomerID(int customerID) {
 		this.customerID = customerID;
+		return this;
 	}
-	public Long getProviderID() {
+	public int getProviderID() {
 		return providerID;
 	}
-	public void setProviderID(Long providerID) {
+	public BookingRequestBean setProviderID(int providerID) {
 		this.providerID = providerID;
+		return this;
 	}
 }

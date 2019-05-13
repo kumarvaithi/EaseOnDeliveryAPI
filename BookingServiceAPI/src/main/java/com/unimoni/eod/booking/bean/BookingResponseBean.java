@@ -2,16 +2,19 @@ package com.unimoni.eod.booking.bean;
 
 import java.util.List;
 
+import com.unimoni.eod.booking.model.BookingCustomerDetails;
+import com.unimoni.eod.booking.model.BookingTxnStatus;
+
 
 public class BookingResponseBean {
 	
+	private int bookingID;
 	private String pickupLocation;
 	private String dropLocation;
 	private String deliverWhen;
 	private String itemType;
 	private String itemTentativeWeight;
 	private String deliveryDate;
-	private String deliveryTime;
 	private String storePersonName;
 	private String storePersonContactNo;
 	private double billAmount;
@@ -25,8 +28,17 @@ public class BookingResponseBean {
 	private String providerContactNo;
 	private String providerName;
 	private String estimatedPickupTime;
-	private List<CommonResponseBean> resultData;
+	private List<BookingTxnStatus> bookingTxnStatus;
+	private BookingCustomerDetails bookingCustomerDetails;
+	private CommonResponseBean resultData;
 	
+	public int getBookingID() {
+		return bookingID;
+	}
+	public BookingResponseBean setBookingID(int bookingID) {
+		this.bookingID = bookingID;
+		return this;
+	}
 	public String getPickupLocation() {
 		return pickupLocation;
 	}
@@ -69,13 +81,7 @@ public class BookingResponseBean {
 		this.deliveryDate = deliveryDate;
 		return this;
 	}
-	public String getDeliveryTime() {
-		return deliveryTime;
-	}
-	public BookingResponseBean setDeliveryTime(String deliveryTime) {
-		this.deliveryTime = deliveryTime;
-		return this;
-	}
+
 	public String getStorePersonName() {
 		return storePersonName;
 	}
@@ -166,11 +172,26 @@ public class BookingResponseBean {
 		this.estimatedPickupTime = estimatedPickupTime;
 		return this;
 	}
-	public List<CommonResponseBean> getResultData() {
+
+	public CommonResponseBean getResultData() {
 		return resultData;
 	}
-	public BookingResponseBean setResultData(List<CommonResponseBean> resultData) {
+	public BookingResponseBean setResultData(CommonResponseBean resultData) {
 		this.resultData = resultData;
+		return this;
+	}
+	public List<BookingTxnStatus> getBookingTxnStatus() {
+		return bookingTxnStatus;
+	}
+	public BookingResponseBean setBookingTxnStatus(List<BookingTxnStatus> bookingTxnStatus) {
+		this.bookingTxnStatus = bookingTxnStatus;
+		return this;
+	}
+	public BookingCustomerDetails getBookingCustomerDetails() {
+		return bookingCustomerDetails;
+	}
+	public BookingResponseBean setBookingCustomerDetails(BookingCustomerDetails bookingCustomerDetails) {
+		this.bookingCustomerDetails = bookingCustomerDetails;
 		return this;
 	}
 }

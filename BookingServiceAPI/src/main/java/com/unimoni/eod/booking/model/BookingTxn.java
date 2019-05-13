@@ -1,13 +1,19 @@
 package com.unimoni.eod.booking.model;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -20,26 +26,28 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class BookingTxn {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "bookingID")
-	private Long bookingID;
+	private int bookingID;
+
+	@OneToMany(mappedBy="bookingTxn", cascade = CascadeType.PERSIST)
+	private List<BookingTxnStatus> bookingTxnStatus;
+	
+	@OneToOne(mappedBy = "bookingTxn",cascade = CascadeType.ALL)
+	@JoinColumn(name="bookingID")
+	private BookingCustomerDetails bookingCustomerDetails;
 	
 	@Column(name = "customerID")
-	@NotEmpty
-	private Long customerID;
+	private int customerID;
 	
 	@Column(name = "providerID")
-	private Long providerID;
+	private int providerID;
 	
 	@Column(name = "vehicleID")
-	private Long vehicleID;
+	private int vehicleID;
 	
-	@Column(name = "pickUpLocation")
-	@NotEmpty @Size(min=10, max=140, message="{booking.pickUpLocation.length}") 
 	private String pickUpLocation;
 	
-	@Column(name = "dropLocation")
-	@NotEmpty @Size(min=10, max=140, message="{booking.dropLocation.length}") 
 	private String dropLocation;
 	
 	@Column(name = "deliverWhen")
@@ -52,10 +60,7 @@ public class BookingTxn {
 	private Double itemTentativeWeight;
 	
 	@Column(name = "deliveryDate")
-	private Date deliveryDate;
-	
-	@Column(name = "deliveryTime")
-	private Date deliveryTime;
+	private Timestamp deliveryDate;
 	
 	@Column(name = "storePersonName")
 	private String storePersonName;
@@ -76,10 +81,8 @@ public class BookingTxn {
 	private Double totalBillAmount;
 	
 	@Column(name = "bookingDate")
-	private Date bookingDate;
+	private LocalDate bookingDate;
 	
-	@Column(name = "deliveryStatus")
-	private String deliveryStatus;
 	
 	@Column(name = "createdAt")
 	private LocalDate createdAt;
@@ -88,43 +91,62 @@ public class BookingTxn {
 		
 	}
 	
-	public BookingTxn(Long i, String pickUpLocation) {
-		this.bookingID = i;
-		this.pickUpLocation = pickUpLocation;
-	}
-
-	public Long getBookingID() {
+//	public BookingTxn(Long i, String pickUpLocation) {
+//		this.bookingID = i;
+//		this.pickUpLocation = pickUpLocation;
+//	}
+	
+	public int getBookingID() {
 		return bookingID;
 	}
 
-	public BookingTxn setBookingID(Long bookingID) {
+	public BookingTxn setBookingID(int bookingID) {
 		this.bookingID = bookingID;
 		return this;
 	}
 
-	public Long getCustomerID() {
+	public int getCustomerID() {
 		return customerID;
 	}
 
-	public BookingTxn setCustomerID(Long customerID) {
+	public BookingTxn setCustomerID(int customerID) {
 		this.customerID = customerID;
 		return this;
 	}
 
-	public Long getProviderID() {
+	public int getProviderID() {
 		return providerID;
 	}
 
-	public BookingTxn setProviderID(Long providerID) {
+	public BookingTxn setProviderID(int providerID) {
 		this.providerID = providerID;
 		return this;
 	}
 
-	public Long getVehicleID() {
+	public List<BookingTxnStatus> getBookingTxnStatus() {
+		return bookingTxnStatus;
+	}
+
+	public BookingTxn setBookingTxnStatus(List<BookingTxnStatus> bookingTxnStatus) {
+		this.bookingTxnStatus = bookingTxnStatus;
+		return this;
+	}
+
+	
+	public BookingCustomerDetails getBookingCustomerDetails() {
+		return bookingCustomerDetails;
+	}
+
+	public BookingTxn setBookingCustomerDetails(BookingCustomerDetails bookingCustomerDetails) {
+		this.bookingCustomerDetails = bookingCustomerDetails;
+		return this;
+	}
+
+	public int getVehicleID() {
 		return vehicleID;
 	}
 
-	public BookingTxn setVehicleID(Long vehicleID) {
+	public BookingTxn setVehicleID(int vehicleID) {
 		this.vehicleID = vehicleID;
 		return this;
 	}
@@ -175,21 +197,12 @@ public class BookingTxn {
 		return this;
 	}
 
-	public Date getDeliveryDate() {
+	public Timestamp getDeliveryDate() {
 		return deliveryDate;
 	}
 
-	public BookingTxn setDeliveryDate(Date deliveryDate) {
+	public BookingTxn setDeliveryDate(Timestamp deliveryDate) {
 		this.deliveryDate = deliveryDate;
-		return this;
-	}
-
-	public Date getDeliveryTime() {
-		return deliveryTime;
-	}
-
-	public BookingTxn setDeliveryTime(Date deliveryTime) {
-		this.deliveryTime = deliveryTime;
 		return this;
 	}
 
@@ -248,21 +261,14 @@ public class BookingTxn {
 		return this;
 	}
 
-	public Date getBookingDate() {
+	
+
+	public LocalDate getBookingDate() {
 		return bookingDate;
 	}
 
-	public BookingTxn setBookingDate(Date bookingDate) {
+	public BookingTxn setBookingDate(LocalDate bookingDate) {
 		this.bookingDate = bookingDate;
-		return this;
-	}
-
-	public String getDeliveryStatus() {
-		return deliveryStatus;
-	}
-
-	public BookingTxn setDeliveryStatus(String deliveryStatus) {
-		this.deliveryStatus = deliveryStatus;
 		return this;
 	}
 
@@ -280,10 +286,9 @@ public class BookingTxn {
 		return "BookingTxn [bookingID=" + bookingID + ", customerID=" + customerID + ", providerID=" + providerID
 				+ ", vehicleID=" + vehicleID + ", pickUpLocation=" + pickUpLocation + ", dropLocation=" + dropLocation
 				+ ", deliverWhen=" + deliverWhen + ", itemType=" + itemType + ", itemTentativeWeight="
-				+ itemTentativeWeight + ", deliveryDate=" + deliveryDate + ", deliveryTime=" + deliveryTime
-				+ ", storePersonName=" + storePersonName + ", storePersonContactNo=" + storePersonContactNo
+				+ itemTentativeWeight + ", storePersonName=" + storePersonName + ", storePersonContactNo=" + storePersonContactNo
 				+ ", billAmount=" + billAmount + ", commission=" + commission + ", vat=" + vat + ", totalBillAmount="
-				+ totalBillAmount + ", bookingDate=" + bookingDate + ", deliveryStatus=" + deliveryStatus
+				+ totalBillAmount + ", bookingDate=" + bookingDate
 				+ ", createdAt=" + createdAt + "]";
 	}
 	

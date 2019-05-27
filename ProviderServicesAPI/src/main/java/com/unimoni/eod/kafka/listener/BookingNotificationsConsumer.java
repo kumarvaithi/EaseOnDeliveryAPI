@@ -2,6 +2,9 @@ package com.unimoni.eod.kafka.listener;
 
 import java.io.IOException;
 
+import javax.persistence.spi.LoadState;
+import javax.persistence.spi.ProviderUtil;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jackson.JsonObjectDeserializer;
 import org.springframework.context.annotation.Bean;
@@ -17,12 +20,13 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.unimoni.eod.kafka.model.BookingNotifications;
 import com.unimoni.eod.mapper.NotificationConsumer;
+import com.unimoni.eod.provider.utils.ProviderUtils;
 
 @Service
 public class BookingNotificationsConsumer {
 
 	@Autowired
-	RestTemplate restTemplate;
+	ProviderUtils providerUtils;
 	
     @KafkaListener(topics = "booking_notification", groupId = "group_id")
     public void consume(String bookingID) {
@@ -31,8 +35,7 @@ public class BookingNotificationsConsumer {
     	try {
     		ObjectMapper mapper = new ObjectMapper();
 			NotificationConsumer consumer = mapper.readValue(bookingID, NotificationConsumer.class);
-			restTemplate.exchange("http://localhost:8081/bookings/bookingDetails/" + consumer.getBookingID(), HttpMethod.GET, null, new ParameterizedTypeReference<String>() {
-			}, bookingID).getBody();
+			providerUtils.mapBookingProvider(consumer.getBookingID());
 		} catch (JsonParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -59,8 +62,7 @@ public class BookingNotificationsConsumer {
     }
     
     @Bean
-	public RestTemplate restTemplate() {
-		return new RestTemplate();
+    public ProviderUtils providerUtils() {
+    	return new ProviderUtils();
 	}
-
 }

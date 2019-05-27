@@ -12,11 +12,15 @@ import javax.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.client.RestTemplate;
 
 import com.unimoni.eod.booking.bean.BookingHistoryBean;
 import com.unimoni.eod.booking.bean.BookingRequestBean;
@@ -69,6 +73,9 @@ public class BookingServicesImpl implements BookingService {
 	
 	@Autowired
 	DistanceCalculator distanceCalculator;
+	
+	@Autowired
+	RestTemplate restTemplate;
 	
 	@PostConstruct
 	public void init() {
@@ -131,6 +138,9 @@ public class BookingServicesImpl implements BookingService {
 					.setEmailID(customer.getEmailID())
 					.setMobileNo(customer.getMobileNo())
 					.setName(customer.getName()));
+
+			restTemplate.exchange("http://localhost:8082/kafka/publish/" + bookingTxn.getBookingID(), HttpMethod.GET, null, new ParameterizedTypeReference<String>() {
+			}, bookingTxn.getBookingID()).getBody();
 			
 		return null;
 	}
@@ -235,4 +245,8 @@ public class BookingServicesImpl implements BookingService {
         return "Published successfully";
     }
 */
+	@Bean
+	public RestTemplate restTemplate() {
+		return new RestTemplate();
+	}
 }

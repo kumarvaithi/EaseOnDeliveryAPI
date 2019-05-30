@@ -105,6 +105,7 @@ class RideDetails extends React.Component {
               label="Pick up Location"
               placeholder = "Enter The Pick up Location"
               onChange = {handleChange('pickup')}
+              name = "pickUpLocation"
               />
               <br/>
               <TextField
@@ -129,7 +130,7 @@ class RideDetails extends React.Component {
               </TextField>
           <CardActions>
               <Button size="small" color="primary" className="button-lg" 
-                onClick = {this.displayProductDetails}>
+                onClick = {this.displayProductDetails} name="findNow">
                   FIND NOW
               </Button>
           </CardActions>

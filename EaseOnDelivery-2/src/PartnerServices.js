@@ -27,6 +27,15 @@ import Notifications from './_components/orderAcceptance/Notifications'
 import ProviderCheckIn from './_components/checkin/ProviderCheckIn'
 import axios from 'axios';
 
+import Dialog from '@material-ui/core/Dialog';
+import MuiDialogTitle from '@material-ui/core/DialogTitle';
+import MuiDialogContent from '@material-ui/core/DialogContent';
+import MuiDialogActions from '@material-ui/core/DialogActions';
+import Button from '@material-ui/core/Button';
+import CloseIcon from '@material-ui/icons/Close';
+
+import moment from 'moment';
+
 const drawerWidth = 240;
 
 const styles = theme => ({
@@ -108,10 +117,61 @@ const styles = theme => ({
   },
 });
 
+const DialogTitle = withStyles(theme => ({
+  root: {
+    borderBottom: `1px solid ${theme.palette.divider}`,
+    margin: 0,
+    padding: theme.spacing.unit * 2,
+  },
+  closeButton: {
+    position: 'absolute',
+    right: theme.spacing.unit,
+    top: theme.spacing.unit,
+    color: theme.palette.grey[500],
+  },
+}))(props => {
+  const { children, classes, onClose } = props;
+  return (
+    <MuiDialogTitle disableTypography className={classes.root}>
+      <Typography variant="h6">{children}</Typography>
+      {onClose ? (
+        <IconButton aria-label="Close" className={classes.closeButton} onClick={onClose}>
+          <CloseIcon />
+        </IconButton>
+      ) : null}
+    </MuiDialogTitle>
+  );
+});
+
+const DialogContent = withStyles(theme => ({
+  root: {
+    margin: 0,
+    padding: theme.spacing.unit * 2,
+  },
+}))(MuiDialogContent);
+
+const DialogActions = withStyles(theme => ({
+  root: {
+    borderTop: `1px solid ${theme.palette.divider}`,
+    margin: 0,
+    padding: theme.spacing.unit,
+  },
+}))(MuiDialogActions);
+
+
 class BookingServices extends React.Component {
   state = {
     open: true,
+    openDialog : true,
+    responseData : {},
+    bookingDetails : [],
+    enableNotification : false
   };
+
+  async componentDidMount() {
+    this.getBookingDetails();
+    this.timer = setInterval(this.getBookingDetails, 5000);
+  }
 
   handleDrawerOpen = () => {
     this.setState({ open: true });
@@ -121,24 +181,60 @@ class BookingServices extends React.Component {
     this.setState({ open: false });
   };
 
-  callServices = async (request,url) => {
-    console.log("request is ", request)
-    url = "http://localhost:8080/provider/" + url
+  callPostServices = async (request,url) => {
+    url = "http://localhost:8083/provider/" + url
     await axios({
       method: 'post',
       url : url,
       data : request,
 
-    }).then(function(response){
+    }).then(response => {
       console.log(response);
-    }).catch(function(error){
+    }).catch(error =>{
       console.log(error);
     });
   }
 
+  callGetServices = async (url) => {
+    url = "http://localhost:8083/provider/" + url
+    await axios({
+      method: 'get',
+      url : url,
+   }).then(response => {
+    // console.log(response.data);
+    let data = response.data;
+    this.setState({responseData : data})
+    }).catch(error => {
+      console.log(error);
+    });
+  }
+
+  getBookingDetails = () => {
+    let url = "searchRide/1/N";
+    this.callGetServices(url);
+    console.log(this.state.responseData);
+    if(this.state.responseData.bookingDetails !== undefined){
+      if(this.state.responseData.bookingDetails.length > 0){
+        this.setState({
+          bookingDetails : this.state.responseData.bookingDetails,
+          enableNotification : !this.state.enableNotification
+        });
+        console.log(this.state.bookingDetails.length);
+      }
+    }
+  }
+
+  handleClose = () => {
+    this.setState({ openDialog: false });
+  };
+
+  handleAccept = () =>{
+    this.handleClose()
+  };
+
   render() {
     const { classes } = this.props;
-
+    const { bookingDetails } = this.state;
     return (
       <div className={classes.root}>
         <CssBaseline />
@@ -191,12 +287,50 @@ class BookingServices extends React.Component {
           <List>{partnerMenu}</List>
         </Drawer>
         <main className="mainDIV">
-            <Route exact path='/partner' render= {props=><Notifications handleChange={this.props.handleChange} state={this.state}/>}/>
+            <Route exact path='/partner' render= {props=><Notifications callGetServices={this.callGetServices} handleChange={this.props.handleChange} state={this.state}/>}/>
             {/* <Route exact path='/partner/acceptOrder' render= {props=><AcceptOrder handleChange={this.props.handleChange} state={this.state}/>}/> */}
-            <Route exact path='/partner/checkin' render= {props=><ProviderCheckIn callServices={this.callServices} handleChange={this.props.handleChange} state={this.state}/>}/> 
+            <Route exact path='/partner/checkin' render= {props=><ProviderCheckIn callPostServices={this.callPostServices} handleChange={this.props.handleChange} state={this.state}/>}/> 
 
             {/* <Route exact path='/admin/reports' render= {props=><Reports handleChange={this.props.handleChange} state={this.state}/>}/> */}
         </main>
+        {this.state.enableNotification && 
+          <div>
+            {bookingDetails.map((value,index) =>(
+              <Dialog
+                onClose={this.handleClose}
+                aria-labelledby="customized-dialog-title"
+                open={this.state.openDialog}
+                key = {value.bookingID}
+              >    
+                <DialogTitle id="customized-dialog-title" onClose={this.handleClose}>
+                  {value.itemType} !
+                </DialogTitle>
+                <DialogContent>
+                  <Typography gutterBottom>
+                    Pick Up : {value.pickupLocation}
+                  </Typography>
+                  <Typography gutterBottom>
+                    Drop : {value.dropLocation}
+                  </Typography>
+                  <Typography gutterBottom>
+                    Expected Delivery At : {moment(value.deliveryDate).format('DD MMM hh:mm A')}
+                  </Typography>
+                  </DialogContent>
+                <DialogActions className = { "dialogLinks" }>
+                  <Link to="/partner/checkin">
+                    <Button onClick={this.handleAccept} color="primary">
+                      View
+                    </Button>
+                  </Link>
+                  <Button onClick={this.handleClose} color="primary">
+                    Close
+                  </Button>
+                </DialogActions>
+              </Dialog>
+            ))}
+          </div>
+        }
+        
       </div>
     );
   }

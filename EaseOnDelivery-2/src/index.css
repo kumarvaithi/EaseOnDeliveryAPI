@@ -144,3 +144,8 @@ code {
 .listItemReceipt p{
   padding-left: 6% !important;
 }
+
+.dialogLinks a{
+  text-decoration: none;
+  display: inline-block;
+}

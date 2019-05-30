@@ -70,7 +70,7 @@ class ProviderCheckIn extends React.Component {
       providerStatus : this.state.providerStatus
     }
 
-    this.props.callServices(request,url);
+    this.props.callPostServices(request,url);
 
   }
   render() {

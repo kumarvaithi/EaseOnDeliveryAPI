@@ -220,6 +220,8 @@ class BookingServices extends React.Component {
           enableNotification : !this.state.enableNotification
         });
         console.log(this.state.bookingDetails.length);
+        console.log("test");
+        // this.state.history.push('/partner');
       }
     }
   }

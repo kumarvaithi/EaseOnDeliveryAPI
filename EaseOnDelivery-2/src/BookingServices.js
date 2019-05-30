@@ -125,11 +125,28 @@ class BookingServices extends React.Component {
       url : url,
       data : request,
 
-    }).then(function(response){
+    }).then(response =>{
       console.log(response);
-    }).catch(function(error){
+    }).catch(error =>{
       console.log(error);
     });
+  }
+
+  callGetServices = async (url) => {
+    console.log("url is ", url)
+    url = "http://localhost:8081/bookings/" + url
+    const response = await axios.get(url);
+    console.log(response);
+    return response;
+    // await axios({
+    //   method: 'get',
+    //   url : url,
+    // }).then(response =>{
+    //   console.log(response);
+    //   return response;
+    // }).catch(error =>{
+    //   console.log(error);
+    // });
   }
 
   render() {
@@ -189,7 +206,8 @@ class BookingServices extends React.Component {
         <main className="mainDIV">
             <Route exact path='/' render= {props=><BookDelivery callServices = {this.callServices} handleChange={this.props.handleChange} state={this.state}/>}/>
             <Route path='/book' render= {props=><BookDelivery callServices = {this.callServices} handleChange={this.props.handleChange} state={this.state}/>}/>
-            <Route path='/history' authed={this.state.authed} callServices = {this.callServices} handleChange={this.props.handleChange} component={BookingHistory}/>
+            {/* <Route path='/history' authed={this.state.authed} callGetServices = {this.callGetServices} callServices = {this.callServices} handleChange={this.props.handleChange} component={BookingHistory}/> */}
+            <Route path='/history' render = {props=><BookingHistory callGetServices = {this.callGetServices} callServices = {this.callServices} handleChange={this.props.handleChange} state={this.state}/>}/>
             <Route path='/viewAccount' authed={this.state.authed} callServices = {this.callServices} component={ViewAccount}/>
         </main>
       </div>

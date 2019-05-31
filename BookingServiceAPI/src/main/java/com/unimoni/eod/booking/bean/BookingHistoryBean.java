@@ -96,7 +96,6 @@ public class BookingHistoryBean {
 		this.vehicleRegNo = vehicleRegNo;
 		return this;
 	}
-<<<<<<< HEAD
 	
 	public LocalDate getBookingDate() {
 		return bookingDate;
@@ -104,9 +103,6 @@ public class BookingHistoryBean {
 	public void setBookingDate(LocalDate bookingDate) {
 		this.bookingDate = bookingDate;
 	}
-=======
-
->>>>>>> 0cc36365da205faab5b4f5acd65b0b516234dd60
 	@Override
 	public String toString() {
 		return "BookingHistoryBean [deliveryProductType=" + deliveryProductType + ", tentativeWeight=" + tentativeWeight

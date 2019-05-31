@@ -44,22 +44,23 @@ class BookDelivery extends React.Component {
     drop : "",
     when : "",
     productComponentVisible : false,
-    productType :"",
+    itemType :"",
+    vehicleType : "",
     productTypeOthersVisible : false,
-    otherProducts: "",
+    otherItems: "",
     tentativeWeight: "",
     deliveryDate: "",
     deliveryTime: "",
-    deliveryPerson: "",
-    deliveryPersonNO: "",
+    storePersonName: "",
+    storePersonContactNo: "",
     paymentMode:"",
-    showSlider: false,
+    showSlider: true,
     isPaymentModeSelected: false
   };
 
   async componentDidMount(){
     const formattedDate = moment().format('YYYY-MM-DD');
-    const formattedTime = moment().format('hh:mm');
+    const formattedTime = moment().format('HH:mm');
     this.setState(()=>{
       return{
         deliveryDate : formattedDate,

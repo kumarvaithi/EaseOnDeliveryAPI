@@ -1,5 +1,6 @@
 package com.unimoni.eod.booking.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -22,6 +23,9 @@ import com.unimoni.eod.booking.bean.BookingHistoryBean;
 import com.unimoni.eod.booking.bean.BookingHistoryResponseBean;
 import com.unimoni.eod.booking.bean.BookingRequestBean;
 import com.unimoni.eod.booking.bean.BookingResponseBean;
+import com.unimoni.eod.booking.bean.BookingResponseListBean;
+import com.unimoni.eod.booking.bean.BookingTxnStatusRequestBean;
+import com.unimoni.eod.booking.bean.SearchBookingRequestBean;
 import com.unimoni.eod.booking.exception.ResourceNotFoundException;
 import com.unimoni.eod.booking.model.DeliveryCharges;
 import com.unimoni.eod.booking.service.BookingService;
@@ -84,6 +88,28 @@ public class BookingController {
 		return history;
 	}
 	
+	@GetMapping(value="/bookingDetails/{bookingID}")
+	private BookingResponseBean bookingHistory(@PathVariable(name="bookingID", required=true) String bookingID) {
+			System.out.println("inside booking details");
+			BookingResponseBean responseBean = bookingService.retrieveBookingsDetails(Integer.parseInt(bookingID));
+		return responseBean;
+	}
+	
+	@PostMapping(value="/search")
+	private BookingResponseListBean searchBooking(@RequestBody SearchBookingRequestBean serachBooking) {
+			System.out.println("inside booking details");
+			BookingResponseListBean finalResponse = new BookingResponseListBean();
+			List<BookingResponseBean> response = new ArrayList<BookingResponseBean>();
+			BookingResponseBean responseBean = new BookingResponseBean();
+			for(int i=0;i<serachBooking.getBookingID().size();i++) {
+				System.out.println("Booking id is " + serachBooking.getBookingID().get(i));
+				responseBean = new BookingResponseBean();
+				responseBean = bookingService.retrieveBookingsDetails(serachBooking.getBookingID().get(i));
+				response.add(responseBean);
+			}
+			finalResponse.setBookingResponsBean(response);
+		return finalResponse;
+	}
 	
 	/*@GetMapping("/publish/{name}")
     public String post(@PathVariable("name") final String name) {
@@ -98,6 +124,11 @@ public class BookingController {
 		String str1 = bookingService.publishBookingDetail(bookingID);
 		System.out.println("sfsdf" +str1 );
 		return "Published booking details successfully";
+	}
+	
+	@PostMapping(value="/txnStatus")
+	public void txnStatusHistory(@RequestBody BookingTxnStatusRequestBean request) {
+		
 	}
 	
 	@RequestMapping("/home") 

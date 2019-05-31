@@ -63,12 +63,13 @@ class LinearDeterminate extends React.Component {
                   <ListItemText className={" listItemReceipt "} primary="When" secondary={values.when} />
                   <ListItemText className={" listItemReceipt "} primary="Product Type" secondary={values.itemType} />
                   {this.props.productTypeOthersVisible &&
-                      <ListItemText className={" listItemReceipt "} primary="Other Product" secondary={values.otherProducts} />
+                      <ListItemText className={" listItemReceipt "} primary="Other Product" secondary={values.otherItems} />
                   }
                   <ListItemText className={" listItemReceipt "} primary="Tentative Weight" secondary={values.tentativeWeight} />
                   <ListItemText className={" listItemReceipt "} primary="Delivery Date" secondary={values.deliveryDate + " " + values.deliveryTime} />
-                  <ListItemText className={" listItemReceipt "} primary="Delivey Person" secondary={values.deliveryPerson} />
-                  <ListItemText className={" listItemReceipt "} primary="Delivery Person No" secondary={values.deliveryPersonNO} />
+                  <ListItemText className={" listItemReceipt "} primary="Vehicle Type" secondary={values.vehicleType} />
+                  <ListItemText className={" listItemReceipt "} primary="Store Person Name" secondary={values.storePersonName} />
+                  <ListItemText className={" listItemReceipt "} primary="Store Person No" secondary={values.storePersonContactNo} />
                   <ListItemText className={" listItemReceipt "} primary="Payment Mode" secondary={values.paymentMode} />
                 </List>
             </Card>    

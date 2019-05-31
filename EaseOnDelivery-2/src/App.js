@@ -59,13 +59,15 @@ class App extends Component {
 
 //|| this.props.location.pathname === '/partner'
   async componentDidMount(){
-       if(this.props.location.pathname !== '/' ){
+      var pathName = this.props.location.pathname;
+
+       if(pathName.indexOf("/partner") >=0){
        this.setState(()=>{
          return{
           isPartner : !this.state.isPartner,
          }
        })
-     }else if(this.props.location.pathname === '/admin' ){
+     }else if(pathName.indexOf("/admin") >=0){
        this.setState(()=>{
          return{
           isAdmin : !this.state.isAdmin

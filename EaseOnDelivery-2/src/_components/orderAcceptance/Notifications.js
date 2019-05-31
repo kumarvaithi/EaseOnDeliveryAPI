@@ -57,6 +57,16 @@ class Notifications extends React.Component {
     isAccept : false,
   };
 
+  // componentDidMount() {
+  //   this.timer = setInterval(this.services, 5000);
+  // }
+
+  services = () => {
+    console.log("inside services");
+    let url = "searchRide/"+1;
+    this.props.callGetServices(url);
+  }
+
   handleClickOpen = () => {
     this.setState({
       open: true,
@@ -74,10 +84,10 @@ class Notifications extends React.Component {
   render() {
     return (
       <div>
-        <Button variant="outlined" color="secondary" onClick={this.handleClickOpen}>
+        {/* <Button variant="outlined" color="secondary" onClick={this.handleClickOpen}>
           Open dialog
-        </Button>
-        <Dialog
+        </Button> */}
+        {/* <Dialog
           onClose={this.handleClose}
           aria-labelledby="customized-dialog-title"
           open={this.state.open}
@@ -94,16 +104,7 @@ class Notifications extends React.Component {
             <Typography gutterBottom>
               Expected Delivery Time is 08:00 AM
             </Typography>
-            {/* <Typography gutterBottom>
-              Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis
-              lacus vel augue laoreet rutrum faucibus dolor auctor.
-            </Typography>
-            <Typography gutterBottom>
-              Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel
-              scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus
-              auctor fringilla.
-            </Typography> */}
-          </DialogContent>
+            </DialogContent>
           <DialogActions>
             <Button onClick={this.handleAccept} color="primary">
               Accept
@@ -112,7 +113,7 @@ class Notifications extends React.Component {
               Cancel
             </Button>
           </DialogActions>
-        </Dialog>
+        </Dialog> */}
         {this.state.isAccept &&
             <AcceptOrder />
         }

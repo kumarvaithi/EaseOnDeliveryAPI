@@ -75,20 +75,18 @@ class BookingConfirmation extends React.Component {
       pickupLocation: this.props.values.pickup,
       dropLocation : this.props.values.drop,
       deliverWhen : this.props.values.when,
-      // itemType : this.props.values.itemType,
-      // itemTentativeWeight : this.props.values.tentativeWeight,
-      // deliveryDate : this.props.values.deliveryDate,
-      // deliveryTime : this.props.values.deliveryTime,
-      // storePersonName : this.props.values.deliveryPerson,
-      // storePersonContactNo : this.props.values.deliveryPersonNO,
-      // billAmount : 0.00,
-      // vat : 0.00,
-      // commsion : 0.00,
-      // totalBillAmount : 0.00,
-      // bookingDate : 0.00,
-      // paymentMode : "Cash",
-      // customerID : 1,
-      // providerID : 1,
+      itemType : this.props.values.itemType,
+      itemTentativeWeight : this.props.values.tentativeWeight,
+      deliveryDate : this.props.values.deliveryDate + ' ' + this.props.values.deliveryTime,
+      storePersonName : this.props.values.storePersonName,
+      storePersonContactNo : this.props.values.storePersonContactNo,
+      billAmount : "0.00",
+      vat : "0.00",
+      commsion : "0.00",
+      totalBillAmount : "0.00",
+      paymentMode : "Cash",
+      customerID : 1,
+      providerID : 0,
     }
     this.props.callServices(request,url);
   }
@@ -130,12 +128,13 @@ class BookingConfirmation extends React.Component {
               <ListItemText className={" listItemReceipt "} primary="When" secondary={values.when} />
               <ListItemText className={" listItemReceipt "} primary="Item Type" secondary={values.itemType} />
               {this.props.productTypeOthersVisible &&
-                  <ListItemText className={" listItemReceipt "} primary="Other Product" secondary={values.otherProducts} />
+                  <ListItemText className={" listItemReceipt "} primary="Other Product" secondary={values.otherItems} />
               }
               <ListItemText className={" listItemReceipt "} primary="Tentative Weight" secondary={values.tentativeWeight} />
               <ListItemText className={" listItemReceipt "} primary="Delivery Date" secondary={values.deliveryDate + " " + values.deliveryTime} />
-              <ListItemText className={" listItemReceipt "} primary="Delivey Person" secondary={values.deliveryPerson} />
-              <ListItemText className={" listItemReceipt "} primary="Delivery Person No" secondary={values.deliveryPersonNO} />
+              <ListItemText className={" listItemReceipt "} primary="Vehicle Type" secondary={values.vehicleType} />
+              <ListItemText className={" listItemReceipt "} primary="Store Person Name" secondary={values.storePersonName} />
+              <ListItemText className={" listItemReceipt "} primary="Store Person No" secondary={values.storePersonContactNo} />
               <ListItemText className={" listItemReceipt "} primary="Payment Mode" secondary={values.paymentMode} />
             </List>
             

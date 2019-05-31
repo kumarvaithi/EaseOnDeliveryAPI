@@ -9,19 +9,22 @@ public class CommonResponseBean {
 	public String getResponseCode() {
 		return responseCode;
 	}
-	public void setResponseCode(String responseCode) {
+	public CommonResponseBean setResponseCode(String responseCode) {
 		this.responseCode = responseCode;
+		return this;
 	}
 	public String getResponseMessage() {
 		return responseMessage;
 	}
-	public void setResponseMessage(String responseMessage) {
+	public CommonResponseBean setResponseMessage(String responseMessage) {
 		this.responseMessage = responseMessage;
+		return this;
 	}
 	public String getReponseErrorType() {
 		return reponseErrorType;
 	}
-	public void setReponseErrorType(String reponseErrorType) {
+	public CommonResponseBean setReponseErrorType(String reponseErrorType) {
 		this.reponseErrorType = reponseErrorType;
+		return this;
 	}
 }

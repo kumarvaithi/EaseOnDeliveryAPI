@@ -147,7 +147,7 @@ public class BookingServicesImpl implements BookingService {
 	
 	
 	@Override
-	public List<BookingHistoryBean> bookingHistory(Long customerID) {
+	public List<BookingHistoryBean> bookingHistory(int customerID) {
 		System.out.println("I am inside bookingHistoryRepositary implementation" + customerID);
 		List<BookingHistoryBean> response = new ArrayList();
 		try {
@@ -163,7 +163,7 @@ public class BookingServicesImpl implements BookingService {
 				temp.setDeliveryPersonName(history.get(i).getStorePersonName());
 				temp.setDeliveryProductType(history.get(i).getItemType());
 				temp.setTentativeWeight(history.get(i).getItemTentativeWeight());
-				
+				temp.setBookingDate(history.get(i).getBookingDate());
 				response.add(temp);
 			}
 			System.out.println("++++++ Final Response ++++++" + response.toString());

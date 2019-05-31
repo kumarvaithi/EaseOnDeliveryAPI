@@ -4,13 +4,13 @@ import java.util.List;
 
 public class BookingDetailsListBean {
 	
-	private List<BookingDetailsBean> bookingDetailsList;
+	private List<BookingDetailsBean> bookingDetails;
 
-	public List<BookingDetailsBean> getBookingDetailsList() {
-		return bookingDetailsList;
+	public List<BookingDetailsBean> getBookingDetails() {
+		return bookingDetails;
 	}
 
-	public void setBookingDetailsList(List<BookingDetailsBean> bookingDetailsList) {
-		this.bookingDetailsList = bookingDetailsList;
+	public void setBookingDetails(List<BookingDetailsBean> bookingDetails) {
+		this.bookingDetails = bookingDetails;
 	}
 }

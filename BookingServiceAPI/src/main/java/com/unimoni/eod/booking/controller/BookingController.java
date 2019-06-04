@@ -80,9 +80,9 @@ public class BookingController {
 	
 
 	@GetMapping(value="/history/{customerID}")
-	private BookingHistoryResponseBean bookingHistory(@PathVariable(name="customerID", required=true) Long customerID) {
+	private BookingHistoryResponseBean bookingHistory(@PathVariable(name="customerID", required=true) int customerID) {
 			BookingHistoryResponseBean history = new BookingHistoryResponseBean();
-			
+			System.out.println("Customer id is " + customerID);
 			List<BookingHistoryBean> historyList = bookingService.bookingHistory(customerID);
 			history.setHistoryList(historyList);
 		return history;
@@ -97,7 +97,6 @@ public class BookingController {
 	
 	@PostMapping(value="/search")
 	private BookingResponseListBean searchBooking(@RequestBody SearchBookingRequestBean serachBooking) {
-			System.out.println("inside booking details");
 			BookingResponseListBean finalResponse = new BookingResponseListBean();
 			List<BookingResponseBean> response = new ArrayList<BookingResponseBean>();
 			BookingResponseBean responseBean = new BookingResponseBean();
@@ -107,7 +106,7 @@ public class BookingController {
 				responseBean = bookingService.retrieveBookingsDetails(serachBooking.getBookingID().get(i));
 				response.add(responseBean);
 			}
-			finalResponse.setBookingResponsBean(response);
+			finalResponse.setBookingDetails(response);
 		return finalResponse;
 	}
 	

@@ -8,14 +8,13 @@ import com.unimoni.eod.booking.model.BookingTxnStatus;
 
 public class BookingResponseListBean {
 	
-	private List<BookingResponseBean> bookingResponsBean;
+	private List<BookingResponseBean> bookingDetails;
 
-	public List<BookingResponseBean> getBookingResponsBean() {
-		return bookingResponsBean;
+	public List<BookingResponseBean> getBookingDetails() {
+		return bookingDetails;
 	}
 
-	public void setBookingResponsBean(List<BookingResponseBean> bookingResponsBean) {
-		this.bookingResponsBean = bookingResponsBean;
+	public void setBookingDetails(List<BookingResponseBean> bookingDetails) {
+		this.bookingDetails = bookingDetails;
 	}
-	
 }

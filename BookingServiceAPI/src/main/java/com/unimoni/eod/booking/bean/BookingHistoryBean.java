@@ -1,5 +1,6 @@
 package com.unimoni.eod.booking.bean;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class BookingHistoryBean {
@@ -13,6 +14,7 @@ public class BookingHistoryBean {
 	private String vehicleType;
 	private String vehicleName;
 	private String vehicleRegNo;
+	private LocalDate bookingDate;
 
 	public String getDeliveryProductType() {
 		return deliveryProductType;
@@ -94,7 +96,13 @@ public class BookingHistoryBean {
 		this.vehicleRegNo = vehicleRegNo;
 		return this;
 	}
-
+	
+	public LocalDate getBookingDate() {
+		return bookingDate;
+	}
+	public void setBookingDate(LocalDate bookingDate) {
+		this.bookingDate = bookingDate;
+	}
 	@Override
 	public String toString() {
 		return "BookingHistoryBean [deliveryProductType=" + deliveryProductType + ", tentativeWeight=" + tentativeWeight

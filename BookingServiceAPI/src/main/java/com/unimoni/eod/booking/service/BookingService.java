@@ -20,7 +20,7 @@ public interface BookingService {
 
 	public BookingResponseBean retrieveBookingsDetails(int bookingID);
 	
-	public List<BookingHistoryBean> bookingHistory(Long customerID);
+	public List<BookingHistoryBean> bookingHistory(int customerID);
 	
 	public String publishBookingDetail(Long bookingID);
 	

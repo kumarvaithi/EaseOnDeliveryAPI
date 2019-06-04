@@ -10,5 +10,5 @@ import com.unimoni.eod.booking.model.BookingTxn;
 
 public interface BookingHistoryRepositary extends CrudRepository<BookingTxn, Long> {
 
-	List<BookingTxn> findByCustomerID(Long customerID);
+	List<BookingTxn> findByCustomerID(int customerID);
 }

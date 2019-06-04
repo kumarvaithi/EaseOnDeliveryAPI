@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.unimoni.eod.provider.bean.BookingDetailsListBean;
 import com.unimoni.eod.provider.bean.CheckInRequestBean;
 import com.unimoni.eod.provider.bean.CheckInResponseBean;
 import com.unimoni.eod.provider.impl.CheckInImpl;
@@ -41,10 +42,11 @@ public class ProviderContoller {
 		return "Electronic Items waiting for delivery, kindly confirm";
 	}
 	
-	@GetMapping(value="/searchRide/{providerID}")
-	private void searchRide(@PathVariable(name ="providerID",required = true) int providerID) {
-		System.out.println("provider id is " + providerID);
-		searchRide.searchRide(providerID);
+	@GetMapping(value="/searchRide/{providerID}/{status}")
+	private BookingDetailsListBean searchRide(@PathVariable int providerID,@PathVariable String status) {
+		System.out.println("provider id is " + providerID + " status is " + status);
+		BookingDetailsListBean response = searchRide.searchRide(providerID,status);
+		return response;
 	}
 	
 	@PostMapping(value="/checkin")

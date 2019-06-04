@@ -26,18 +26,22 @@ public class SearchRideImpl implements SearchRideServices {
 	@Autowired
 	RestTemplate restTemplate;
 	@Override
-	public void searchRide(int providerID) {
-		String status = "I";
+	public BookingDetailsListBean searchRide(int providerID,String status) {
 		List<ProviderBookingMapping> providerBookingMap = providerBookingMapRepo.findByProviderIDAndStatus(providerID, status);
 		List bookingIDList = new ArrayList();
+		
 		for(int i=0;i<providerBookingMap.size();i++) {
-			bookingIDList.add(providerBookingMap.get(0).getBookingID());
+			bookingIDList.add(providerBookingMap.get(i).getBookingID());
+			if(status.equals("N")) {
+				providerBookingMap.get(i).setStatus("I");
+				providerBookingMapRepo.save(providerBookingMap.get(i));
+			}
 		}
+		
 		SearchBookingBean searchBooking = new SearchBookingBean();
 		searchBooking.setBookingID(bookingIDList);
-		
 		BookingDetailsListBean response = restTemplate.postForObject("http://localhost:8081/bookings/search", searchBooking, BookingDetailsListBean.class);
-		System.out.println("Response size is " + response.getBookingDetailsList().size());
+		return response;
 	}
 	
 	@Bean

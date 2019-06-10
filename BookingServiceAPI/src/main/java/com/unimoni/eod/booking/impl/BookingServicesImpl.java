@@ -122,7 +122,8 @@ public class BookingServicesImpl implements BookingService {
 					.setTotalBillAmount(Double.parseDouble(request.getTotalBillAmount()))
 					.setVat(Double.parseDouble(request.getVat()))
 					.setVehicleID(0)
-					.setProviderID(0));
+					.setProviderID(0)
+					.setBookingStatus("I"));
 			
 			bookingTxnStatusRepository.save(new BookingTxnStatus()
 					.setStatus("I")

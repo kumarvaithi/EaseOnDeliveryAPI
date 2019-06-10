@@ -69,7 +69,6 @@ public class BookingController {
 	@PostMapping(value="/confirm")
 	private BookingResponseBean bookDelivery(@Valid @RequestBody BookingRequestBean request) {
 		try {
-			//BookingServicesImpl impl = new BookingServicesImpl();
 			System.out.println("inside book delivery");
 			bookingService.confirmBooking(request);
 		}catch (Exception e) {

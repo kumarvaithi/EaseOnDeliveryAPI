@@ -87,6 +87,9 @@ public class BookingTxn {
 	@Column(name = "createdAt")
 	private LocalDate createdAt;
 	
+	@Column(name = "bookingStatus")
+	private String bookingStatus;
+	
 	public BookingTxn( ) {
 		
 	}
@@ -278,6 +281,15 @@ public class BookingTxn {
 
 	public BookingTxn setCreatedAt(LocalDate createdAt) {
 		this.createdAt = createdAt;
+		return this;
+	}
+
+	public String getBookingStatus() {
+		return bookingStatus;
+	}
+
+	public BookingTxn setBookingStatus(String bookingStatus) {
+		this.bookingStatus = bookingStatus;
 		return this;
 	}
 

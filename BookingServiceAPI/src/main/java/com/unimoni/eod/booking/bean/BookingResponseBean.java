@@ -22,12 +22,13 @@ public class BookingResponseBean {
 	private double commsion;
 	private double totalBillAmount;
 	private String bookingDate;
-	private String paymentMode;
 	private String vehicleModel;
 	private String vehicleNo;
 	private String providerContactNo;
 	private String providerName;
 	private String estimatedPickupTime;
+	private String vehicleType;
+	private String paymentMode;
 	private List<BookingTxnStatus> bookingTxnStatus;
 	private BookingCustomerDetails bookingCustomerDetails;
 	private CommonResponseBean resultData;
@@ -172,7 +173,15 @@ public class BookingResponseBean {
 		this.estimatedPickupTime = estimatedPickupTime;
 		return this;
 	}
-
+	
+	public String getVehicleType() {
+		return vehicleType;
+	}
+	public BookingResponseBean setVehicleType(String vehicleType) {
+		this.vehicleType = vehicleType;
+		return this;
+	}
+	
 	public CommonResponseBean getResultData() {
 		return resultData;
 	}

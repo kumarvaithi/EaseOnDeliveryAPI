@@ -123,7 +123,9 @@ public class BookingServicesImpl implements BookingService {
 					.setVat(Double.parseDouble(request.getVat()))
 					.setVehicleID(0)
 					.setProviderID(0)
-					.setBookingStatus("I"));
+					.setBookingStatus("I")
+					.setVehicleType(request.getVehicleType())
+					.setPaymentMode(request.getPaymentMode()));
 			
 			bookingTxnStatusRepository.save(new BookingTxnStatus()
 					.setStatus("I")
@@ -206,6 +208,7 @@ public class BookingServicesImpl implements BookingService {
 		responseBean.setStorePersonContactNo(bookingTxn.getStorePersonContactNo());
 		responseBean.setStorePersonName(bookingTxn.getStorePersonName());
 		responseBean.setTotalBillAmount(bookingTxn.getTotalBillAmount());
+		responseBean.setVehicleType(bookingTxn.getVehicleType());
 		
 		BookingTxnStatus txnStatus = null;
 		List<BookingTxnStatus> txnStatusList = new ArrayList();

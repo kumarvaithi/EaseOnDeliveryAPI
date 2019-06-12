@@ -22,8 +22,9 @@ public class ProviderUtils {
 	@Transactional
 	public void mapBookingProvider(String strBookingID) {
 		String status = "N";
+		String providerStatus = "A";
 		int bookingID = Integer.parseInt(strBookingID);
-		List<ProviderCheckIn> providerCheckIn =  providerCheckInRepository.findByStatus(status);
+		List<ProviderCheckIn> providerCheckIn =  providerCheckInRepository.findByStatus(providerStatus);
 		System.out.println("check in size is " + providerCheckIn.size());
 		for(int i=0;i<providerCheckIn.size();i++) {
 			providerBookingRepository.save(new ProviderBookingMapping()

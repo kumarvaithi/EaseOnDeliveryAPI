@@ -49,6 +49,13 @@ public class ProviderContoller {
 		return response;
 	}
 	
+	@GetMapping(value="/view/{bookingID}")
+	private BookingDetailsListBean viewBooking(@PathVariable int bookingID) {
+		BookingDetailsListBean response = searchRide.viewBooking(bookingID);
+		return response;
+	}
+	
+	
 	@PostMapping(value="/checkin")
 	private CheckInResponseBean checkin(@Valid @RequestBody CheckInRequestBean request) {
 		checkin.checkIn(request);

@@ -43,7 +43,16 @@ public class SearchRideImpl implements SearchRideServices {
 		BookingDetailsListBean response = restTemplate.postForObject("http://localhost:8081/bookings/search", searchBooking, BookingDetailsListBean.class);
 		return response;
 	}
-	
+
+	@Override
+	public BookingDetailsListBean viewBooking(int bookingID) {
+		List bookingIDList = new ArrayList();
+		bookingIDList.add(bookingID);
+		SearchBookingBean searchBooking = new SearchBookingBean();
+		searchBooking.setBookingID(bookingIDList);
+		BookingDetailsListBean response = restTemplate.postForObject("http://localhost:8081/bookings/search", searchBooking, BookingDetailsListBean.class);
+		return response;
+	}
 	@Bean
 	public RestTemplate restTemplate() {
 		return new RestTemplate();

@@ -5,5 +5,7 @@ import com.unimoni.eod.provider.bean.CheckInRequestBean;
 import com.unimoni.eod.provider.bean.CheckInResponseBean;
 
 public interface SearchRideServices {
-	public BookingDetailsListBean searchRide(int providerID, String status); 
+	public BookingDetailsListBean searchRide(int providerID, String status);
+
+	public BookingDetailsListBean viewBooking(int bookingID); 
 }

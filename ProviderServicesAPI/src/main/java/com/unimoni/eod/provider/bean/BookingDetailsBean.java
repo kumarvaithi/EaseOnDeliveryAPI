@@ -21,6 +21,7 @@ public class BookingDetailsBean {
 	private String paymentMode;
 	private String vehicleModel;
 	private String vehicleNo;
+	private String vehicleType;
 	private String providerContactNo;
 	private String providerName;
 	private String estimatedPickupTime;
@@ -178,5 +179,11 @@ public class BookingDetailsBean {
 	}
 	public void setBookingCustomerDetails(BookingCustomerDetailsBean bookingCustomerDetails) {
 		this.bookingCustomerDetails = bookingCustomerDetails;
+	}
+	public String getVehicleType() {
+		return vehicleType;
+	}
+	public void setVehicleType(String vehicleType) {
+		this.vehicleType = vehicleType;
 	}
 }

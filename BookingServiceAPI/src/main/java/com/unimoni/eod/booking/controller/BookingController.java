@@ -88,7 +88,7 @@ public class BookingController {
 	}
 	
 	@GetMapping(value="/bookingDetails/{bookingID}")
-	private BookingResponseBean bookingHistory(@PathVariable(name="bookingID", required=true) String bookingID) {
+	private BookingResponseBean bookingDetails(@PathVariable(name="bookingID", required=true) String bookingID) {
 			System.out.println("inside booking details");
 			BookingResponseBean responseBean = bookingService.retrieveBookingsDetails(Integer.parseInt(bookingID));
 		return responseBean;

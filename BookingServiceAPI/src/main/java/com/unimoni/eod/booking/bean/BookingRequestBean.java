@@ -18,7 +18,8 @@ public class BookingRequestBean {
 	private String paymentMode;
 	private int customerID;
 	private int providerID;
-
+	private String vehicleType;
+	
 	public String getPickupLocation() {
 		return pickupLocation;
 	}
@@ -129,6 +130,13 @@ public class BookingRequestBean {
 	}
 	public BookingRequestBean setProviderID(int providerID) {
 		this.providerID = providerID;
+		return this;
+	}
+	public String getVehicleType() {
+		return vehicleType;
+	}
+	public BookingRequestBean setVehicleType(String vehicleType) {
+		this.vehicleType = vehicleType;
 		return this;
 	}
 }

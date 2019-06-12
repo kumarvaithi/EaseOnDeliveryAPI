@@ -90,6 +90,12 @@ public class BookingTxn {
 	@Column(name = "bookingStatus")
 	private String bookingStatus;
 	
+	@Column(name = "vehicleType")
+	private String vehicleType;
+	
+	@Column(name = "paymentMode")
+	private String paymentMode;
+	
 	public BookingTxn( ) {
 		
 	}
@@ -290,6 +296,25 @@ public class BookingTxn {
 
 	public BookingTxn setBookingStatus(String bookingStatus) {
 		this.bookingStatus = bookingStatus;
+		return this;
+	}
+
+	
+	public String getVehicleType() {
+		return vehicleType;
+	}
+
+	public BookingTxn setVehicleType(String vehicleType) {
+		this.vehicleType = vehicleType;
+		return this;
+	}
+
+	public String getPaymentMode() {
+		return paymentMode;
+	}
+
+	public BookingTxn setPaymentMode(String paymentMode) {
+		this.paymentMode = paymentMode;
 		return this;
 	}
 

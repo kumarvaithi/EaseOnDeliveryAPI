@@ -3,17 +3,11 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
-import { InputLabel } from '@material-ui/core';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
-import ButtonBase from '@material-ui/core/ButtonBase';
 import Button from '@material-ui/core/Button';
-import Icon from '@material-ui/core/Icon';
-import SaveIcon from '@material-ui/icons/Save';
-import AppBar from '@material-ui/core/AppBar';
+import List from '@material-ui/core/List';
+import ListItemText from '@material-ui/core/ListItemText';
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
 
 const styles = theme => ({
     container: {
@@ -105,90 +99,74 @@ const newOrderInfo = [
 
 class OrderAccept extends Component {
     state = {  }
+    acceptOrder = (type) => {
+      console.log("Type is " , type);
+      var request = {};
+      var url = ""
+      if(type == 'ACCEPT'){
+        request = {
+          bookingID : this.props.state.bookingDetails[0].bookingID,
+          providerID : 2,
+          bookingTxnStatus : "A",
+        }
+      }else if(type == 'REJECT'){
+        request = {
+          bookingID : this.props.state.bookingDetails[0].bookingID,
+          providerID : 2,
+          bookingTxnStatus : "R",
+        }
+      }
+      this.props.callPostServices(request,url).then(response =>{
+        console.log(response)
+        if(type == 'ACCEPT'){
+          // this.setState({
+          //   storePINConfirmed : true,
+          //   currentOrderStatus : "Order Picked up, Moving towards Destination"
+          // })
+        }else if(type == 'REJECT'){
+          // this.setState({
+          //   customerPINConfirmed : true,
+          //   currentOrderStatus : "Order Delivered Successfully.!" 
+          // })
+        }
+      }).catch(error => {
+        console.log(error)
+      })
+    }
+
     render() { 
-        const { classes } = this.props;
-
-        return(  
-            <Grid container className={classes.root} spacing={16}>
-            <div class="notificationPaper">
-                <Paper className={classes.paper}>
-                <Typography component="h4" variant="h6" gutterBottom>
-                    Service Request for House Shifting
-                </Typography>        
-                    <ul style={{"list-style": "none"}}>
-                    <li>
-                    <TextField
-                        disabled
-                        className={classes.margin}
-                        id="label-pick-location"
-                        label="Pick Location"
-                        defaultValue= {newOrderInfo[0].pickUpLocation}
-                        //className={classes.textField}
-                        margin="normal">
-                    </TextField>
-                    </li>
-                    <li>
-                    <TextField
-                        disabled
-                        className={classes.margin}
-                        id="label-drop-location"
-                        label="Drop Location"
-                        // InputProps={{
-                        // startAdornment: (
-                        //     <InputAdornment position="start">
-                        //     <AccountCircle />
-                        //     </InputAdornment>
-                        // ),
-                        // }}
-                        defaultValue= {newOrderInfo[0].dropLocation}
-                        margin="normal">
-                    </TextField>
-                    </li>
-                    <li>
-                    <TextField
-                        disabled
-                        className={classes.margin}
-                        id="label-delivery-date"
-                        label="Date of Delivery"
-                        defaultValue= {newOrderInfo[0].dateOfDeivery} 
-                        margin="normal">
-                    </TextField>
-                    </li>
-                    <li>
-                    <TextField
-                        disabled
-                        className={classes.margin}
-                        id="label-delivery-time"
-                        label="Time of Delivery"
-                        defaultValue= {newOrderInfo[0].timeOfDeivery}
-                        margin="normal">
-                    </TextField>
-                    </li>
-                    <li>
-                    <TextField
-                        disabled
-                        className={classes.margin}
-                        id="label-drop-location"
-                        label="Profit Amount "
-                        defaultValue= {newOrderInfo[0].profitToDeliMan}
-                        margin="normal">
-                    </TextField>
-                    </li>
-                    </ul>
-                    
-                    <div class="notificationButton">
-                    <Button variant="contained" color="primary" className={classes.button}>
-                        <Icon className={classNames(classes.leftIcon, classes.iconSmall)}/>Accept
-                    </Button>
-                    <Button variant="contained" color="primary" className={classes.button}>
-                        <Icon className={classNames(classes.rightIcon, classes.iconSmall)}/>Reject
-                    </Button>
-                    </div>
-
-                </Paper>
-            </div>
-            </Grid>
-    
+        const { classes,state } = this.props;
+        return(
+          <div>
+            {state.bookingDetails.map((value,index) =>(
+              <Card key={value.bookingID} className={classes.card + " largeCard "}>
+                <List>
+                  <br/>
+                  <ListItemText className={" listItemReceipt "} primary="Pick Up" secondary={value.pickupLocation} />
+                  <ListItemText className={" listItemReceipt "} primary="Drop" secondary={value.dropLocation} />
+                  <ListItemText className={" listItemReceipt "} primary="Delivery Date" secondary={value.deliveryDate} />
+                  <ListItemText className={" listItemReceipt "} primary="Item Type" secondary={value.itemType} />
+                  <ListItemText className={" listItemReceipt "} primary="Tentative Weight" secondary={value.itemTentativeWeight} />
+                  <ListItemText className={" listItemReceipt "} primary="Vehicle Type" secondary={value.vehicleType} />
+                  <ListItemText className={" listItemReceipt "} primary="Store Person Name" secondary={value.storePersonName} />
+                  <ListItemText className={" listItemReceipt "} primary="Store Person No" secondary={value.storePersonContactNo} />
+                  <ListItemText className={" listItemReceipt "} primary="Payment Mode" secondary={value.paymentMode} />
+                </List>
+                  <CardActions className={" confirmButtonAction "}>
+                  <Button size="small" color="primary" className="button-lg" 
+                    onClick = {this.acceptOrder('ACCEPT')}>
+                      ACCEPT BOOKING
+                  </Button>
+                  <Button size="small" color="primary" className="button-lg" 
+                    onClick = {this.acceptOrder('REJECT')}>
+                      REJECT BOOKING
+                  </Button>
+                </CardActions>
+              </Card>
+            ))}
+            
+          </div>  
+            
         );
     }
 }

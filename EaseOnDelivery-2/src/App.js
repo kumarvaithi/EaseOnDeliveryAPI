@@ -18,6 +18,8 @@ import rootReducer from './rootReducer'
 import logger from 'redux-logger'
 import thunk from 'redux-thunk'
 
+import GooglePlaceDemo from './GooglePlaceDemo'
+
 const middleware = [logger,thunk]
 
 const styles = {
@@ -87,6 +89,7 @@ class App extends Component {
           {!this.state.isPartner && !this.state.isAdmin && <BookinServices handleChange={this.handleChange} state={this.state}/>}
           {this.state.isPartner && !this.state.isAdmin && <PartnerServices handleChange={this.handleChange} state={this.state}/>}
           {!this.state.isPartner && this.state.isAdmin && <AdminServices state={this.state}/>}
+          {/* <GooglePlaceDemo /> */}
       </div>
     );
   }

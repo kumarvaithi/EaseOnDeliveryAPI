@@ -80,6 +80,7 @@ class BookingConfirmation extends React.Component {
       deliveryDate : this.props.values.deliveryDate + ' ' + this.props.values.deliveryTime,
       storePersonName : this.props.values.storePersonName,
       storePersonContactNo : this.props.values.storePersonContactNo,
+      vehicleType : this.props.values.vehicleType,
       billAmount : "0.00",
       vat : "0.00",
       commsion : "0.00",

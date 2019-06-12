@@ -181,6 +181,7 @@ class BookDelivery extends React.Component {
       return ( 
           <BookingSuccess
           values = {this.state}
+          callGetServices = {this.props.callGetServices}
           handleChange = {this.handleChange}/>
       );
     }        

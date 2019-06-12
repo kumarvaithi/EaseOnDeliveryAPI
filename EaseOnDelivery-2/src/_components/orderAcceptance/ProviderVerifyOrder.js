@@ -37,16 +37,12 @@ const styles = theme => ({
 
 const providerStatusDD = [
   {
-    value: 'A',
-    label: 'Available',
-  },
-  {
     value: 'S',
-    label: 'Currently Servicing',
+    label: 'Store PIN',
   },
   {
-    value: 'NA',
-    label: 'Not Available',
+    value: 'C',
+    label: 'Customer PIN',
   }
 ];
 
@@ -69,13 +65,7 @@ class ProviderCheckIn extends React.Component {
       currentLocation : this.state.providerCurrentLocation,
       providerStatus : this.state.providerStatus
     }
-
-    this.props.callPostServices(request,url).then(response =>{
-      console.log("inside provider checkin response ", response)
-    }).catch(error =>{
-      console.log(error)
-    })
-
+    this.props.callPostServices(request,url);
   }
   render() {
     const { classes} = this.props;
@@ -86,27 +76,17 @@ class ProviderCheckIn extends React.Component {
           <Card className={classes.card + " card "}>
           <CardContent >
               <Typography gutterBottom variant="h5" component="h2" className={"typography"}>
-                  Provider Check in
+                  Verify Stages of Delivery
               </Typography>
               {/* <Typography component="p" className="typography1">
                   Assign delivery to us sit back and relax.
               </Typography> */}
           </CardContent>
               <TextField
-              className={classNames(classes.margin, classes.textField) + " fields "}
-              label="Current Location"
-              placeholder = "Enter The Current Location"
-              // InputProps={{
-              //     startAdornment: <InputAdornment position="start">PICKUP</InputAdornment>,
-              // }}
-              onChange = {this.handleChange('providerCurrentLocation')}
-              />
-              <br/>
-              <TextField
                 select
                 className={classNames(classes.margin, classes.textField) + " fields "}
                 value={this.state.providerStatus}
-                label="Choose Available Status"
+                label="Choose Pin"
                 // InputProps={{
                 //     startAdornment: <InputAdornment position="start">PRODUCT TYPE</InputAdornment>,
                 // }}
@@ -119,6 +99,13 @@ class ProviderCheckIn extends React.Component {
                     </MenuItem>
                 ))}
               </TextField>
+              <br/>
+              <TextField
+              className={classNames(classes.margin, classes.textField) + " fields "}
+              label="Booking ID"
+              placeholder = "Enter the Booking ID"
+              onChange = {this.handleChange('verifyBookingID')}
+              />
               <CardActions>
                 <Button size="small" color="primary" className="button-lg" 
                   onClick = {this.services}>

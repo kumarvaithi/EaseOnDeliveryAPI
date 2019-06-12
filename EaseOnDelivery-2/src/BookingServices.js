@@ -204,8 +204,8 @@ class BookingServices extends React.Component {
           <List>{customerMenu}</List>
         </Drawer>
         <main className="mainDIV">
-            <Route exact path='/' render= {props=><BookDelivery callServices = {this.callServices} handleChange={this.props.handleChange} state={this.state}/>}/>
-            <Route path='/book' render= {props=><BookDelivery callServices = {this.callServices} handleChange={this.props.handleChange} state={this.state}/>}/>
+            <Route exact path='/' render= {props=><BookDelivery callGetServices = {this.callGetServices} callServices = {this.callServices} handleChange={this.props.handleChange} state={this.state}/>}/>
+            <Route path='/book' render= {props=><BookDelivery callGetServices = {this.callGetServices} callServices = {this.callServices} handleChange={this.props.handleChange} state={this.state}/>}/>
             {/* <Route path='/history' authed={this.state.authed} callGetServices = {this.callGetServices} callServices = {this.callServices} handleChange={this.props.handleChange} component={BookingHistory}/> */}
             <Route path='/history' render = {props=><BookingHistory callGetServices = {this.callGetServices} callServices = {this.callServices} handleChange={this.props.handleChange} state={this.state}/>}/>
             <Route path='/viewAccount' authed={this.state.authed} callServices = {this.callServices} component={ViewAccount}/>

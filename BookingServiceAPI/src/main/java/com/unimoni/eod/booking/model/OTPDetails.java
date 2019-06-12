@@ -1,57 +1,52 @@
 	package com.unimoni.eod.booking.model;
 
-import javax.persistence.Column;
+import java.time.LocalDate;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@Entity
+@Table(name= "OTPDetails")
+@JsonIgnoreProperties("generatedOn")
 public class OTPDetails {
 	
+	@Id
+	private int ID;
+	
 	@Column(name = "bookingID")
-	private String bookingID;
+	private int bookingID;
 	
-	@Column(name = "customerOTP")
-	private int customerOTP;
+	@Column(name = "OTP")
+	private int OTP;
 	
-	@Column(name = "providerOTP")
-	private int providerOTP;
-	
-	@Column(name = "storeOTP")
-	private int storeOTP;
-	
-	@Column(name = "status")
+	@Column(name = "status") // I - Initial S - Sent V - Verified
 	private String status;
 
-	public String getBookingID() {
+	@Column(name = "userType") // C - Customer P - Provider
+	private String userType;
+	
+	@Column(name = "generatedOn")
+	private LocalDate generatedOn;
+
+	public int getID() {
+		return ID;
+	}
+
+	public OTPDetails setID(int iD) {
+		ID = iD;
+		return this;
+	}
+
+	public int getBookingID() {
 		return bookingID;
 	}
 
-	public OTPDetails setBookingID(String bookingID) {
+	public OTPDetails setBookingID(int bookingID) {
 		this.bookingID = bookingID;
-		return this;
-	}
-
-	public int getCustomerOTP() {
-		return customerOTP;
-	}
-
-	public OTPDetails setCustomerOTP(int customerOTP) {
-		this.customerOTP = customerOTP;
-		return this;
-	}
-
-	public int getProviderOTP() {
-		return providerOTP;
-	}
-
-	public OTPDetails setProviderOTP(int providerOTP) {
-		this.providerOTP = providerOTP;
-		return this;
-	}
-
-	public int getStoreOTP() {
-		return storeOTP;
-	}
-
-	public OTPDetails setStoreOTP(int storeOTP) {
-		this.storeOTP = storeOTP;
 		return this;
 	}
 
@@ -63,7 +58,31 @@ public class OTPDetails {
 		this.status = status;
 		return this;
 	}
-	
-	
 
+	public int getOTP() {
+		return OTP;
+	}
+
+	public OTPDetails setOTP(int oTP) {
+		OTP = oTP;
+		return this;
+	}
+
+	public String getUserType() {
+		return userType;
+	}
+
+	public OTPDetails setUserType(String userType) {
+		this.userType = userType;
+		return this;
+	}
+
+	public LocalDate getGeneratedOn() {
+		return generatedOn;
+	}
+
+	public OTPDetails setGeneratedOn(LocalDate generatedOn) {
+		this.generatedOn = generatedOn;
+		return this;
+	}
 }

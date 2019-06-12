@@ -22,9 +22,10 @@ import BookDelivery from './_components/bookingDelivery/bookDelivery'
 import ViewAccount from './_components/profile/viewAccount'
 import BookingHistory from './_components/bookingHistory/bookingHistory'
 import Reports from './_components/reports/partnerReport'
-import AcceptOrder from './_components/orderAcceptance/orderAccept'
+import AcceptOrder from './_components/orderAcceptance/OrderAccept'
 import Notifications from './_components/orderAcceptance/Notifications'
 import ProviderCheckIn from './_components/checkin/ProviderCheckIn'
+import ProviderVerifyOrder from './_components/orderAcceptance/ProviderVerifyOrder'
 import axios from 'axios';
 
 import Dialog from '@material-ui/core/Dialog';
@@ -165,10 +166,13 @@ class BookingServices extends React.Component {
     openDialog : true,
     responseData : {},
     bookingDetails : [],
-    enableNotification : false
+    enableNotification : false,
+    requestFromPopUp : false,
+    viewBookingID : 0
   };
 
   async componentDidMount() {
+    console.log("partner services");
     this.getBookingDetails();
     this.timer = setInterval(this.getBookingDetails, 5000);
   }
@@ -183,47 +187,49 @@ class BookingServices extends React.Component {
 
   callPostServices = async (request,url) => {
     url = "http://localhost:8083/provider/" + url
-    await axios({
+    return await axios({
       method: 'post',
       url : url,
       data : request,
-
-    }).then(response => {
-      console.log(response);
-    }).catch(error =>{
-      console.log(error);
-    });
+    })
   }
 
   callGetServices = async (url) => {
+    console.log("url is ", url)
     url = "http://localhost:8083/provider/" + url
-    await axios({
-      method: 'get',
-      url : url,
-   }).then(response => {
-    // console.log(response.data);
-    let data = response.data;
-    this.setState({responseData : data})
-    }).catch(error => {
-      console.log(error);
-    });
+    const response = await axios.get(url);
+    console.log(response);
+    return response;
   }
+  // callGetServices = async (url) => {
+  //   url = "http://localhost:8083/provider/" + url
+  //   await axios({
+  //     method: 'get',
+  //     url : url,
+  //  }).then(response => {
+  //   // console.log(response.data);
+  //   let data = response.data;
+  //   this.setState({responseData : data})
+  //   }).catch(error => {
+  //     console.log(error);
+  //   });
+  // }
 
   getBookingDetails = () => {
-    let url = "searchRide/1/N";
-    this.callGetServices(url);
-    console.log(this.state.responseData);
-    if(this.state.responseData.bookingDetails !== undefined){
-      if(this.state.responseData.bookingDetails.length > 0){
+    let url = "searchRide/2/N";
+    this.callGetServices(url).then(value =>{
+      if(value.data.bookingDetails.length > 0){
         this.setState({
-          bookingDetails : this.state.responseData.bookingDetails,
-          enableNotification : !this.state.enableNotification
+          bookingDetails : value.data.bookingDetails,
+          enableNotification : !this.state.enableNotification,
+          viewBookingID : value.data.bookingDetails.bookingID
         });
         console.log(this.state.bookingDetails.length);
         console.log("test");
-        // this.state.history.push('/partner');
       }
-    }
+    }).catch(error => {
+      console.log(error);
+    })
   }
 
   handleClose = () => {
@@ -231,7 +237,12 @@ class BookingServices extends React.Component {
   };
 
   handleAccept = () =>{
+    console.log("inside handle accept")
+    this.setState({
+      requestFromPopUp : true
+    })
     this.handleClose()
+    
   };
 
   render() {
@@ -289,10 +300,11 @@ class BookingServices extends React.Component {
           <List>{partnerMenu}</List>
         </Drawer>
         <main className="mainDIV">
-            <Route exact path='/partner' render= {props=><Notifications callGetServices={this.callGetServices} handleChange={this.props.handleChange} state={this.state}/>}/>
+            <Route exact path='/partner' render= {props=><Notifications callGetServices={this.callGetServices} callPostServices={this.callPostServices} handleChange={this.props.handleChange} state={this.state}/>}/>
             {/* <Route exact path='/partner/acceptOrder' render= {props=><AcceptOrder handleChange={this.props.handleChange} state={this.state}/>}/> */}
             <Route exact path='/partner/checkin' render= {props=><ProviderCheckIn callPostServices={this.callPostServices} handleChange={this.props.handleChange} state={this.state}/>}/> 
-
+            <Route exact path='/partner/viewOrder' render= {props=><AcceptOrder callGetServices={this.callGetServices} handleChange={this.props.handleChange} state={this.state}/>}/>
+            {/* <Route exact path='/partner/verify' render= {props=><ProviderVerifyOrder callPostServices={this.callPostServices} handleChange={this.props.handleChange} state={this.state}/>}/>  */}
             {/* <Route exact path='/admin/reports' render= {props=><Reports handleChange={this.props.handleChange} state={this.state}/>}/> */}
         </main>
         {this.state.enableNotification && 
@@ -319,7 +331,7 @@ class BookingServices extends React.Component {
                   </Typography>
                   </DialogContent>
                 <DialogActions className = { "dialogLinks" }>
-                  <Link to="/partner/checkin">
+                  <Link to="/partner/viewOrder" state={this.state}>
                     <Button onClick={this.handleAccept} color="primary">
                       View
                     </Button>

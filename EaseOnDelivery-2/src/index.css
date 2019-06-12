@@ -36,6 +36,15 @@ code {
   padding: 2% 2% 2% 4%;
   max-width: 96% !important;
 }
+
+.smallCard{
+  margin: 2% 2% 2% 2%;
+  width: 100% !important;
+  background-color: #f5f5f5 !important;
+  padding: 2% 2% 2% 4%;
+  max-width: 36% !important;
+  float: left;
+}
 .card input{
   padding: 19px 0px 7px;
 }
@@ -88,6 +97,8 @@ code {
 
 .notificationButton{
   text-align: center;
+  width : 33%;
+  height : 54px !important;
 }
 .mainDIV{
   width: 100% !important;
@@ -148,4 +159,21 @@ code {
 .dialogLinks a{
   text-decoration: none;
   display: inline-block;
+}
+
+.notificationListOdd{
+  background-color: #fafafa;
+  border-radius: 10px 10px 10px 10px;
+  border: 1px solid #000000;
+  width: 99% !important;
+  margin-top: 3px;
+  cursor: pointer;
+}
+.notificationListEven{
+  background-color: #f5f5f5;
+  border-radius: 10px 10px 10px 10px;
+  border: 1px solid #000000;
+  width: 99% !important;
+  margin-top: 3px;
+  cursor: pointer;
 }

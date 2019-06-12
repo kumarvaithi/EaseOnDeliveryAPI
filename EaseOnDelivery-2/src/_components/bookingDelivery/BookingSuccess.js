@@ -21,7 +21,7 @@ class LinearDeterminate extends React.Component {
     showSuccessPage: false
   };
   componentDidMount() {
-    this.timer = setInterval(this.progress, 500);
+    this.timer = setInterval(this.progress, 2500);
   }
 
   componentWillUnmount() {
@@ -36,6 +36,13 @@ class LinearDeterminate extends React.Component {
           showSuccessPage: true
         });
     } else {
+      // let url = "bookingDetails/1";
+      // this.props.callGetServices(url).then(value =>{
+      //   console.log("value is " + value.data)
+      //   this.setState({
+      //     completed : 1
+      //   })
+      // });
       const diff = Math.random() * 10;
       this.setState({ completed: Math.min(completed + diff, 100) });
     }
@@ -55,7 +62,6 @@ class LinearDeterminate extends React.Component {
         
         {this.state.showSuccessPage &&
             <Card className={classes.card + " largeCard "}>
-            
                 <List>
                   <br/>
                   <ListItemText className={" listItemReceipt "} primary="Pick Up" secondary={values.pickup} />

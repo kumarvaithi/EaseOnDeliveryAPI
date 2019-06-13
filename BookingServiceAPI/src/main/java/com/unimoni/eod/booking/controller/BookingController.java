@@ -19,14 +19,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.unimoni.eod.booking.bean.BookingConfirmRequestBean;
 import com.unimoni.eod.booking.bean.BookingHistoryBean;
 import com.unimoni.eod.booking.bean.BookingHistoryResponseBean;
 import com.unimoni.eod.booking.bean.BookingRequestBean;
 import com.unimoni.eod.booking.bean.BookingResponseBean;
 import com.unimoni.eod.booking.bean.BookingResponseListBean;
 import com.unimoni.eod.booking.bean.BookingTxnStatusRequestBean;
+import com.unimoni.eod.booking.bean.CommonResponseBean;
 import com.unimoni.eod.booking.bean.SearchBookingRequestBean;
 import com.unimoni.eod.booking.exception.ResourceNotFoundException;
+import com.unimoni.eod.booking.impl.BookingServicesImpl;
 import com.unimoni.eod.booking.model.DeliveryCharges;
 import com.unimoni.eod.booking.service.BookingService;
 import com.unimoni.eod.booking.service.BookingServiceException;
@@ -129,9 +132,22 @@ public class BookingController {
 		
 	}
 	
-	@RequestMapping("/home") 
-	public String welcome() {
-		return "Hi Restful application";
+	@PostMapping(value="/orderConfirmation")
+	public void orderConfirmation(@RequestBody BookingConfirmRequestBean request) {
+		bookingService.orderConfirmation(request);
+		//restTemplate
+		System.out.println("Inside the OrderConfirmation");
 	}
+
+	@GetMapping(value="/verify/{bookingID}/{userType}/{pin}")
+	private CommonResponseBean verifyPIN(@PathVariable String userType,@PathVariable int bookingID, @PathVariable int pin) {
+		System.out.println("User Type - " + userType + "otp - " + pin);
+		CommonResponseBean response = bookingService.verifyPIN(userType, bookingID, pin);
+		return response;
+	}
+//	@RequestMapping("/home") 
+//	public String welcome() {
+//		return "Hi Restful application";
+//	}
 	
 }

@@ -13,9 +13,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.unimoni.eod.provider.bean.BookingConfirmResponseBean;
 import com.unimoni.eod.provider.bean.BookingDetailsListBean;
 import com.unimoni.eod.provider.bean.CheckInRequestBean;
 import com.unimoni.eod.provider.bean.CheckInResponseBean;
+import com.unimoni.eod.provider.bean.CommonResponseBean;
+import com.unimoni.eod.provider.bean.ServiceProviderBean;
+import com.unimoni.eod.provider.impl.BookingImpl;
 import com.unimoni.eod.provider.impl.CheckInImpl;
 import com.unimoni.eod.provider.impl.SearchRideImpl;
 
@@ -29,14 +33,20 @@ public class ProviderContoller {
 	CheckInImpl checkin;
 	
 	@Autowired
+	@Qualifier("booking")
+	BookingImpl bookingImpl;
+
+	@Autowired
 	@Qualifier("searchRide")
 	SearchRideImpl searchRide;
 	
 	@PostMapping(value="/accept")
-	private String accept() {
+	private String accept(@RequestBody ServiceProviderBean serviceProviderBean) {
+		BookingConfirmResponseBean response = bookingImpl.bookingConfirm(serviceProviderBean);
+
 		return "Electronic Items waiting for delivery, kindly confirm";
 	}
-	
+
 	@PostMapping(value="/reject")
 	private String reject() {
 		return "Electronic Items waiting for delivery, kindly confirm";
@@ -60,5 +70,12 @@ public class ProviderContoller {
 	private CheckInResponseBean checkin(@Valid @RequestBody CheckInRequestBean request) {
 		checkin.checkIn(request);
 		return null;
+	}
+	
+	@GetMapping(value="/verify/{bookingID}/{userType}/{pin}")
+	private CommonResponseBean verifyOTP(@PathVariable String userType,@PathVariable int bookingID,@PathVariable int pin) {
+		System.out.println("User Type - " + userType + "otp - " + pin);
+		CommonResponseBean commonResponse = searchRide.verifyPIN(userType, bookingID, pin);
+		return commonResponse;
 	}
 }

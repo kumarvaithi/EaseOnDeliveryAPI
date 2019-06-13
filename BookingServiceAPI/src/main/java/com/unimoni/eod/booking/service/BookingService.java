@@ -5,9 +5,12 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.unimoni.eod.booking.bean.BookingConfirmRequestBean;
+import com.unimoni.eod.booking.bean.BookingConfirmResponseBean;
 import com.unimoni.eod.booking.bean.BookingHistoryBean;
 import com.unimoni.eod.booking.bean.BookingRequestBean;
 import com.unimoni.eod.booking.bean.BookingResponseBean;
+import com.unimoni.eod.booking.bean.CommonResponseBean;
 import com.unimoni.eod.booking.model.BookingTxn;
 import com.unimoni.eod.booking.model.DeliveryCharges;
 
@@ -24,4 +27,7 @@ public interface BookingService {
 	
 	public String publishBookingDetail(Long bookingID);
 	
+	public BookingConfirmResponseBean orderConfirmation(BookingConfirmRequestBean orderRequest);
+	
+	public CommonResponseBean verifyPIN(String userType,int bookingID, int pin);
 }

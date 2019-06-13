@@ -12,6 +12,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.unimoni.eod.provider.bean.BookingDetailsBean;
 import com.unimoni.eod.provider.bean.BookingDetailsListBean;
+import com.unimoni.eod.provider.bean.CommonResponseBean;
 import com.unimoni.eod.provider.bean.SearchBookingBean;
 import com.unimoni.eod.provider.model.ProviderBookingMapping;
 import com.unimoni.eod.provider.repo.ProviderBookingMapRepository;
@@ -53,8 +54,12 @@ public class SearchRideImpl implements SearchRideServices {
 		BookingDetailsListBean response = restTemplate.postForObject("http://localhost:8081/bookings/search", searchBooking, BookingDetailsListBean.class);
 		return response;
 	}
-	@Bean
-	public RestTemplate restTemplate() {
-		return new RestTemplate();
+	
+	@Override
+	public CommonResponseBean verifyPIN(String userType, int bookingID, int pin) {
+		// TODO Auto-generated method stub
+		CommonResponseBean commonResponse = restTemplate.exchange("http://localhost:8081/bookings/verify/"+bookingID + "/" + userType + "/" + pin, HttpMethod.GET, null, new ParameterizedTypeReference<CommonResponseBean>() {
+		}, CommonResponseBean.class).getBody();
+		return commonResponse;
 	}
 }

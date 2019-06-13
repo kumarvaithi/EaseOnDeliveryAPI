@@ -9,7 +9,8 @@ import com.unimoni.eod.booking.model.BookingTxn;
 import com.unimoni.eod.booking.model.OTPDetails;
 
 
-public interface OTPDetailsRepositary extends CrudRepository<OTPDetails, Long> {
-	List<OTPDetails> findByOTPAndStatus(int otp,String status);
-	List<OTPDetails> findByBookingIDAndOTPAndUserType(int bookingID,int otp,String userType);
+public interface OTPDetailsRepositary extends CrudRepository<OTPDetails, Integer> {
+	Optional<OTPDetails> findByOtpAndStatus(int otp,String status);
+	OTPDetails findByBookingIDAndOtpAndUserType(int bookingID,int otp,String userType);
+	void save(Optional<OTPDetails> otpDetails);
 }

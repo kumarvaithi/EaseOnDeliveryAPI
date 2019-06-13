@@ -22,21 +22,28 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.client.RestTemplate;
 
+import com.unimoni.eod.booking.bean.BookingConfirmRequestBean;
+import com.unimoni.eod.booking.bean.BookingConfirmResponseBean;
 import com.unimoni.eod.booking.bean.BookingHistoryBean;
 import com.unimoni.eod.booking.bean.BookingRequestBean;
 import com.unimoni.eod.booking.bean.BookingResponseBean;
 import com.unimoni.eod.booking.bean.CommonResponseBean;
+import com.unimoni.eod.booking.bean.SMSBean;
+import com.unimoni.eod.booking.bean.SMSRequestBean;
 import com.unimoni.eod.booking.model.BookingCustomerDetails;
 import com.unimoni.eod.booking.model.BookingTxn;
 import com.unimoni.eod.booking.model.BookingTxnStatus;
 import com.unimoni.eod.booking.model.Customer;
 import com.unimoni.eod.booking.model.DeliveryCharges;
+import com.unimoni.eod.booking.model.OTPDetails;
 import com.unimoni.eod.booking.repo.BookingCustomerDetailsRepositary;
 import com.unimoni.eod.booking.repo.BookingHistoryRepositary;
 import com.unimoni.eod.booking.repo.BookingTxnRepository;
 import com.unimoni.eod.booking.repo.BookingTxnStatusRepository;
 import com.unimoni.eod.booking.repo.CustomerRepositary;
 import com.unimoni.eod.booking.repo.DeliveryChargesRepository;
+import com.unimoni.eod.booking.repo.OTPDetailsRepositary;
+import com.unimoni.eod.booking.service.AsyncSMSService;
 import com.unimoni.eod.booking.service.BookingService;
 import com.unimoni.eod.booking.utils.CommonMethodUtils;
 import com.unimoni.eod.booking.utils.DistanceCalculator;
@@ -49,33 +56,39 @@ public class BookingServicesImpl implements BookingService {
 
 	@Autowired
 	CustomerRepositary customerRepositary;
-	
+
 	@Autowired
 	BookingTxnRepository bookingTxnRepository;
-	
+
 	@Autowired
 	BookingTxnStatusRepository bookingTxnStatusRepository;
 
 	@Autowired
 	BookingCustomerDetailsRepositary bookingCustomerDetailsRepositary; 
-	
+
 	@Autowired
 	BookingHistoryRepositary bookingHistoryRepository;
-	
-	
+
+
 	@Autowired
 	DeliveryChargesRepository deliveryChrgRepository;
+
+	@Autowired
+	OTPDetailsRepositary oTPDetailsRepositary;
 	
 	@Autowired
-    private KafkaTemplate<String, BookingResponseBean> kafkaTemplate;
-	
+	private KafkaTemplate<String, BookingResponseBean> kafkaTemplate;
+
 	private static final String TOPIC = "Kafka_Example_json";
-	
+
 	@Autowired
 	DistanceCalculator distanceCalculator;
-	
+
 	@Autowired
 	RestTemplate restTemplate;
+
+	@Autowired
+	AsyncSMSService asyncSMSService;
 	
 	@PostConstruct
 	public void init() {
@@ -92,63 +105,63 @@ public class BookingServicesImpl implements BookingService {
 		deliveryChrg.setToDistance(35);
 		Optional<DeliveryCharges> dtChrg = deliveryChrgRepository.findByToDistance((int)Math.round(totalDistance));
 		//deliveryChrgRepository.save(entity)
-		
+
 		return deliveryChrg;
-		
+
 	}
-	
+
 	@Override
 	@Transactional
 	public BookingResponseBean confirmBooking(BookingRequestBean request) {
-		
-			List<BookingTxnStatus> bookingStatus = new ArrayList();
-//			Customer customer = null;
-			Customer customer = customerRepositary.findByCustomerID(request.getCustomerID());
-			
-			BookingTxn bookingTxn = bookingTxnRepository.save(new BookingTxn()
-					.setBillAmount(Double.parseDouble(request.getBillAmount()))
-					.setBookingDate(LocalDate.now())
-					.setCommission(Double.parseDouble(request.getCommsion()))
-					.setCreatedAt(LocalDate.now())
-					.setCustomerID(request.getCustomerID())
-					.setDeliverWhen(request.getDeliverWhen())
-					.setDeliveryDate(CommonMethodUtils.convertStringtoDate(request.getDeliveryDate()))
-					.setDropLocation(request.getDropLocation())
-					.setItemTentativeWeight(Double.parseDouble(request.getItemTentativeWeight()))
-					.setItemType(request.getItemType())
-					.setPickUpLocation(request.getPickupLocation())
-					.setStorePersonContactNo(request.getStorePersonContactNo())
-					.setStorePersonName(request.getStorePersonName())
-					.setTotalBillAmount(Double.parseDouble(request.getTotalBillAmount()))
-					.setVat(Double.parseDouble(request.getVat()))
-					.setVehicleID(0)
-					.setProviderID(0)
-					.setBookingStatus("I")
-					.setVehicleType(request.getVehicleType())
-					.setPaymentMode(request.getPaymentMode()));
-			
-			bookingTxnStatusRepository.save(new BookingTxnStatus()
-					.setStatus("I")
-					.setBookingTxn(bookingTxn)
-					.setModifiedBy(customer.getEmailID())
-					.setModifiedAt(LocalDate.now()));
-			
-			bookingCustomerDetailsRepositary.save(new BookingCustomerDetails()
-					.setAddress(customer.getAddress())
-					.setAlternativeMobileNo(customer.getAlternativeMobileNo())
-					.setBookingTxn(bookingTxn)
-					.setCustomerID(customer.getCustomerID())
-					.setEmailID(customer.getEmailID())
-					.setMobileNo(customer.getMobileNo())
-					.setName(customer.getName()));
 
-			restTemplate.exchange("http://localhost:8082/kafka/publish/" + bookingTxn.getBookingID(), HttpMethod.GET, null, new ParameterizedTypeReference<String>() {
-			}, bookingTxn.getBookingID()).getBody();
-			
+		List<BookingTxnStatus> bookingStatus = new ArrayList();
+		//			Customer customer = null;
+		Customer customer = customerRepositary.findByCustomerID(request.getCustomerID());
+
+		BookingTxn bookingTxn = bookingTxnRepository.save(new BookingTxn()
+				.setBillAmount(Double.parseDouble(request.getBillAmount()))
+				.setBookingDate(LocalDate.now())
+				.setCommission(Double.parseDouble(request.getCommsion()))
+				.setCreatedAt(LocalDate.now())
+				.setCustomerID(request.getCustomerID())
+				.setDeliverWhen(request.getDeliverWhen())
+				.setDeliveryDate(CommonMethodUtils.convertStringtoDate(request.getDeliveryDate()))
+				.setDropLocation(request.getDropLocation())
+				.setItemTentativeWeight(Double.parseDouble(request.getItemTentativeWeight()))
+				.setItemType(request.getItemType())
+				.setPickUpLocation(request.getPickupLocation())
+				.setStorePersonContactNo(request.getStorePersonContactNo())
+				.setStorePersonName(request.getStorePersonName())
+				.setTotalBillAmount(Double.parseDouble(request.getTotalBillAmount()))
+				.setVat(Double.parseDouble(request.getVat()))
+				.setVehicleID(0)
+				.setProviderID(0)
+				.setBookingStatus("I")
+				.setVehicleType(request.getVehicleType())
+				.setPaymentMode(request.getPaymentMode()));
+
+		bookingTxnStatusRepository.save(new BookingTxnStatus()
+				.setStatus("I")
+				.setBookingTxn(bookingTxn)
+				.setModifiedBy(customer.getEmailID())
+				.setModifiedAt(LocalDate.now()));
+
+		bookingCustomerDetailsRepositary.save(new BookingCustomerDetails()
+				.setAddress(customer.getAddress())
+				.setAlternativeMobileNo(customer.getAlternativeMobileNo())
+				.setBookingTxn(bookingTxn)
+				.setCustomerID(customer.getCustomerID())
+				.setEmailID(customer.getEmailID())
+				.setMobileNo(customer.getMobileNo())
+				.setName(customer.getName()));
+
+		restTemplate.exchange("http://localhost:8082/kafka/publish/" + bookingTxn.getBookingID(), HttpMethod.GET, null, new ParameterizedTypeReference<String>() {
+		}, bookingTxn.getBookingID()).getBody();
+
 		return null;
 	}
-	
-	
+
+
 	@Override
 	public List<BookingHistoryBean> bookingHistory(int customerID) {
 		System.out.println("I am inside bookingHistoryRepositary implementation" + customerID);
@@ -157,10 +170,10 @@ public class BookingServicesImpl implements BookingService {
 			List<BookingTxn> history = bookingHistoryRepository.findByCustomerID(customerID);
 
 			System.out.println("++++++HISTORY DATA++++++" + history.toString());
-			
+
 			for(int i=0;i<history.size();i++) {
 				BookingHistoryBean temp = new BookingHistoryBean();
-				
+
 				temp.setDeliveryDate(history.get(i).getDeliveryDate());
 				temp.setDeliveryPersonContactNo(history.get(i).getStorePersonContactNo());
 				temp.setDeliveryPersonName(history.get(i).getStorePersonName());
@@ -173,10 +186,10 @@ public class BookingServicesImpl implements BookingService {
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return response;
 	}
-	
+
 	@Override
 	public String publishBookingDetail(Long bookingID) {
 		//Optional<BookingTxn> bookingDet = bookingTxnRepository.findByBookingID(bookingID);
@@ -192,8 +205,8 @@ public class BookingServicesImpl implements BookingService {
 		BookingTxn bookingTxn = bookingTxnRepository.findByBookingID(bookingID);
 		System.out.println("Status is " + bookingTxn.getBookingTxnStatus().get(0).getStatus());
 		System.out.println(bookingTxn.toString());
-		
-		
+
+
 		BookingResponseBean responseBean = new BookingResponseBean();
 		responseBean.setBillAmount(bookingTxn.getBillAmount());
 		responseBean.setBookingDate(bookingTxn.getBookingDate().toString());
@@ -209,7 +222,7 @@ public class BookingServicesImpl implements BookingService {
 		responseBean.setStorePersonName(bookingTxn.getStorePersonName());
 		responseBean.setTotalBillAmount(bookingTxn.getTotalBillAmount());
 		responseBean.setVehicleType(bookingTxn.getVehicleType());
-		
+
 		BookingTxnStatus txnStatus = null;
 		List<BookingTxnStatus> txnStatusList = new ArrayList();
 		for(int i=0;i<bookingTxn.getBookingTxnStatus().size();i++) {
@@ -220,7 +233,7 @@ public class BookingServicesImpl implements BookingService {
 			txnStatusList.add(txnStatus);
 		}
 		responseBean.setBookingTxnStatus(txnStatusList);
-		
+
 		BookingCustomerDetails customerDetails = new BookingCustomerDetails();
 
 		customerDetails.setAddress(bookingTxn.getBookingCustomerDetails().getAddress());
@@ -229,18 +242,98 @@ public class BookingServicesImpl implements BookingService {
 		customerDetails.setEmailID(bookingTxn.getBookingCustomerDetails().getEmailID());
 		customerDetails.setMobileNo(bookingTxn.getBookingCustomerDetails().getMobileNo());
 		customerDetails.setName(bookingTxn.getBookingCustomerDetails().getName());
-		
+
 		responseBean.setBookingCustomerDetails(customerDetails);		
 		responseBean.setResultData(new CommonResponseBean()
 				.setReponseErrorType("BACKEND")
 				.setResponseCode("00")
 				.setResponseMessage("SUCCESS"));
-		
+
 		return responseBean;
 	}
-	
+
+	@Override
+	public BookingConfirmResponseBean orderConfirmation(BookingConfirmRequestBean orderRequest) {
+		BookingConfirmResponseBean response = new BookingConfirmResponseBean();
+		try {
+			if(orderRequest.getBookingID() != 0) {
+
+				BookingTxnStatus bookingStatus = new BookingTxnStatus();
+				BookingTxn bookingTxn = bookingTxnRepository.findByBookingID(orderRequest.getBookingID());
+
+				System.out.println("Booking Status is " + orderRequest.getBookingStatus());
+				List<BookingTxnStatus> bookingStatusList = new ArrayList<>();
+				bookingStatus.setStatus(orderRequest.getBookingStatus());
+				bookingStatus.setModifiedAt(LocalDate.now());
+				bookingStatus.setModifiedBy("SYSTEM");
+				bookingStatus.setBookingTxn(bookingTxn);
+				bookingStatusList.add(bookingStatus);
+
+
+				bookingTxn.setProviderID(orderRequest.getProviderID());
+				bookingTxn.setVehicleID(orderRequest.getProviderVehicleDetailsID());
+				bookingTxn.setBookingStatus(orderRequest.getBookingStatus());
+				bookingTxn.setBookingTxnStatus(bookingStatusList);
+
+				bookingTxnRepository.save(bookingTxn);
+
+				response.setBookingID(orderRequest.getBookingID());
+				response.setProviderID(orderRequest.getProviderID());
+				response.setProviderVehicleDetailsID(orderRequest.getProviderVehicleDetailsID());
+				response.setBookingStatus(orderRequest.getBookingStatus());
+
+				SMSRequestBean smsRequest = new SMSRequestBean();
+				CommonMethodUtils common = new CommonMethodUtils();
+
+				int customerOTP = common.generateOTP(4, orderRequest.getBookingID(), "C");
+				int storeOTP = common.generateOTP(4, orderRequest.getBookingID(), "S");
+
+				oTPDetailsRepositary.save(new OTPDetails()
+			    		  .setBookingID(orderRequest.getBookingID())
+			    		  .setGeneratedOn(LocalDate.now())
+			    		  .setOtp(storeOTP)
+			    		  .setStatus("I")
+			    		  .setUserType("S"));
+				
+				oTPDetailsRepositary.save(new OTPDetails()
+			    		  .setBookingID(orderRequest.getBookingID())
+			    		  .setGeneratedOn(LocalDate.now())
+			    		  .setOtp(customerOTP)
+			    		  .setStatus("I")
+			    		  .setUserType("C"));
+				
+				SMSBean stroeSMS = new SMSBean();
+				stroeSMS.setSmsMessageContent("Order for " + bookingTxn.getItemType() + " will be picked shortly by EASEONDEVLICERY person, share PIN - " + storeOTP + ". To confirm Pickup");
+				stroeSMS.setToMobileNumber(bookingTxn.getStorePersonContactNo());
+				
+
+				System.out.println("" + bookingTxn.getStorePersonContactNo());
+				System.out.println("" + bookingTxn.getBookingCustomerDetails().getMobileNo());
+				
+				SMSBean customerSMS = new SMSBean();
+				customerSMS .setSmsMessageContent("Order for " + bookingTxn.getItemType() + " will be delivered by EASEONDEVLICERY person, share PIN - " + storeOTP + ". To confirm Delivery");
+				customerSMS .setToMobileNumber(bookingTxn.getBookingCustomerDetails().getMobileNo());
+
+				List<SMSBean> smsList = new ArrayList<>();
+				smsList.add(stroeSMS);
+				smsList.add(customerSMS);
+				smsRequest.setSmsBeanList(smsList);
+
+				asyncSMSService.asyncSMS(smsRequest);
+//				System.out.println("Before Calling SMS Bean");
+//				String msgResponse = restTemplate.postForObject("http://localhost:8088/sms/send/", smsRequest ,String.class);
+//				System.out.println("SMS Response " + msgResponse);
+			}	
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+
+
+		return response;
+	}
+
 	//-------------- Publish the booking information ---------------
-	
+
 	/*@GetMapping("/publish/{booking}")
     public String post(@PathVariable("booking") final String name) {
 
@@ -248,9 +341,30 @@ public class BookingServicesImpl implements BookingService {
 
         return "Published successfully";
     }
-*/
+	 */
 	@Bean
 	public RestTemplate restTemplate() {
 		return new RestTemplate();
+	}
+
+	@Override
+	public CommonResponseBean verifyPIN(String userType,int bookingID, int pin) {
+		// TODO Auto-generated method stub
+		OTPDetails otpDetails = oTPDetailsRepositary.findByBookingIDAndOtpAndUserType(bookingID, pin, userType);
+		
+		CommonResponseBean response = new CommonResponseBean();
+		
+		if(otpDetails != null) {
+			otpDetails.setStatus("V");
+			oTPDetailsRepositary.save(otpDetails);
+			response.setReponseErrorType("BACKEND");
+			response.setResponseCode("00");
+			response.setResponseMessage("SUCCESS");
+		}else {
+			response.setReponseErrorType("BACKEND");
+			response.setResponseCode("01");
+			response.setResponseMessage("PIN Incorrect ");
+		}
+		return response;
 	}
 }

@@ -30,7 +30,7 @@ public class BookingTxn {
 	@Column(name = "bookingID")
 	private int bookingID;
 
-	@OneToMany(mappedBy="bookingTxn", cascade = CascadeType.PERSIST)
+	@OneToMany(mappedBy="bookingTxn", cascade = CascadeType.ALL)
 	private List<BookingTxnStatus> bookingTxnStatus;
 	
 	@OneToOne(mappedBy = "bookingTxn",cascade = CascadeType.ALL)

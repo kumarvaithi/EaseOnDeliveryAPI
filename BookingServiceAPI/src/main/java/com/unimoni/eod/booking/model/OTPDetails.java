@@ -1,9 +1,11 @@
-	package com.unimoni.eod.booking.model;
+package com.unimoni.eod.booking.model;
 
 import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -15,18 +17,19 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class OTPDetails {
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int ID;
 	
 	@Column(name = "bookingID")
 	private int bookingID;
 	
-	@Column(name = "OTP")
-	private int OTP;
+	@Column(name = "otp")
+	private int otp;
 	
 	@Column(name = "status") // I - Initial S - Sent V - Verified
 	private String status;
 
-	@Column(name = "userType") // C - Customer P - Provider
+	@Column(name = "userType") // C - Customer S - Provider
 	private String userType;
 	
 	@Column(name = "generatedOn")
@@ -59,12 +62,13 @@ public class OTPDetails {
 		return this;
 	}
 
-	public int getOTP() {
-		return OTP;
+	
+	public int getOtp() {
+		return otp;
 	}
 
-	public OTPDetails setOTP(int oTP) {
-		OTP = oTP;
+	public OTPDetails setOtp(int otp) {
+		this.otp = otp;
 		return this;
 	}
 

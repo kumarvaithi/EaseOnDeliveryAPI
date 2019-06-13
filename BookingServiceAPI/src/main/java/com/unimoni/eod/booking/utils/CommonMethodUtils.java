@@ -6,17 +6,20 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.unimoni.eod.booking.model.OTPDetails;
 import com.unimoni.eod.booking.repo.OTPDetailsRepositary;  
 
+@Component
 public class CommonMethodUtils {
 
-	@Autowired
-	OTPDetailsRepositary otpRepo;
+		@Autowired
+		OTPDetailsRepositary oTPDetailsRepositary;
 	
 	public static Timestamp convertStringtoDate(String inDate) {
 		Timestamp timestamp = null;
@@ -34,7 +37,7 @@ public class CommonMethodUtils {
 	}
 	
 	@SuppressWarnings("unused")
-	private int generateOTP(int length,int bookingID,String userType) {
+	public int generateOTP(int length,int bookingID,String userType) {
       String numbers = "1234567890";
       Random random = new Random();
       char[] otp = new char[length];
@@ -44,18 +47,11 @@ public class CommonMethodUtils {
       }
       
       int finalOTP = Integer.parseInt(String.valueOf(otp));
-      List<OTPDetails> otpDetails = otpRepo.findByOTPAndStatus(finalOTP,"I");
+//      Optional<OTPDetails> otpDetails = oTPDetailsRepositary.findByOtpAndStatus(finalOTP,"I");
       
-      if(otpDetails.size() > 0){
-    	  generateOTP(4,bookingID,userType);
-      }
-      
-      otpRepo.save(new OTPDetails()
-    		  .setBookingID(bookingID)
-    		  .setGeneratedOn(LocalDate.now())
-    		  .setOTP(finalOTP)
-    		  .setStatus("I")
-    		  .setUserType(userType));
+//      if(otpDetails.isPresent()){
+//    	  generateOTP(4,bookingID,userType);
+//      }
       
       return finalOTP;
 	}

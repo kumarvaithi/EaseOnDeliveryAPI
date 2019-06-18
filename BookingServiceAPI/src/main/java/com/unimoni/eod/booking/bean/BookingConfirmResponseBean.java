@@ -7,6 +7,7 @@ public class BookingConfirmResponseBean {
 	private int providerID;
 	private String bookingStatus;
 	private int providerVehicleDetailsID;
+	private CommonResponseBean commonResponse;
 
 
 	public int getBookingID() {
@@ -41,7 +42,11 @@ public class BookingConfirmResponseBean {
 		this.providerVehicleDetailsID = providerVehicleDetailsID;
 	}
 
-	
-	
+	public CommonResponseBean getCommonResponse() {
+		return commonResponse;
+	}
 
+	public void setCommonResponse(CommonResponseBean commonResponse) {
+		this.commonResponse = commonResponse;
+	}
 }

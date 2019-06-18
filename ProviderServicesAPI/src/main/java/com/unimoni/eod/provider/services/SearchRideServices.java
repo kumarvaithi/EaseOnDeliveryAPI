@@ -10,5 +10,5 @@ public interface SearchRideServices {
 
 	public BookingDetailsListBean viewBooking(int bookingID); 
 	
-	public CommonResponseBean verifyPIN(String userType, int bookingID, int pin);
+	public CommonResponseBean verifyPIN(String userType, int providerID, int bookingID, int pin);
 }

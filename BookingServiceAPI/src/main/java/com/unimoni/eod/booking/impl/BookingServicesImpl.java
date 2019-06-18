@@ -113,7 +113,8 @@ public class BookingServicesImpl implements BookingService {
 	@Override
 	@Transactional
 	public BookingResponseBean confirmBooking(BookingRequestBean request) {
-
+		BookingResponseBean response = new BookingResponseBean();
+		
 		List<BookingTxnStatus> bookingStatus = new ArrayList();
 		//			Customer customer = null;
 		Customer customer = customerRepositary.findByCustomerID(request.getCustomerID());
@@ -155,10 +156,12 @@ public class BookingServicesImpl implements BookingService {
 				.setMobileNo(customer.getMobileNo())
 				.setName(customer.getName()));
 
+		response.setBookingID(bookingTxn.getBookingID());
+		
 		restTemplate.exchange("http://localhost:8082/kafka/publish/" + bookingTxn.getBookingID(), HttpMethod.GET, null, new ParameterizedTypeReference<String>() {
 		}, bookingTxn.getBookingID()).getBody();
 
-		return null;
+		return response;
 	}
 
 
@@ -173,13 +176,15 @@ public class BookingServicesImpl implements BookingService {
 
 			for(int i=0;i<history.size();i++) {
 				BookingHistoryBean temp = new BookingHistoryBean();
-
+				
+				temp.setBookingID(history.get(i).getBookingID());
 				temp.setDeliveryDate(history.get(i).getDeliveryDate());
 				temp.setDeliveryPersonContactNo(history.get(i).getStorePersonContactNo());
 				temp.setDeliveryPersonName(history.get(i).getStorePersonName());
 				temp.setDeliveryProductType(history.get(i).getItemType());
 				temp.setTentativeWeight(history.get(i).getItemTentativeWeight());
 				temp.setBookingDate(history.get(i).getBookingDate());
+				temp.setTotalBillAmount(history.get(i).getTotalBillAmount());
 				response.add(temp);
 			}
 			System.out.println("++++++ Final Response ++++++" + response.toString());
@@ -222,7 +227,8 @@ public class BookingServicesImpl implements BookingService {
 		responseBean.setStorePersonName(bookingTxn.getStorePersonName());
 		responseBean.setTotalBillAmount(bookingTxn.getTotalBillAmount());
 		responseBean.setVehicleType(bookingTxn.getVehicleType());
-
+		responseBean.setBookingStatus(bookingTxn.getBookingStatus());
+		
 		BookingTxnStatus txnStatus = null;
 		List<BookingTxnStatus> txnStatusList = new ArrayList();
 		for(int i=0;i<bookingTxn.getBookingTxnStatus().size();i++) {
@@ -277,11 +283,6 @@ public class BookingServicesImpl implements BookingService {
 
 				bookingTxnRepository.save(bookingTxn);
 
-				response.setBookingID(orderRequest.getBookingID());
-				response.setProviderID(orderRequest.getProviderID());
-				response.setProviderVehicleDetailsID(orderRequest.getProviderVehicleDetailsID());
-				response.setBookingStatus(orderRequest.getBookingStatus());
-
 				SMSRequestBean smsRequest = new SMSRequestBean();
 				CommonMethodUtils common = new CommonMethodUtils();
 
@@ -319,7 +320,17 @@ public class BookingServicesImpl implements BookingService {
 				smsList.add(customerSMS);
 				smsRequest.setSmsBeanList(smsList);
 
-				asyncSMSService.asyncSMS(smsRequest);
+				response.setBookingID(orderRequest.getBookingID());
+				response.setProviderID(orderRequest.getProviderID());
+				response.setProviderVehicleDetailsID(orderRequest.getProviderVehicleDetailsID());
+				response.setBookingStatus(orderRequest.getBookingStatus());
+				response.setCommonResponse(new CommonResponseBean()
+						.setReponseErrorType("BACKEND")
+						.setResponseCode("00")
+						.setResponseMessage("SUCCESS"));
+				
+//				String messageResponse = asyncSMSService.asyncSMS(smsRequest);
+//				System.out.println("messageResponse is " + messageResponse);
 //				System.out.println("Before Calling SMS Bean");
 //				String msgResponse = restTemplate.postForObject("http://localhost:8088/sms/send/", smsRequest ,String.class);
 //				System.out.println("SMS Response " + msgResponse);
@@ -349,14 +360,33 @@ public class BookingServicesImpl implements BookingService {
 
 	@Override
 	public CommonResponseBean verifyPIN(String userType,int bookingID, int pin) {
-		// TODO Auto-generated method stub
 		OTPDetails otpDetails = oTPDetailsRepositary.findByBookingIDAndOtpAndUserType(bookingID, pin, userType);
-		
+		String status = "D";
 		CommonResponseBean response = new CommonResponseBean();
 		
 		if(otpDetails != null) {
 			otpDetails.setStatus("V");
 			oTPDetailsRepositary.save(otpDetails);
+			
+			BookingTxn bookingTxn = bookingTxnRepository.findByBookingID(bookingID);
+			
+			if(userType.equals("S")) {
+				status = "P";
+			}
+			
+			List<BookingTxnStatus> bookingTxnStatusList = new ArrayList<>();
+			
+			BookingTxnStatus bookingTxnStaus = new BookingTxnStatus()
+					.setBookingTxn(bookingTxn)
+					.setStatus(status)
+					.setModifiedAt(LocalDate.now())
+					.setModifiedBy("SYSTEM");
+			
+			bookingTxn.setBookingStatus(status);
+			bookingTxnStatusList.add(bookingTxnStaus);
+			bookingTxn.setBookingTxnStatus(bookingTxnStatusList);
+			bookingTxnRepository.save(bookingTxn);
+			
 			response.setReponseErrorType("BACKEND");
 			response.setResponseCode("00");
 			response.setResponseMessage("SUCCESS");
@@ -365,6 +395,7 @@ public class BookingServicesImpl implements BookingService {
 			response.setResponseCode("01");
 			response.setResponseMessage("PIN Incorrect ");
 		}
+		
 		return response;
 	}
 }

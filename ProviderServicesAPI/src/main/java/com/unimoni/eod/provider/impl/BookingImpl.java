@@ -9,7 +9,9 @@ import org.springframework.web.client.RestTemplate;
 import com.unimoni.eod.provider.bean.BookingConfirmResponseBean;
 import com.unimoni.eod.provider.bean.BookingDetailsListBean;
 import com.unimoni.eod.provider.bean.ServiceProviderBean;
+import com.unimoni.eod.provider.model.ProviderBookingMapping;
 import com.unimoni.eod.provider.model.ProviderDetails;
+import com.unimoni.eod.provider.repo.ProviderBookingMapRepository;
 import com.unimoni.eod.provider.repo.ProviderDetailsRepository;
 import com.unimoni.eod.provider.services.BookingServices;
 
@@ -21,6 +23,9 @@ public class BookingImpl implements BookingServices {
 	ProviderDetailsRepository providerDetailsRepository;
 	
 	@Autowired
+	ProviderBookingMapRepository providerBookingMapRepository;
+	
+	@Autowired
 	RestTemplate restTemplate;
 	
 	@Override
@@ -29,10 +34,13 @@ public class BookingImpl implements BookingServices {
 		ProviderDetails providerDetails;
 		/* Fetching Service provider details */
 		if(serviceProviderBean.getProviderID()!= 0) {
+			
+			ProviderBookingMapping providerBookingMapping = providerBookingMapRepository.findByProviderIDAndBookingID(serviceProviderBean.getProviderID(), serviceProviderBean.getBookingID());
+			providerBookingMapping.setStatus("A");
+			
+			providerBookingMapRepository.save(providerBookingMapping);
 			providerDetails = providerDetailsRepository.findByProviderID(serviceProviderBean.getProviderID());
 			serviceProviderBean.setProviderVehicleDetailsID(providerDetails.getProviderVehicleDetails().get(0).getProviderVehicleDetailsID());
-			System.out.println("SP details : " + providerDetails.getName());
-			System.out.println("SP details :"+ providerDetails.getProviderVehicleDetails().get(0).getProviderVehicleDetailsID());
 		}
 		
 		BookingConfirmResponseBean bookingConfirmResponseBean = restTemplate.postForObject("http://localhost:8081/bookings/orderConfirmation", serviceProviderBean, BookingConfirmResponseBean.class);

@@ -173,6 +173,9 @@ class BookingServices extends React.Component {
 
   async componentDidMount() {
     console.log("partner services");
+    this.setState({
+      requestFromPopUp : false
+    });
     this.getBookingDetails();
     this.timer = setInterval(this.getBookingDetails, 5000);
   }
@@ -303,7 +306,7 @@ class BookingServices extends React.Component {
             <Route exact path='/partner' render= {props=><Notifications callGetServices={this.callGetServices} callPostServices={this.callPostServices} handleChange={this.props.handleChange} state={this.state}/>}/>
             {/* <Route exact path='/partner/acceptOrder' render= {props=><AcceptOrder handleChange={this.props.handleChange} state={this.state}/>}/> */}
             <Route exact path='/partner/checkin' render= {props=><ProviderCheckIn callPostServices={this.callPostServices} handleChange={this.props.handleChange} state={this.state}/>}/> 
-            <Route exact path='/partner/viewOrder' render= {props=><AcceptOrder callGetServices={this.callGetServices} handleChange={this.props.handleChange} state={this.state}/>}/>
+            <Route exact path='/partner/viewOrder' render= {props=><AcceptOrder callGetServices={this.callGetServices} callPostServices={this.callPostServices} handleChange={this.props.handleChange} state={this.state}/>}/>
             {/* <Route exact path='/partner/verify' render= {props=><ProviderVerifyOrder callPostServices={this.callPostServices} handleChange={this.props.handleChange} state={this.state}/>}/>  */}
             {/* <Route exact path='/admin/reports' render= {props=><Reports handleChange={this.props.handleChange} state={this.state}/>}/> */}
         </main>

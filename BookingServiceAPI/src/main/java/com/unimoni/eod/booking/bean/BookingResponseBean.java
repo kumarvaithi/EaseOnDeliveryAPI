@@ -29,6 +29,7 @@ public class BookingResponseBean {
 	private String estimatedPickupTime;
 	private String vehicleType;
 	private String paymentMode;
+	private String bookingStatus;
 	private List<BookingTxnStatus> bookingTxnStatus;
 	private BookingCustomerDetails bookingCustomerDetails;
 	private CommonResponseBean resultData;
@@ -187,6 +188,14 @@ public class BookingResponseBean {
 	}
 	public BookingResponseBean setResultData(CommonResponseBean resultData) {
 		this.resultData = resultData;
+		return this;
+	}
+	
+	public String getBookingStatus() {
+		return bookingStatus;
+	}
+	public BookingResponseBean setBookingStatus(String bookingStatus) {
+		this.bookingStatus = bookingStatus;
 		return this;
 	}
 	public List<BookingTxnStatus> getBookingTxnStatus() {

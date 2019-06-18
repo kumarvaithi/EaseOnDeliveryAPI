@@ -10,4 +10,6 @@ import com.unimoni.eod.provider.model.ProviderBookingMapping;
 public interface ProviderBookingMapRepository extends CrudRepository<ProviderBookingMapping, Long> {
 
 	List<ProviderBookingMapping> findByProviderIDAndStatus(int providerID,String status);
+	
+	ProviderBookingMapping findByProviderIDAndBookingID(int providerID, int bookingID);
 }

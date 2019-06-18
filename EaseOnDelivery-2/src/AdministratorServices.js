@@ -22,7 +22,7 @@ import BookDelivery from './_components/bookingDelivery/bookDelivery'
 import ViewAccount from './_components/profile/viewAccount'
 import BookingHistory from './_components/bookingHistory/bookingHistory'
 import Reports from './_components/reports/partnerReport'
-import AcceptOrder from './_components/orderAcceptance/orderAccept'
+// import AcceptOrder from './_components/orderAcceptance/orderAccept'
 
 const drawerWidth = 240;
 
@@ -172,8 +172,8 @@ class AdministratorServices extends React.Component {
           <List>{adminMenu}</List>
         </Drawer>
         <main className="mainDIV">
-            <Route exact path='/' render= {props=><AcceptOrder handleChange={this.props.handleChange} state={this.state}/>}/>
-            <Route exact path='/partner/acceptOrder' render= {props=><AcceptOrder handleChange={this.props.handleChange} state={this.state}/>}/>
+            {/* <Route exact path='/' render= {props=><AcceptOrder handleChange={this.props.handleChange} state={this.state}/>}/> */}
+            {/* <Route exact path='/partner/acceptOrder' render= {props=><AcceptOrder handleChange={this.props.handleChange} state={this.state}/>}/> */}
             <Route exact path='/admin/reports' render= {props=><Reports handleChange={this.props.handleChange} state={this.state}/>}/>
         </main>
       </div>

@@ -80,8 +80,6 @@ class Notifications extends React.Component {
   };
 
   componentDidMount() {
-    console.log("Request From Map " + this.props.state.requestFromPopUp);
-    console.log("Booking ID is " + this.props.state.viewBookingID);
     if(this.props.state.requestFromPopUp === true){
       this.viewBookings(this.props.state.viewBookingID);    
     }else{
@@ -89,26 +87,62 @@ class Notifications extends React.Component {
     }
     this.handleClickOpen('latest');
   }
-
+  
   setStateOnChange = (stateObject) => (e) => {
     this.setState ({ [stateObject] : e.target.value})
   }
 
-  acceptOrder = (type) => {
+  verifyOrderTrackPin = (type) => {
+    console.log("just to check")
     console.log("Type is " , type);
     var request = {};
-    var url = ""
+    var url = "/verify/2/"
+    if(type == 'S'){
+      url = `${url}${this.state.viewBookingID}/${type}/${this.state.storePIN}`
+    }else if(type == 'C'){
+      url = `${url}${this.state.viewBookingID}/${type}/${this.state.customerPIN}`
+    }
+
+    this.props.callGetServices(url).then(response =>{
+      console.log("response is " + response)
+      let responseData = response.data;
+      if(responseData.responseCode == "00"){
+        if(type == 'S'){
+          this.setState({
+            storePINConfirmed : true,
+            currentOrderStatus : "Order Picked up, Moving towards Destination",
+            customerPINDisabled :false
+          })
+        }else if(type == 'C'){
+          this.setState({
+            customerPINConfirmed : true,
+            currentOrderStatus : "Order Delivered Successfully.!" 
+          })
+        }
+      }else{
+        alert("Incorrect PIN, Please try again using correct pin.");
+      }
+    }).catch(error => {
+      console.log(error)
+    })
+  }
+  acceptOrder = (type) => {
+    console.log("inside acceptorder " , type);
+    var request = {};
+    var url = "accept"
     if(type == 'ACCEPT'){
       request = {
         bookingID : this.state.viewBookingID,
         providerID : 2,
-        bookingTxnStatus : "A",
+        bookingStatus : "A",
+        providerVehicleDetailsID : 0
       }
     }else if(type == 'REJECT'){
       request = {
         bookingID : this.state.viewBookingID,
         providerID : 2,
-        bookingTxnStatus : "R",
+        bookingStatus : "R",
+        providerVehicleDetailsID : 0
       }
     }
     this.props.callPostServices(request,url).then(response =>{
@@ -123,42 +157,6 @@ class Notifications extends React.Component {
         //   customerPINConfirmed : true,
         //   currentOrderStatus : "Order Delivered Successfully.!" 
         // })
-      }
-    }).catch(error => {
-      console.log(error)
-    })
-  }
-  verifyPIN = (type) => {
-    console.log("Type is " , type);
-    var request = {};
-    var url = ""
-    if(type == 'STORE'){
-      request = {
-        bookingID : this.state.viewBookingID,
-        providerID : 2,
-        type : "STORE",
-        pin : this.state.storePIN
-      }
-    }else if(type == 'CUSTOMER'){
-      request = {
-        bookingID : this.state.viewBookingID,
-        providerID : 2,
-        type : "STORE",
-        pin : this.state.customerPIN
-      }
-    }
-    this.props.callPostServices(request,url).then(response =>{
-      console.log(response)
-      if(type == 'STORE'){
-        this.setState({
-          storePINConfirmed : true,
-          currentOrderStatus : "Order Picked up, Moving towards Destination"
-        })
-      }else if(type == 'CUSTOMER'){
-        this.setState({
-          customerPINConfirmed : true,
-          currentOrderStatus : "Order Delivered Successfully.!" 
-        })
       }
     }).catch(error => {
       console.log(error)
@@ -192,6 +190,19 @@ class Notifications extends React.Component {
 
   viewDetails = (viewBookingID) =>{
     console.log("inside View Details" + viewBookingID)
+    console.log("Booking Txn Status ", this.state.inboxBookingDetails.length);
+    var bookingTxnStatus = "";
+    for(var i=0;i<this.state.inboxBookingDetails.length;i++){
+      if(this.state.inboxBookingDetails[i].bookingID == viewBookingID){
+        if(this.state.inboxBookingDetails[i].bookingStatus == "P"){
+          this.setState({
+            storePINConfirmed : true,
+            currentOrderStatus : "Order Picked up, Moving towards Destination",
+            customerPINDisabled :false
+          })
+        }
+      }
+    }
     var latestCardVisible = false;
     if(this.state.cardButtonVisible === 0){
       latestCardVisible = true;
@@ -277,7 +288,7 @@ class Notifications extends React.Component {
         {this.props.state.requestFromPopUp ? (
           <div>
             {this.state.inboxBookingDetails.map((value,index) =>(
-              <Card key={value.bookingID} className={classes.card + " largeCard "}>
+              <Card key={index} className={classes.card + " largeCard "}>
                 <List>
                   <br/>
                   <ListItemText className={" listItemReceipt "} primary="Pick Up" secondary={value.pickupLocation} />
@@ -292,11 +303,11 @@ class Notifications extends React.Component {
                 </List>
                   <CardActions className={" confirmButtonAction "}>
                   <Button size="small" color="primary" className="button-lg" 
-                    onClick = {this.acceptOrder('ACCEPT')}>
+                    onClick={() => this.acceptOrder('ACCEPT')}>
                       ACCEPT BOOKING
                   </Button>
                   <Button size="small" color="primary" className="button-lg" 
-                    onClick = {this.acceptOrder('REJECT')}>
+                    onClick={() => this.acceptOrder('REJECT')}>
                       REJECT BOOKING
                   </Button>
                 </CardActions>
@@ -320,14 +331,14 @@ class Notifications extends React.Component {
                 {this.state.inboxBookingDetails.length > 0 ? (
                   !this.state.viewDetailsEnabled &&(
                     this.state.inboxBookingDetails.map((value,index) =>(
-                      value.bookingID % 2 === 0 ?(
-                        <ListItem key={value.bookingID} className = { "notificationListOdd" }  onClick={() => this.viewDetails(value.bookingID)}>
+                      index % 2 === 0 ?(
+                        <ListItem key={index} className = { "notificationListOdd" }  onClick={() => this.viewDetails(value.bookingID)}>
                           <ListItemText 
                             primary={`BookingID : ${value.bookingID} : Pickup:  ${value.pickupLocation} - Drop : ${value.dropLocation}`}
                           />
                         </ListItem>
                       ) : (
-                        <ListItem key={value.bookingID} className = { "notificationListEven" } onClick={() => this.viewDetails(value.bookingID)}>
+                        <ListItem key={index} className = { "notificationListEven" } onClick={() => this.viewDetails(value.bookingID)}>
                           <ListItemText
                             primary={`BookingID : ${value.bookingID} : Pickup:  ${value.pickupLocation} - Drop : ${value.dropLocation}`}
                           />
@@ -340,7 +351,7 @@ class Notifications extends React.Component {
                 )} 
                 {this.state.inboxBookingDetails.map((value,index) =>(
                   this.state.cardVisible && this.state.viewBookingID === value.bookingID &&(
-                    <Card key={value.bookingID} className={classes.card + " largeCard "}>
+                    <Card key={index} className={classes.card + " largeCard "}>
                       <List>
                         <br/>
                         <ListItemText className={" listItemReceipt "} primary="Pick Up" secondary={value.pickupLocation} />
@@ -358,13 +369,19 @@ class Notifications extends React.Component {
                       </List>
                       
                       {this.state.latestCardVisible ? (
+                        // <div class= {" confirmButtonAction "}>
+                        //   <button class="button-lg" onClick = {this.acceptOrder('ACCEPT')}> ACCEPT BOOKING</button>
+                        //   <button class="button-lg" onClick = {this.acceptOrder('ACCEPT')}> REJECT BOOKING</button>
+                        // </div>
                         <CardActions className={" confirmButtonAction "}>
+                          
+                          
                           <Button size="small" color="primary" className="button-lg" 
-                            onClick = {this.acceptOrder('ACCEPT')}>
+                            onClick={() => this.acceptOrder('ACCEPT')}>
                               ACCEPT BOOKING
                           </Button>
                           <Button size="small" color="primary" className="button-lg" 
-                            onClick = {this.acceptOrder('REJECT')}>
+                            onClick={() => this.acceptOrder('REJECT')}>
                               REJECT BOOKING
                           </Button>
                         </CardActions>
@@ -383,7 +400,7 @@ class Notifications extends React.Component {
                                   />
                                   <CardActions className={" confirmButtonAction "}>
                                     <Button size="small" color="primary" className="button-lg" 
-                                      onClick = {this.verifyPIN('store')}>
+                                      onClick={() => this.verifyOrderTrackPin('S')}>
                                         SUBMIT
                                     </Button>
                                   </CardActions>
@@ -403,7 +420,7 @@ class Notifications extends React.Component {
                                 />
                                   <CardActions className={" confirmButtonAction "}>
                                     <Button size="small" color="primary" className="button-lg" 
-                                      onClick = {this.verifyPIN('customer')}>
+                                      onClick={() => this.verifyOrderTrackPin('C')}>
                                         SUBMIT
                                     </Button>
                                   </CardActions>

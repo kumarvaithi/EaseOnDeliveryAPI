@@ -41,10 +41,9 @@ public class ProviderContoller {
 	SearchRideImpl searchRide;
 	
 	@PostMapping(value="/accept")
-	private String accept(@RequestBody ServiceProviderBean serviceProviderBean) {
+	private BookingConfirmResponseBean accept(@RequestBody ServiceProviderBean serviceProviderBean) {
 		BookingConfirmResponseBean response = bookingImpl.bookingConfirm(serviceProviderBean);
-
-		return "Electronic Items waiting for delivery, kindly confirm";
+		return response;
 	}
 
 	@PostMapping(value="/reject")
@@ -72,10 +71,10 @@ public class ProviderContoller {
 		return null;
 	}
 	
-	@GetMapping(value="/verify/{bookingID}/{userType}/{pin}")
-	private CommonResponseBean verifyOTP(@PathVariable String userType,@PathVariable int bookingID,@PathVariable int pin) {
+	@GetMapping(value="/verify/{providerID}/{bookingID}/{userType}/{pin}")
+	private CommonResponseBean verifyOTP(@PathVariable String userType,@PathVariable int providerID,@PathVariable int bookingID,@PathVariable int pin) {
 		System.out.println("User Type - " + userType + "otp - " + pin);
-		CommonResponseBean commonResponse = searchRide.verifyPIN(userType, bookingID, pin);
+		CommonResponseBean commonResponse = searchRide.verifyPIN(userType, providerID,bookingID, pin);
 		return commonResponse;
 	}
 }

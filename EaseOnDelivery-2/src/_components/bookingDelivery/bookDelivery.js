@@ -55,7 +55,8 @@ class BookDelivery extends React.Component {
     storePersonContactNo: "",
     paymentMode:"",
     showSlider: true,
-    isPaymentModeSelected: false
+    isPaymentModeSelected: false,
+    bookingID : 0
   };
 
   async componentDidMount(){
@@ -70,6 +71,13 @@ class BookDelivery extends React.Component {
   }
 
   // isStepOptional = step => step === 1;
+
+  setBookingID = (bookingID) => {
+    console.log("Txn Booking ID is " , bookingID);
+    this.setState({
+      bookingID : bookingID
+    })
+  }
 
   nextStep = () => {
     const { activeStep } = this.state;
@@ -175,7 +183,8 @@ class BookDelivery extends React.Component {
         callServices = {this.props.callServices}
         nextStep = {this.nextStep}
         handleChange = {this.handleChange}
-        values = {this.state}/>
+        values = {this.state}
+        setBookingID = {this.setBookingID}/>
       );
       case 2:
       return ( 

@@ -8,6 +8,7 @@ import List from '@material-ui/core/List';
 import ListItemText from '@material-ui/core/ListItemText';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
+import Typography from '@material-ui/core/Typography';
 
 const styles = theme => ({
     container: {
@@ -98,72 +99,87 @@ const newOrderInfo = [
 
 
 class OrderAccept extends Component {
-    state = {  }
+    state = {  
+      bookingAccepted : false
+    }
     acceptOrder = (type) => {
-      console.log("Type is " , type);
+      console.log("inside acceptorder " , type);
+      console.log("Booking ID is " , this.props.state.bookingDetails[0].bookingID);
       var request = {};
-      var url = ""
+      var url = "accept"
       if(type == 'ACCEPT'){
         request = {
           bookingID : this.props.state.bookingDetails[0].bookingID,
           providerID : 2,
-          bookingTxnStatus : "A",
+          bookingStatus : "A",
+          providerVehicleDetailsID : 0
         }
       }else if(type == 'REJECT'){
         request = {
           bookingID : this.props.state.bookingDetails[0].bookingID,
           providerID : 2,
-          bookingTxnStatus : "R",
+          bookingStatus : "R",
+          providerVehicleDetailsID : 0
         }
       }
       this.props.callPostServices(request,url).then(response =>{
         console.log(response)
         if(type == 'ACCEPT'){
-          // this.setState({
-          //   storePINConfirmed : true,
-          //   currentOrderStatus : "Order Picked up, Moving towards Destination"
-          // })
+          this.setState({
+            bookingAccepted : true
+          })
         }else if(type == 'REJECT'){
-          // this.setState({
-          //   customerPINConfirmed : true,
-          //   currentOrderStatus : "Order Delivered Successfully.!" 
-          // })
+          this.setState({
+            bookingAccepted : true
+          })
         }
       }).catch(error => {
         console.log(error)
       })
     }
+  
 
     render() { 
         const { classes,state } = this.props;
         return(
           <div>
-            {state.bookingDetails.map((value,index) =>(
-              <Card key={value.bookingID} className={classes.card + " largeCard "}>
-                <List>
-                  <br/>
-                  <ListItemText className={" listItemReceipt "} primary="Pick Up" secondary={value.pickupLocation} />
-                  <ListItemText className={" listItemReceipt "} primary="Drop" secondary={value.dropLocation} />
-                  <ListItemText className={" listItemReceipt "} primary="Delivery Date" secondary={value.deliveryDate} />
-                  <ListItemText className={" listItemReceipt "} primary="Item Type" secondary={value.itemType} />
-                  <ListItemText className={" listItemReceipt "} primary="Tentative Weight" secondary={value.itemTentativeWeight} />
-                  <ListItemText className={" listItemReceipt "} primary="Vehicle Type" secondary={value.vehicleType} />
-                  <ListItemText className={" listItemReceipt "} primary="Store Person Name" secondary={value.storePersonName} />
-                  <ListItemText className={" listItemReceipt "} primary="Store Person No" secondary={value.storePersonContactNo} />
-                  <ListItemText className={" listItemReceipt "} primary="Payment Mode" secondary={value.paymentMode} />
-                </List>
-                  <CardActions className={" confirmButtonAction "}>
-                  <Button size="small" color="primary" className="button-lg" 
-                    onClick = {this.acceptOrder('ACCEPT')}>
-                      ACCEPT BOOKING
-                  </Button>
-                  <Button size="small" color="primary" className="button-lg" 
-                    onClick = {this.acceptOrder('REJECT')}>
-                      REJECT BOOKING
-                  </Button>
-                </CardActions>
-              </Card>
-            ))}
+              {!this.state.bookingAccepted ? (
+                  <div>
+                    {state.bookingDetails.map((value,index) =>(
+                  <Card key={index} className={classes.card + " largeCard "}>
+                    <List>
+                      <br/>
+                      <ListItemText className={" listItemReceipt "} primary="Pick Up" secondary={value.pickupLocation} />
+                      <ListItemText className={" listItemReceipt "} primary="Drop" secondary={value.dropLocation} />
+                      <ListItemText className={" listItemReceipt "} primary="Delivery Date" secondary={value.deliveryDate} />
+                      <ListItemText className={" listItemReceipt "} primary="Item Type" secondary={value.itemType} />
+                      <ListItemText className={" listItemReceipt "} primary="Tentative Weight" secondary={value.itemTentativeWeight} />
+                      <ListItemText className={" listItemReceipt "} primary="Vehicle Type" secondary={value.vehicleType} />
+                      <ListItemText className={" listItemReceipt "} primary="Store Person Name" secondary={value.storePersonName} />
+                      <ListItemText className={" listItemReceipt "} primary="Store Person No" secondary={value.storePersonContactNo} />
+                      <ListItemText className={" listItemReceipt "} primary="Payment Mode" secondary={value.paymentMode} />
+                    </List>
+                      <CardActions className={" confirmButtonAction "}>
+                      <Button size="small" color="primary" className="button-lg" 
+                        onClick={() => this.acceptOrder('ACCEPT')}>
+                          ACCEPT BOOKING
+                      </Button>
+                      <Button size="small" color="primary" className="button-lg" 
+                        onClick={() => this.acceptOrder('REJECT')}>
+                          REJECT BOOKING
+                      </Button>
+                    </CardActions>
+                  </Card>
+                ))}
+              </div>
+            ) : (
+              <div>
+                <Typography component="h4" variant="h6" gutterBottom>
+                  Your Request is recorded kindly proceed with the pickup. To check your accepted order find your accepted list in Accepted Section under Inbox.
+                </Typography>
+              </div>
+            )}
+            
             
           </div>  
             

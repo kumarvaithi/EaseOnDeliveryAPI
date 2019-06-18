@@ -26,6 +26,10 @@ public class SearchRideImpl implements SearchRideServices {
 
 	@Autowired
 	RestTemplate restTemplate;
+	
+	@Autowired
+	ProviderBookingMapRepository providerBookingMapRepository;
+	
 	@Override
 	public BookingDetailsListBean searchRide(int providerID,String status) {
 		List<ProviderBookingMapping> providerBookingMap = providerBookingMapRepo.findByProviderIDAndStatus(providerID, status);
@@ -56,10 +60,19 @@ public class SearchRideImpl implements SearchRideServices {
 	}
 	
 	@Override
-	public CommonResponseBean verifyPIN(String userType, int bookingID, int pin) {
-		// TODO Auto-generated method stub
+	public CommonResponseBean verifyPIN(String userType, int providerID, int bookingID, int pin) {
+		String status = "D";
+		
 		CommonResponseBean commonResponse = restTemplate.exchange("http://localhost:8081/bookings/verify/"+bookingID + "/" + userType + "/" + pin, HttpMethod.GET, null, new ParameterizedTypeReference<CommonResponseBean>() {
 		}, CommonResponseBean.class).getBody();
+
+		ProviderBookingMapping providerBookingMapping = providerBookingMapRepository.findByProviderIDAndBookingID(providerID, bookingID);
+
+		if(userType.equals("C")) {
+			providerBookingMapping.setStatus(status);
+			providerBookingMapRepository.save(providerBookingMapping);
+		}
+			
 		return commonResponse;
 	}
 }

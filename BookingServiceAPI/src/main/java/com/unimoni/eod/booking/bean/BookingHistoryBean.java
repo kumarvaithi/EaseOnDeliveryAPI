@@ -5,6 +5,7 @@ import java.util.Date;
 
 public class BookingHistoryBean {
 
+	private int bookingID;
 	private String deliveryProductType;
 	private Double tentativeWeight;
 	private Date deliveryDate;
@@ -15,6 +16,16 @@ public class BookingHistoryBean {
 	private String vehicleName;
 	private String vehicleRegNo;
 	private LocalDate bookingDate;
+	private Double totalBillAmount;
+	
+	
+	public int getBookingID() {
+		return bookingID;
+	}
+
+	public void setBookingID(int bookingID) {
+		this.bookingID = bookingID;
+	}
 
 	public String getDeliveryProductType() {
 		return deliveryProductType;
@@ -103,6 +114,15 @@ public class BookingHistoryBean {
 	public void setBookingDate(LocalDate bookingDate) {
 		this.bookingDate = bookingDate;
 	}
+	
+	public Double getTotalBillAmount() {
+		return totalBillAmount;
+	}
+
+	public void setTotalBillAmount(Double totalBillAmount) {
+		this.totalBillAmount = totalBillAmount;
+	}
+
 	@Override
 	public String toString() {
 		return "BookingHistoryBean [deliveryProductType=" + deliveryProductType + ", tentativeWeight=" + tentativeWeight

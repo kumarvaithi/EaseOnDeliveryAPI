@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
- 
+import moment from 'moment';
+
 import {
     Accordion,
     AccordionItem,
@@ -149,31 +150,28 @@ class BookingHistory extends React.Component {
                     <AccordionItem>
                         <AccordionItemHeading>
                             <AccordionItemButton>
-                            {value.bookingDate} 
+                            {` ${value.bookingDate} - ${value.deliveryProductType}`} 
                             </AccordionItemButton>
                         </AccordionItemHeading>
                         <AccordionItemPanel className={classes.avatar}>
                             <p>
                                 <ul>
-                                    <li>
-                            Delivery Type : {value.deliveryType}
-                                <br/>
-                                Tentative Weight : {value.tentativeWeight}
-                                <br/>
-                                Delivered Date :   {value.deliveredDate}
-                                <br/>
-                                {/* Deliver Person Name : {anything.deliverPersonName}
-                                <br/>
-                                Deliver Person ContactNo : {anything.deliverPersonContactNo}
-                                <br/>
-                                Payment Mode : {anything.paymentMode}
-                                <br/>
-                                Vehicle Type : {anything.vehicleType}
-                                <br/>
-                                Vehicle Name : {anything.vehicleName}
-                                <br/>
-                                Vehicle Reg.No : {anything.vehicleRegNo}*/}
-                                </li> 
+                                  <li>
+                                    Booking ID : {value.bookingID}
+                                    <br/>
+                                    Delivery Date : {moment(value.deliveryDate).format('DD MMM hh:mm A')}
+                                    <br/>
+                                    Store Person Name : {value.deliveryPersonName}
+                                    <br/>
+                                    Store Contact No : {value.deliveryPersonContactNo}
+                                    <br/>
+                                    Bill Amount : {value.totalBillAmount}
+                                    <br/>
+                                    Item Type : {value.deliveryProductType}
+                                    <br/>
+                                    Item Weight : {value.tentativeWeight}
+                                    <br/>
+                                  </li> 
                                 </ul>
                             </p>
                         </AccordionItemPanel>

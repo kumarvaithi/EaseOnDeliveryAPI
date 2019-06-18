@@ -68,12 +68,6 @@ export const partnerMenu = (
       </ListItemIcon>
       <ListItemText primary="Checkin" />
     </ListItem>
-    <ListItem button component={Link} to='/partner/verify'>
-      <ListItemIcon>
-      <VerifyIcon />
-      </ListItemIcon>
-      <ListItemText primary="Verify" />
-    </ListItem>
     {/* <ListItem button component={Link} to="/partner/reports">
       <ListItemIcon>
         <BarChartIcon />

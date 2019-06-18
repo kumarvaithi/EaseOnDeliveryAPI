@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.unimoni.eod.booking.bean.BookingConfirmRequestBean;
+import com.unimoni.eod.booking.bean.BookingConfirmResponseBean;
 import com.unimoni.eod.booking.bean.BookingHistoryBean;
 import com.unimoni.eod.booking.bean.BookingHistoryResponseBean;
 import com.unimoni.eod.booking.bean.BookingRequestBean;
@@ -46,13 +47,8 @@ public class BookingController {
 		System.out.println("Booking Controller... Calling...");
 	}
 	
-	//@Autowired
-   // private RestTemplate restTemplate;
-	
-	
 	@Autowired
 	BookingService bookingService;
-	
 	
 	@GetMapping(value = "/charges")
 	public DeliveryCharges CalculateDeliveryCharges(@Valid @RequestParam int distance, String vehicleType) throws ResourceNotFoundException, BookingServiceException {
@@ -65,19 +61,19 @@ public class BookingController {
 		if(chrgs == null) {
 			throw new BookingServiceException("Delivery Charges not found");
 		}
-		
 		return chrgs;
 	}
 	
 	@PostMapping(value="/confirm")
 	private BookingResponseBean bookDelivery(@Valid @RequestBody BookingRequestBean request) {
+		BookingResponseBean response = new BookingResponseBean();
 		try {
 			System.out.println("inside book delivery");
-			bookingService.confirmBooking(request);
+			response = bookingService.confirmBooking(request);
 		}catch (Exception e) {
 			e.getMessage();
 		}
-		return new BookingResponseBean();
+		return response;
 	}
 	
 
@@ -112,14 +108,6 @@ public class BookingController {
 		return finalResponse;
 	}
 	
-	/*@GetMapping("/publish/{name}")
-    public String post(@PathVariable("name") final String name) {
-
-        kafkaTemplate.send(TOPIC, new User(name, "Technology", 12000L));
-
-        return "Published successfully";
-    }*/
-	
 	@GetMapping("/publish/{bookingID}")
 	public String  publishBooking(@PathVariable("bookingID") final Long bookingID) {
 		String str1 = bookingService.publishBookingDetail(bookingID);
@@ -127,27 +115,24 @@ public class BookingController {
 		return "Published booking details successfully";
 	}
 	
-	@PostMapping(value="/txnStatus")
-	public void txnStatusHistory(@RequestBody BookingTxnStatusRequestBean request) {
-		
-	}
+	/*
+	 * @PostMapping(value="/txnStatus") public void txnStatusHistory(@RequestBody
+	 * BookingTxnStatusRequestBean request) {
+	 * 
+	 * }
+	 */
 	
 	@PostMapping(value="/orderConfirmation")
-	public void orderConfirmation(@RequestBody BookingConfirmRequestBean request) {
-		bookingService.orderConfirmation(request);
-		//restTemplate
-		System.out.println("Inside the OrderConfirmation");
+	public BookingConfirmResponseBean orderConfirmation(@RequestBody BookingConfirmRequestBean request) {
+		BookingConfirmResponseBean response = new BookingConfirmResponseBean();
+		response  = bookingService.orderConfirmation(request);
+		return response;
 	}
 
 	@GetMapping(value="/verify/{bookingID}/{userType}/{pin}")
 	private CommonResponseBean verifyPIN(@PathVariable String userType,@PathVariable int bookingID, @PathVariable int pin) {
-		System.out.println("User Type - " + userType + "otp - " + pin);
 		CommonResponseBean response = bookingService.verifyPIN(userType, bookingID, pin);
 		return response;
 	}
-//	@RequestMapping("/home") 
-//	public String welcome() {
-//		return "Hi Restful application";
-//	}
 	
 }

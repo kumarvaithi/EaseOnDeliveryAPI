@@ -120,16 +120,11 @@ class BookingServices extends React.Component {
   callServices = async (request,url) => {
     console.log("request is ", request)
     url = "http://localhost:8081/bookings/" + url
-    await axios({
+    return await axios({
       method: 'post',
       url : url,
       data : request,
-
-    }).then(response =>{
-      console.log(response);
-    }).catch(error =>{
-      console.log(error);
-    });
+    })
   }
 
   callGetServices = async (url) => {

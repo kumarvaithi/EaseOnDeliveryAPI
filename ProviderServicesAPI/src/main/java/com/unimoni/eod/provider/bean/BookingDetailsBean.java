@@ -25,6 +25,7 @@ public class BookingDetailsBean {
 	private String providerContactNo;
 	private String providerName;
 	private String estimatedPickupTime;
+	private String bookingStatus;
 	private List<BookingTxnStatusBean> bookingTxnStatus;
 	private BookingCustomerDetailsBean bookingCustomerDetails;
 	
@@ -185,5 +186,11 @@ public class BookingDetailsBean {
 	}
 	public void setVehicleType(String vehicleType) {
 		this.vehicleType = vehicleType;
+	}
+	public String getBookingStatus() {
+		return bookingStatus;
+	}
+	public void setBookingStatus(String bookingStatus) {
+		this.bookingStatus = bookingStatus;
 	}
 }

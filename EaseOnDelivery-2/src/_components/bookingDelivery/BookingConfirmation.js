@@ -79,17 +79,21 @@ class BookingConfirmation extends React.Component {
       itemTentativeWeight : this.props.values.tentativeWeight,
       deliveryDate : this.props.values.deliveryDate + ' ' + this.props.values.deliveryTime,
       storePersonName : this.props.values.storePersonName,
-      storePersonContactNo : this.props.values.storePersonContactNo,
+      storePersonContactNo : `+91${this.props.values.storePersonContactNo}`,
       vehicleType : this.props.values.vehicleType,
-      billAmount : "0.00",
-      vat : "0.00",
-      commsion : "0.00",
-      totalBillAmount : "0.00",
+      billAmount : 1000.00,
+      vat : 2.00,
+      commsion : 10.00,
+      totalBillAmount : 1012.00,
       paymentMode : "Cash",
       customerID : 1,
       providerID : 0,
     }
-    this.props.callServices(request,url);
+    this.props.callServices(request,url).then(response => {
+      this.props.setBookingID(response.data.bookingID);
+    }).catch(error => {
+      console.log(error);
+    })
   }
 
   render() {
@@ -99,7 +103,7 @@ class BookingConfirmation extends React.Component {
         {!values.isPaymentModeSelected && (
           <Card className={classes.card + " largeCard "}>    
             <Typography component="h4" variant="h6" gutterBottom>
-              Approximate Delivery Charge : 1000 INR. 
+              Approximate Delivery Charge : 1012 INR. 
             </Typography>
           
             <TextField

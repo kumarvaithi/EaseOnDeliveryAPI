@@ -1,0 +1,15 @@
+<h3>Add New User</h3>
+<form action="/user" method="POST">
+    <input type="text" name="name" id="name" placeholder="Add New User">
+    <button type="submit">Add New User</button>
+</form>
+
+<h3>User List</h3>
+<%for(var i=0;i<data.length;i++){%>
+    <table>
+        <tr>
+            <td><%=data[i].name%></td>
+            <td><a href="/user/<%=data[i]._id%>">Show User</a></td>
+        </tr>
+    </table>
+<%}%>

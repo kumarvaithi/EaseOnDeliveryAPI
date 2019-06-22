@@ -1,0 +1,93 @@
+/* header begins*/
+.header {
+  width: 93%;
+  color: #455969;
+  height: 30px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 600;
+}
+#headerLeft{
+  text-align: right;
+}
+.siteName{
+  font-size: 40px;
+  font-style: italic;
+}
+/* header ends*/
+
+/*vertical menu begin*/
+/* define a fixed width for the entire menu */
+.navigation {
+  width: 300px;
+  float: left;
+  background-color: #455969;
+  height: 500px;
+  border-radius: 10px 10px 10px 10px;
+}
+
+/* reset our lists to remove bullet points and padding */
+.mainmenu, .submenu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* make ALL links (main and submenu) have padding and background color */
+.mainmenu a {
+  display: block;
+  background-color: #455969;
+  text-decoration: none;
+  padding: 10px;
+  color: #ffffff;
+  border-radius: 10px 0px 10px 0px;
+}
+
+/* add hover behaviour */
+.mainmenu a:hover {
+    background-color: #7d868e;
+}
+
+
+/* when hovering over a .mainmenu item,
+  display the submenu inside it.
+  we're changing the submenu's max-height from 0 to 200px;
+*/
+
+.mainmenu li:hover .submenu {
+  display: block;
+  max-height: 250px;
+}
+
+/*
+  we now overwrite the background-color for .submenu links only.
+  CSS reads down the page, so code at the bottom will overwrite the code at the top.
+*/
+
+.submenu a {
+  background-color: #4c6579;
+}
+
+/* hover behaviour for links inside .submenu */
+.submenu a:hover {
+  background-color: #172938;
+}
+
+/* this is the initial state of all submenus.
+  we set it to max-height: 0, and hide the overflowed content.
+*/
+.submenu {
+  overflow: hidden;
+  max-height: 0;
+  -webkit-transition: all 0.5s ease-out;
+}
+/*vertical menu ends*/
+.main{
+  width: 100%;
+}
+.mainHeader{
+  background-color: #455969;
+  color: #ffffff;
+  font-weight: bold;
+  border-radius: 5px 5px 5px 5px;
+  margin: 1%;
+}

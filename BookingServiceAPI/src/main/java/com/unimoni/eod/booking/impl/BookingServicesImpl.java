@@ -185,6 +185,7 @@ public class BookingServicesImpl implements BookingService {
 				temp.setTentativeWeight(history.get(i).getItemTentativeWeight());
 				temp.setBookingDate(history.get(i).getBookingDate());
 				temp.setTotalBillAmount(history.get(i).getTotalBillAmount());
+				temp.setBookingStatus(history.get(i).getBookingStatus());
 				response.add(temp);
 			}
 			System.out.println("++++++ Final Response ++++++" + response.toString());
@@ -329,8 +330,7 @@ public class BookingServicesImpl implements BookingService {
 						.setResponseCode("00")
 						.setResponseMessage("SUCCESS"));
 				
-//				String messageResponse = asyncSMSService.asyncSMS(smsRequest);
-//				System.out.println("messageResponse is " + messageResponse);
+				asyncSMSService.asyncSMS(smsRequest);
 //				System.out.println("Before Calling SMS Bean");
 //				String msgResponse = restTemplate.postForObject("http://localhost:8088/sms/send/", smsRequest ,String.class);
 //				System.out.println("SMS Response " + msgResponse);

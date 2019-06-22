@@ -17,7 +17,7 @@ public class BookingHistoryBean {
 	private String vehicleRegNo;
 	private LocalDate bookingDate;
 	private Double totalBillAmount;
-	
+	private String bookingStatus;
 	
 	public int getBookingID() {
 		return bookingID;
@@ -121,6 +121,14 @@ public class BookingHistoryBean {
 
 	public void setTotalBillAmount(Double totalBillAmount) {
 		this.totalBillAmount = totalBillAmount;
+	}
+	
+	public String getBookingStatus() {
+		return bookingStatus;
+	}
+
+	public void setBookingStatus(String bookingStatus) {
+		this.bookingStatus = bookingStatus;
 	}
 
 	@Override

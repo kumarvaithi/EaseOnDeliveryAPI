@@ -89,6 +89,11 @@ class LinearDeterminate extends React.Component {
         
         {this.state.showSuccessPage &&
             <Card className={classes.card + " largeCard "}>
+                <CardContent >
+                  <Typography gutterBottom variant="h5" component="h2" className={"typography"}>
+                    Your booking confirmed successfully!!!
+                  </Typography>
+                </CardContent>
                 <List>
                   <br/>
                   <ListItemText className={" listItemReceipt "} primary="Booking ID" secondary={values.bookingID} />

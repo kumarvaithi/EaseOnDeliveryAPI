@@ -9,6 +9,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import Typography from '@material-ui/core/Typography';
+import CardContent from '@material-ui/core/CardContent';
 
 const styles = theme => ({
     container: {
@@ -157,7 +158,7 @@ class OrderAccept extends Component {
                       <ListItemText className={" listItemReceipt "} primary="Vehicle Type" secondary={value.vehicleType} />
                       <ListItemText className={" listItemReceipt "} primary="Store Person Name" secondary={value.storePersonName} />
                       <ListItemText className={" listItemReceipt "} primary="Store Person No" secondary={value.storePersonContactNo} />
-                      <ListItemText className={" listItemReceipt "} primary="Payment Mode" secondary={value.paymentMode} />
+                      <ListItemText className={" listItemReceipt "} primary="Payment Mode" secondary="Cash" />
                     </List>
                       <CardActions className={" confirmButtonAction "}>
                       <Button size="small" color="primary" className="button-lg" 
@@ -174,9 +175,13 @@ class OrderAccept extends Component {
               </div>
             ) : (
               <div>
-                <Typography component="h4" variant="h6" gutterBottom>
-                  Your Request is recorded kindly proceed with the pickup. To check your accepted order find your accepted list in Accepted Section under Inbox.
-                </Typography>
+                <Card className={classes.card + " card "}>
+                  <CardContent >
+                    <Typography gutterBottom variant="h5" component="h2" className={"typography"}>
+                      Your request is confirmed, kindly proceed with pickup. Find your delivery list in Accept section under Inbox.
+                    </Typography>
+                  </CardContent>
+                </Card>
               </div>
             )}
             

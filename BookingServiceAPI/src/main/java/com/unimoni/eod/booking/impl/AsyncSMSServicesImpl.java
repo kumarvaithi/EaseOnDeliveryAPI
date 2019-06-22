@@ -21,7 +21,7 @@ public class AsyncSMSServicesImpl implements AsyncSMSService {
 	@Async
 	public String asyncSMS(SMSRequestBean smsRequest) {
 		String msgResponse = restTemplate.postForObject("http://localhost:8088/sms/send/", smsRequest ,String.class);
-		logger.info("AsyncSMSServicesImpl.asyncSMS()");
+		logger.info("AsyncSMSServicesImpl.asyncSMS()" + msgResponse);
 		return msgResponse;
 	}
 }

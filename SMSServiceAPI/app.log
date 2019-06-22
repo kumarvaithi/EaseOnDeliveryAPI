@@ -1,4 +1,18 @@
-2019-06-13 15:30:29,016 DEBUG com.unimoni.eod.sms.controller.SMSController [http-nio-8088-exec-1] Twilio :Order for GROCERIES will be picked shortly by EASEONDEVLICERY person, share PIN - 9603. To confirm Pickup, num : +919176680857
-2019-06-13 15:30:41,131 INFO com.unimoni.eod.sms.controller.SMSController [http-nio-8088-exec-1] Twilio :QUEUED
-2019-06-13 15:30:41,131 DEBUG com.unimoni.eod.sms.controller.SMSController [http-nio-8088-exec-1] Twilio :Order for GROCERIES will be delivered by EASEONDEVLICERY person, share PIN - 9603. To confirm Delivery, num : +919176680857
-2019-06-13 15:30:41,661 INFO com.unimoni.eod.sms.controller.SMSController [http-nio-8088-exec-1] Twilio :QUEUED
+2019-06-19 09:57:09,880 INFO com.unimoni.SmsServiceApiApplication [main] Starting SmsServiceApiApplication on INCN-TL-LP017 with PID 6840 (started by syed.siddique in D:\NGapBatch - 2\Project\WorkArea\EaseOnDeliveryAPI\SMSServiceAPI)
+2019-06-19 09:57:10,043 DEBUG com.unimoni.SmsServiceApiApplication [main] Running with Spring Boot v2.1.5.RELEASE, Spring v5.1.7.RELEASE
+2019-06-19 09:57:10,044 INFO com.unimoni.SmsServiceApiApplication [main] No active profile set, falling back to default profiles: default
+2019-06-19 09:57:21,960 INFO org.apache.catalina.core.StandardService [main] Starting service [Tomcat]
+2019-06-19 09:57:21,962 INFO org.apache.catalina.core.StandardEngine [main] Starting Servlet engine: [Apache Tomcat/9.0.19]
+2019-06-19 09:57:22,899 INFO org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] [main] Initializing Spring embedded WebApplicationContext
+2019-06-19 09:57:23,114 INFO com.unimoni.eod.sms.controller.SMSController [main] Info SMSController calling...
+2019-06-19 09:57:23,855 INFO springfox.documentation.spring.web.PropertySourcedRequestMappingHandlerMapping [main] Mapped URL path [/v2/api-docs] onto method [public org.springframework.http.ResponseEntity<springfox.documentation.spring.web.json.Json> springfox.documentation.swagger2.web.Swagger2Controller.getDocumentation(java.lang.String,javax.servlet.http.HttpServletRequest)]
+2019-06-19 09:57:24,934 INFO springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper [main] Context refreshed
+2019-06-19 09:57:24,951 INFO springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper [main] Found 1 custom documentation plugin(s)
+2019-06-19 09:57:24,984 INFO springfox.documentation.spring.web.scanners.ApiListingReferenceScanner [main] Scanning for api listing references
+2019-06-19 09:57:26,872 INFO com.unimoni.SmsServiceApiApplication [main] Started SmsServiceApiApplication in 20.152 seconds (JVM running for 22.676)
+2019-06-19 09:57:26,875 INFO com.unimoni.SmsServiceApiApplication [main] *****SMS Serive API*****
+2019-06-19 09:57:30,439 INFO org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] [http-nio-8088-exec-1] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2019-06-19 11:02:39,381 DEBUG com.unimoni.eod.sms.controller.SMSController [http-nio-8088-exec-6] Twilio :Order for FRUITSVEG will be picked shortly by EASEONDEVLICERY person, share PIN - 8283. To confirm Pickup, num : +919841156028
+2019-06-19 11:02:47,973 INFO com.unimoni.eod.sms.controller.SMSController [http-nio-8088-exec-6] Twilio :QUEUED
+2019-06-19 11:02:47,973 DEBUG com.unimoni.eod.sms.controller.SMSController [http-nio-8088-exec-6] Twilio :Order for FRUITSVEG will be delivered by EASEONDEVLICERY person, share PIN - 8283. To confirm Delivery, num : +919176680857
+2019-06-19 11:02:48,406 INFO com.unimoni.eod.sms.controller.SMSController [http-nio-8088-exec-6] Twilio :QUEUED

@@ -55,7 +55,8 @@ class ProviderCheckIn extends React.Component {
   state = {
     displayProduct : false,
     providerStatus : "",
-    providerCurrentLocation : ""
+    providerCurrentLocation : "",
+    isSubmitted : false
   }
   handleChange = (stateObject) => (e) => {
     this.setState ({ [stateObject] : e.target.value})
@@ -75,7 +76,9 @@ class ProviderCheckIn extends React.Component {
     }).catch(error =>{
       console.log(error)
     })
-
+    this.setState({
+      isSubmitted : true
+    })
   }
   render() {
     const { classes} = this.props;
@@ -83,49 +86,64 @@ class ProviderCheckIn extends React.Component {
     return (
       <div className={"boodDeliveryMainDiv"}>
         <div className = {classes.root}>
+        {!this.state.isSubmitted ? (
           <Card className={classes.card + " card "}>
-          <CardContent >
-              <Typography gutterBottom variant="h5" component="h2" className={"typography"}>
-                  Provider Check in
-              </Typography>
-              {/* <Typography component="p" className="typography1">
-                  Assign delivery to us sit back and relax.
-              </Typography> */}
-          </CardContent>
-              <TextField
-              className={classNames(classes.margin, classes.textField) + " fields "}
-              label="Current Location"
-              placeholder = "Enter The Current Location"
-              // InputProps={{
-              //     startAdornment: <InputAdornment position="start">PICKUP</InputAdornment>,
-              // }}
-              onChange = {this.handleChange('providerCurrentLocation')}
-              />
-              <br/>
-              <TextField
-                select
+            <CardContent >
+                <Typography gutterBottom variant="h5" component="h2" className={"typography"}>
+                    Provider Check in
+                </Typography>
+                {/* <Typography component="p" className="typography1">
+                    Assign delivery to us sit back and relax.
+                </Typography> */}
+            </CardContent>
+                <TextField
                 className={classNames(classes.margin, classes.textField) + " fields "}
-                value={this.state.providerStatus}
-                label="Choose Available Status"
+                label="Current Location"
+                placeholder = "Enter The Current Location"
                 // InputProps={{
-                //     startAdornment: <InputAdornment position="start">PRODUCT TYPE</InputAdornment>,
+                //     startAdornment: <InputAdornment position="start">PICKUP</InputAdornment>,
                 // }}
-                onChange = {this.handleChange('providerStatus')}
-                >
-                
-                {providerStatusDD.map(option => (
-                    <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                    </MenuItem>
-                ))}
-              </TextField>
-              <CardActions>
-                <Button size="small" color="primary" className="button-lg" 
-                  onClick = {this.services}>
-                    SUBMIT
-                </Button>
-              </CardActions>
-        </Card>
+                onChange = {this.handleChange('providerCurrentLocation')}
+                />
+                <br/>
+                <TextField
+                  select
+                  className={classNames(classes.margin, classes.textField) + " fields "}
+                  value={this.state.providerStatus}
+                  label="Choose Available Status"
+                  // InputProps={{
+                  //     startAdornment: <InputAdornment position="start">PRODUCT TYPE</InputAdornment>,
+                  // }}
+                  onChange = {this.handleChange('providerStatus')}
+                  >
+                  
+                  {providerStatusDD.map(option => (
+                      <MenuItem key={option.value} value={option.value}>
+                      {option.label}
+                      </MenuItem>
+                  ))}
+                </TextField>
+                <CardActions>
+                  <Button size="small" color="primary" className="button-lg" 
+                    onClick = {this.services}>
+                      SUBMIT
+                  </Button>
+                </CardActions>
+          </Card>
+        )
+        :(
+          <Card className={classes.card + " card "}>
+            <CardContent >
+                <Typography gutterBottom variant="h5" component="h2" className={"typography"}>
+                    Check In Successfull.
+                </Typography>
+                {/* <Typography component="p" className="typography1">
+                    Assign delivery to us sit back and relax.
+                </Typography> */}
+            </CardContent>
+          </Card>
+        )}
+          
         </div>  
       </div>  
     );

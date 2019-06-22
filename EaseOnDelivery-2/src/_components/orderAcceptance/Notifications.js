@@ -299,7 +299,7 @@ class Notifications extends React.Component {
                   <ListItemText className={" listItemReceipt "} primary="Vehicle Type" secondary={value.vehicleType} />
                   <ListItemText className={" listItemReceipt "} primary="Store Person Name" secondary={value.storePersonName} />
                   <ListItemText className={" listItemReceipt "} primary="Store Person No" secondary={value.storePersonContactNo} />
-                  <ListItemText className={" listItemReceipt "} primary="Payment Mode" secondary={value.paymentMode} />
+                  <ListItemText className={" listItemReceipt "} primary="Payment Mode" secondary="Cash" />
                 </List>
                   <CardActions className={" confirmButtonAction "}>
                   <Button size="small" color="primary" className="button-lg" 
@@ -362,7 +362,7 @@ class Notifications extends React.Component {
                         <ListItemText className={" listItemReceipt "} primary="Vehicle Type" secondary={value.vehicleType} />
                         <ListItemText className={" listItemReceipt "} primary="Store Person Name" secondary={value.storePersonName} />
                         <ListItemText className={" listItemReceipt "} primary="Store Person No" secondary={value.storePersonContactNo} />
-                        <ListItemText className={" listItemReceipt "} primary="Payment Mode" secondary={value.paymentMode} />
+                        <ListItemText className={" listItemReceipt "} primary="Payment Mode" secondary="Cash" />
                         <ListItemText className={" listItemReceipt "} primary="Current Order Status" secondary={this.state.currentOrderStatus} />
                         <ListItemText className={" listItemReceipt "} primary="" secondary="" />
                         <ListItemText className={" listItemReceipt "} primary="" secondary= " " />

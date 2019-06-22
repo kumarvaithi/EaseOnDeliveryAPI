@@ -171,6 +171,8 @@ class BookingHistory extends React.Component {
                                     <br/>
                                     Item Weight : {value.tentativeWeight}
                                     <br/>
+                                    Booking Status : {value.bookingStatus == "D" ? ("Delivered") :  ("Under Process")}
+                                    <br/>
                                   </li> 
                                 </ul>
                             </p>
